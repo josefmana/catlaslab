@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Forward Blocking - Replication</title>
+
+    <script src="jspsych/jspsych.js"></script>
+    <script src="jspsych/plugin-html-button-response.js"></script>
+    <script src="jspsych/plugin-preload.js"></script>
+
+    <script src="config/settings.js"></script>
+    <script src="design/randomisation.js"></script>
+    <script src="stimuli/cues.js"></script>
+    <script src="stimuli/outcomes.js"></script>
+    <script src="utils/timeline_helpers.js"></script>
+    <script src="trials/learning.js"></script>
+
+    <link href="jspsych/jspsych.css" rel="stylesheet" />
+    
+  </head>
+
+  <body></body>
+
+  <script>
+    const jsPsych = initJsPsych();
+
+    const cueMap = randomisePairings(cues, chemicals);
+    const outcomeMap = randomisePairwise(outcomes, sideEffects);
+
+    const trial = makeLearningTrial({
+      cue: ["A", "B"],
+      outcome: ["o1", "o2"],
+      correct: "o1",
+      stage: "stage2",
+      cueMap,
+      outcomeMap
+    });
+
+    const preload = {
+      type: jsPsychPreload,
+      images: sideEffects
+    };
+
+    const timeline = [preload, trial];
+
+    jsPsych.run(timeline);
+  </script>
+</html>
