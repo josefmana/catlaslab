@@ -24,7 +24,7 @@ function renderCues({ cue, cuePicture, cueMap }) {
           <div class="lt-flask-wrap">${flaskImg}</div>
           <div class="lt-cue-label">${cueMap[cue[0]]}</div>
         </div>
-        <div class="lt-and">&amp;</div>
+        <div class="lt-and">+</div>
         <div class="lt-cue-block">
           <div class="lt-flask-wrap">${flaskImg}</div>
           <div class="lt-cue-label">${cueMap[cue[1]]}</div>

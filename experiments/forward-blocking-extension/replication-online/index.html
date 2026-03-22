@@ -15,7 +15,7 @@
     <script src="stimuli/outcomes.js"></script>
     
     <script src="utils/renderCues.js"></script>
-    <script src="trials/makeTrial.js"></script>
+    <script src="trials/makeLearningTrial.js"></script>
 
     <link href="jspsych/jspsych.css" rel="stylesheet" />
   </head>
@@ -50,23 +50,26 @@
     const outcomeMap = randomisePairwise(outcomes, sideEffects);
     
     // Preload all side-effect images
-    const cuePicture = settings.cuePicture;
     const preload = {
       type: jsPsychPreload,
-      images: [sideEffects, cuePicture]
+      images: [sideEffects, settings.cuePicture]
     };
     
-    const trial = makeTrial({
+    // Build timeline
+    const timeline = [preload];
+    
+    // Each makeLearningTrial call returns [trialNode, feedbackNode]
+    timeline.push(makeLearningTrial({
       cue: ["A", "B"],
       outcome: ["o1", "o2"],
       correct: "o1",
       stage: "stage2",
       cueMap,
       outcomeMap,
-      cuePicture,
-    });
+      cuePicture: settings.cuePicture,
+      feedbackDuration: settings.feedbackDuration,
+    }));
 
-    const timeline = [preload, trial];
     jsPsych.run(timeline);
   </script>
 </html>

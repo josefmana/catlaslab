@@ -1,30 +1,41 @@
 /**
- * makeTrial
- * Builds a jsPsych 8.x trial matching the vitamin-pill task UI.
+ * makeLearningTrial
+ * A single jsPsych trial that handles both response collection AND feedback
+ * in one uninterrupted DOM — eliminating the inter-trial lag that appears
+ * when feedback is a separate trial.
+ *
+ * Flow:
+ *   1. Participant sees the cue(s) and two outcome images with an OK button.
+ *   2. They click an image (selection highlighted in black) then click OK.
+ *   3. Without any DOM teardown, the OK button is replaced inline by
+ *      "Správně" (green) or "Špatně" (red), and the correct image gets a
+ *      bold blue frame.
+ *   4. After `feedbackDuration` ms the trial ends automatically.
  *
  * @param {object}    params
- * @param {string[]}  params.cue        - Array of cue keys, e.g. ["A"] or ["A","B"]
- * @param {string[]}  params.outcome    - Array of TWO outcome keys, e.g. ["o1","o2"]
- * @param {string}    params.correct    - The correct outcome key
- * @param {string}    params.stage      - Label stored in the data record
- * @param {object}    params.cueMap     - Maps cue key → display label, e.g. {A:"Duprophane"}
- * @param {object}    params.outcomeMap - Maps outcome key → image path
- * @param {string}    params.cuePicture - Path to picture presented above each cue 
+ * @param {string[]}  params.cue              - Cue keys, e.g. ["A"] or ["A","B"]
+ * @param {string[]}  params.outcome          - Exactly two outcome keys
+ * @param {string}    params.correct          - The correct outcome key
+ * @param {string}    params.stage            - Label stored in the data record
+ * @param {object}    params.cueMap           - Maps cue key → display label
+ * @param {object}    params.outcomeMap       - Maps outcome key → image path
+ * @param {string}    params.cuePicture       - Path to the cue image
+ * @param {number}    [params.feedbackDuration=1500] - Feedback display time (ms)
  */
-function makeTrial({
+function makeLearningTrial({
   cue,
   outcome,
   correct,
   stage,
   cueMap,
   outcomeMap,
-  cuePicture
+  cuePicture,
+  feedbackDuration = 1500,
 }) {
   return {
     type: jsPsychHtmlButtonResponse,
     stimulus: `
       <style>
-        /* ── global reset: kills the white strip jsPsych adds on the left ── */
         html, body {
           width: 100%; height: 100%;
           margin: 0 !important; padding: 0 !important;
@@ -38,11 +49,8 @@ function makeTrial({
           width: 100% !important;
           max-width: 100% !important;
         }
-
-        /* ── layout shell ── */
         .lt-wrap {
-          width: 100vw;
-          height: 100vh;
+          width: 100vw; height: 100vh;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -52,16 +60,10 @@ function makeTrial({
           background: #c8c8c8;
           font-family: Arial, sans-serif;
         }
-
-        /*
-         * Asymmetric spacers control vertical rhythm:
-         * lt-spacer-top (flex:3) takes most leftover space → middle sits lower
-         * lt-spacer-mid (flex:1) small gap   → bottom close to middle
-         */
         .lt-spacer-top { flex: 3; min-height: 0; }
         .lt-spacer-mid { flex: 1; min-height: 0; }
 
-        /* ── top zone: cue display ── */
+        /* ── top ── */
         .lt-top {
           text-align: center;
           padding-top: 8vh;
@@ -72,10 +74,8 @@ function makeTrial({
           margin: 0 0 1vh 0;
         }
         .lt-cue-row {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 4vw;
+          display: flex; align-items: center;
+          justify-content: center; gap: 4vw;
         }
         .lt-cue-block {
           display: flex;
@@ -102,11 +102,11 @@ function makeTrial({
           text-align: center;
         }
         .lt-and {
-          font-size: clamp(16px, 2.9vh, 28px);
+          font-size: clamp(16px, 6.0vh, 40px);
           font-weight: normal;
         }
 
-        /* ── middle zone: question ── */
+        /* ── middle ── */
         .lt-middle {
           text-align: center;
           flex-shrink: 0;
@@ -121,7 +121,7 @@ function makeTrial({
           margin: 0;
         }
 
-        /* ── bottom zone: images + OK ── */
+        /* ── bottom ── */
         .lt-bottom {
           display: flex;
           align-items: center;
@@ -138,14 +138,28 @@ function makeTrial({
           cursor: pointer;
         }
         .lt-option-img-wrap {
-          border: 3px solid transparent;
+          border: 4px solid transparent;
+          outline: 6px solid transparent;
+          outline-offset: 2px;
           border-radius: 6px;
           overflow: hidden;
-          transition: border-color 0.15s;
+          transition: border-color 0.15s,
+          outline-color 0.15s;
         }
+        /* participant selection (response phase) */
         .lt-option-img-wrap.selected {
           border-color: #000;
-          outline: 2px solid #000;
+          outline-color: #c8c8c8;
+        }
+        /* participant was wrong — keep black on chosen image */
+        .lt-option-img-wrap.chosen-wrong {
+          border-color: #000;
+          outline-color: #c8c8c8;
+        }
+        /* correct answer — bold blue ring */
+        .lt-option-img-wrap.correct-answer {
+          border-color: #1a6fcc;
+          outline-color: #1a6fcc;
         }
         .lt-option img {
           display: block;
@@ -154,13 +168,20 @@ function makeTrial({
           object-fit: contain;
           background: #fff;
         }
-        .lt-option-label {
-          font-size: clamp(11px, 1.6vh, 18px);
-          text-align: center;
-          max-width: clamp(80px, 20vw, 260px);
-        }
 
-        /* ── OK button ── */
+        /* ── Centre slot: fixed size so swapping OK↔label never shifts layout ── */
+        #lt-centre-slot {
+          flex-shrink: 0;
+          width: clamp(80px, 10vw, 140px);
+          height: clamp(30px, 5vh, 60px);
+          display: grid;
+          align-items: center;
+          justify-items: center;
+          overflow: visible;
+        }
+        #lt-centre-slot > * { grid-area: 1 / 1; }
+
+        /* ── OK button (response phase) ── */
         #lt-ok-btn {
           font-size: clamp(13px, 1.8vh, 20px);
           padding: 1vh 2.5vw;
@@ -169,33 +190,40 @@ function makeTrial({
           border-radius: 4px;
           cursor: pointer;
           transition: background 0.15s;
-          flex-shrink: 0;
         }
         #lt-ok-btn:hover { background: #d0d0d0; }
         #lt-ok-btn:disabled { opacity: 0.45; cursor: default; }
+
+        /* ── Feedback label (swapped in after OK) ── */
+        #lt-feedback-label {
+          font-size: clamp(16px, 2.6vh, 28px);
+          font-weight: bold;
+          text-align: center;
+          visibility: hidden;
+          white-space: nowrap;
+          max-width: 100%;
+          pointer-events: none;
+        }
+        #lt-feedback-label.correct { color: #1a7a1a; }
+        #lt-feedback-label.incorrect { color: #ff0000; }
       </style>
 
       <div class="lt-wrap">
 
-        <!-- TOP: vitamin contents -->
         <div class="lt-top">
           <p>Tento multivitamín obsahuje:</p>
-          ${renderCues({cue, cuePicture, cueMap})}
+          ${renderCues({ cue, cuePicture, cueMap })}
         </div>
 
-        <!-- Spacer: large → pushes middle+bottom downward -->
         <div class="lt-spacer-top"></div>
 
-        <!-- MIDDLE: question -->
         <div class="lt-middle">
           <p class="lt-q">Kterým z následujících nežádoucích účinků bude pacient trpět?</p>
           <p class="lt-hint">Klikněte na obrázek vašeho výběru a poté potvrďte stisknutím OK</p>
         </div>
 
-        <!-- Spacer: small → bottom zone stays close to middle -->
         <div class="lt-spacer-mid"></div>
 
-        <!-- BOTTOM: left image | OK | right image -->
         <div class="lt-bottom">
           <div class="lt-option" data-key="${outcome[0]}" id="lt-opt-0">
             <div class="lt-option-img-wrap" id="lt-wrap-0">
@@ -203,7 +231,10 @@ function makeTrial({
             </div>
           </div>
 
-          <button id="lt-ok-btn" disabled>OK</button>
+          <div id="lt-centre-slot">
+            <button id="lt-ok-btn" disabled>OK</button>
+            <div id="lt-feedback-label"></div>
+          </div>
 
           <div class="lt-option" data-key="${outcome[1]}" id="lt-opt-1">
             <div class="lt-option-img-wrap" id="lt-wrap-1">
@@ -220,28 +251,54 @@ function makeTrial({
 
       const options = document.querySelectorAll(".lt-option");
       const okBtn   = document.getElementById("lt-ok-btn");
+      const fbLabel = document.getElementById("lt-feedback-label");
 
+      // ── Response phase ─────────────────────────────────────────────
       options.forEach((opt) => {
         opt.addEventListener("click", () => {
           document.querySelectorAll(".lt-option-img-wrap")
             .forEach(w => w.classList.remove("selected"));
-
           opt.querySelector(".lt-option-img-wrap").classList.add("selected");
           selected = opt.dataset.key;
-
           okBtn.disabled = false;
         });
       });
 
       okBtn.addEventListener("click", () => {
         if (selected === null) return;
+        const isCorrect = selected === correct;
 
-        jsPsych.finishTrial({
-          stage:           stage,
-          cues:            cue.join(""),
-          response:        selected,
-          correct_outcome: correct,
+        // ── Switch to feedback phase (no DOM teardown) ──────────────
+        // 1. Disable further clicks on images
+        options.forEach(opt => opt.style.pointerEvents = "none");
+
+        // 2. Swap OK button for feedback label (visibility keeps layout stable)
+        okBtn.style.visibility = "hidden";
+        fbLabel.textContent = isCorrect ? "Správně" : "Špatně";
+        fbLabel.className = isCorrect ? "correct" : "incorrect";
+        fbLabel.style.visibility = "visible";
+
+        // 3. Apply border highlighting
+        options.forEach((opt) => {
+          const wrap = opt.querySelector(".lt-option-img-wrap");
+          wrap.classList.remove("selected");
+          if (opt.dataset.key === correct) {
+            wrap.classList.add("correct-answer");
+          } else if (opt.dataset.key === selected && !isCorrect) {
+            wrap.classList.add("chosen-wrong");
+          }
         });
+
+        // 4. Save data and end trial after feedbackDuration
+        setTimeout(() => {
+          jsPsych.finishTrial({
+            stage,
+            cues:            cue.join(""),
+            response:        selected,
+            correct_outcome: correct,
+            is_correct:      isCorrect,
+          });
+        }, feedbackDuration);
       });
     },
   };
