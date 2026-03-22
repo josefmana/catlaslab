@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
   <head>
-    <title>Forward Blocking - Replication</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forward Blocking – Replication</title>
 
     <script src="jspsych/jspsych.js"></script>
     <script src="jspsych/plugin-html-button-response.js"></script>
@@ -11,37 +13,60 @@
     <script src="design/randomisation.js"></script>
     <script src="stimuli/cues.js"></script>
     <script src="stimuli/outcomes.js"></script>
-    <script src="utils/timeline_helpers.js"></script>
-    <script src="trials/learning.js"></script>
+    
+    <script src="utils/renderCues.js"></script>
+    <script src="trials/makeTrial.js"></script>
 
     <link href="jspsych/jspsych.css" rel="stylesheet" />
-    
   </head>
-
   <body></body>
-
   <script>
-    const jsPsych = initJsPsych();
-
+    
+    // Check whether run on JATOS
+    const runOnServer = (typeof jatos !== 'undefined');
+    
+    // Start jsPsych
+    const jsPsych = initJsPsych({
+      on_trial_finish: function(data) {
+        // If the experiment runs on JATOS, save after each trial
+        // https://github.com/jspsych/jsPsych/discussions/811#discussioncomment-33269
+        if (runOnServer) {
+          var trial_json_results = JSON.stringify(data);
+          jatos.appendResultData(trial_json_results);
+        }
+      },
+      on_finish: function() {
+        var resultJson = jsPsych.data.get().json();
+        if (runOnServer) {
+          jatos.endStudy();
+        } else {
+          jsPsych.data.get().localSave("json", "mydata.json");
+        }
+      }
+    });
+    
+    // Randomise stimulus mappings
     const cueMap = randomisePairings(cues, chemicals);
     const outcomeMap = randomisePairwise(outcomes, sideEffects);
-
-    const trial = makeLearningTrial({
+    
+    // Preload all side-effect images
+    const cuePicture = settings.cuePicture;
+    const preload = {
+      type: jsPsychPreload,
+      images: [sideEffects, cuePicture]
+    };
+    
+    const trial = makeTrial({
       cue: ["A", "B"],
       outcome: ["o1", "o2"],
       correct: "o1",
       stage: "stage2",
       cueMap,
-      outcomeMap
+      outcomeMap,
+      cuePicture,
     });
 
-    const preload = {
-      type: jsPsychPreload,
-      images: sideEffects
-    };
-
     const timeline = [preload, trial];
-
     jsPsych.run(timeline);
   </script>
 </html>

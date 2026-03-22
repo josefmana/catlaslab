@@ -1,8 +1,8 @@
 const settings = {
   feedbackDuration: 500, // in miliseconds
   interTrialInterval: 500,
-  //responseChoices: ["left", "right"],
-  feedback: true
+  feedback: true,
+  cuePicture: "assets/img/tube.jpg",
 };
 
 const tongue = "czech";
