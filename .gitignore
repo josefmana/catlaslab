@@ -1,3 +1,12 @@
+# R / RStudio files
+.Rhistory
+.Rapp.history
+.RData
+.RDataTmp
+.Ruserdata
+rsconnect/
+.Rproj.user
+
 # JavaScript / Node (jsPsych etc.)
 node_modules/
 npm-debug.log*
