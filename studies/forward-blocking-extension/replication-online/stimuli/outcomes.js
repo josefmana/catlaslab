@@ -6,8 +6,8 @@ const outcomes = [
 ];
 
 const sideEffects = [
-  "assets/img/dizziness_cz.jpeg",
-  "assets/img/itchiness_cz.jpeg",
-  "assets/img/headache_cz.jpeg",
-  "assets/img/nausea_cz.jpeg"
+  "../../../common/stimuli/img/dizziness_cz.jpeg",
+  "../../../common/stimuli/img/itchiness_cz.jpeg",
+  "../../../common/stimuli/img/headache_cz.jpeg",
+  "../../../common/stimuli/img/nausea_cz.jpeg"
 ]
