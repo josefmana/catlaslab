@@ -10,12 +10,12 @@
     <script src="jspsych/plugin-preload.js"></script>
 
     <script src="config/settings.js"></script>
-    <script src="design/randomisation.js"></script>
     <script src="stimuli/cues.js"></script>
     <script src="stimuli/outcomes.js"></script>
     
-    <script src="utils/renderCues.js"></script>
-    <script src="trials/makeLearningTrial.js"></script>
+    <script src="../../../common/components/utils/randomisation.js"></script>
+    <script src="../../../common/components/utils/renderCues.js"></script>
+    <script src="../../../common/components/trials/makeLearningTrial.js"></script>
 
     <link href="jspsych/jspsych.css" rel="stylesheet" />
   </head>
@@ -23,7 +23,7 @@
   <script>
     
     // Check whether run on JATOS
-    const runOnServer = (typeof jatos !== 'undefined');
+    const runOnServer = (typeof jatos !== "undefined");
     
     // Start jsPsych
     const jsPsych = initJsPsych({
@@ -60,14 +60,18 @@
     
     // Each makeLearningTrial call returns [trialNode, feedbackNode]
     timeline.push(makeLearningTrial({
-      cue: ["A", "B"],
-      outcome: ["o1", "o2"],
-      correct: "o1",
-      stage: "stage2",
-      cueMap,
-      outcomeMap,
-      cuePicture: settings.cuePicture,
-      feedbackDuration: settings.feedbackDuration,
+      cue:               ["A", "B"],
+      outcome:           ["o1", "o2"],
+      correct:           "o1",
+      stage:             "stage2",
+      cueMap:            cueMap,
+      outcomeMap:        outcomeMap,
+      cueText:           texts.cueText,
+      promptText:        texts.promptText,
+      promptInstruction: texts.promptInstruction,
+      cuePicture:        settings.cuePicture,
+      feedbackText:      texts.feedbackText,
+      feedbackDuration:  settings.feedbackDuration,
     }));
 
     jsPsych.run(timeline);

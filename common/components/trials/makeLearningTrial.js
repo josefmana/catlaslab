@@ -13,13 +13,17 @@
  *   4. After `feedbackDuration` ms the trial ends automatically.
  *
  * @param {object}    params
- * @param {string[]}  params.cue              - Cue keys, e.g. ["A"] or ["A","B"]
- * @param {string[]}  params.outcome          - Exactly two outcome keys
- * @param {string}    params.correct          - The correct outcome key
- * @param {string}    params.stage            - Label stored in the data record
- * @param {object}    params.cueMap           - Maps cue key → display label
- * @param {object}    params.outcomeMap       - Maps outcome key → image path
- * @param {string}    params.cuePicture       - Path to the cue image
+ * @param {string[]}  params.cue               - Cue keys, e.g. ["A"] or ["A","B"]
+ * @param {string[]}  params.outcome           - Exactly two outcome keys
+ * @param {string}    params.correct           - The correct outcome key
+ * @param {string}    params.stage             - Label stored in the data record
+ * @param {object}    params.cueMap            - Maps cue key → display label
+ * @param {object}    params.outcomeMap        - Maps outcome key → image path
+ * @param {string}    params.cuePicture        - Path to the cue image
+ * @param {string}    params.cueText           - Text to appear above cues
+ * @param {string}    params.promptText        - Text in the middle of the screen
+ * @param {string}    params.promptInstruction - Text to instruct subjects to click on right things
+ * @param {string[]}  params.feedbackText      - Text for feedback in a fixed order ["Correct", "Wrong"]
  * @param {number}    [params.feedbackDuration=1500] - Feedback display time (ms)
  */
 function makeLearningTrial({
@@ -29,7 +33,11 @@ function makeLearningTrial({
   stage,
   cueMap,
   outcomeMap,
+  cueText,
+  promptText,
+  promptInstruction,
   cuePicture,
+  feedbackText,
   feedbackDuration = 1500,
 }) {
   return {
@@ -169,7 +177,7 @@ function makeLearningTrial({
           background: #fff;
         }
 
-        /* ── Centre slot: fixed size so swapping OK↔label never shifts layout ── */
+        /* ── Centre slot: fixed size so swapping OK<->label never shifts layout ── */
         #lt-centre-slot {
           flex-shrink: 0;
           width: clamp(80px, 10vw, 140px);
@@ -211,15 +219,15 @@ function makeLearningTrial({
       <div class="lt-wrap">
 
         <div class="lt-top">
-          <p>Tento multivitamín obsahuje:</p>
+          <p>${cueText}</p>
           ${renderCues({ cue, cuePicture, cueMap })}
         </div>
 
         <div class="lt-spacer-top"></div>
 
         <div class="lt-middle">
-          <p class="lt-q">Kterým z následujících nežádoucích účinků bude pacient trpět?</p>
-          <p class="lt-hint">Klikněte na obrázek vašeho výběru a poté potvrďte stisknutím OK</p>
+          <p class="lt-q">${promptText}</p>
+          <p class="lt-hint">${promptInstruction}</p>
         </div>
 
         <div class="lt-spacer-mid"></div>
@@ -274,7 +282,7 @@ function makeLearningTrial({
 
         // 2. Swap OK button for feedback label (visibility keeps layout stable)
         okBtn.style.visibility = "hidden";
-        fbLabel.textContent = isCorrect ? "Správně" : "Špatně";
+        fbLabel.textContent = isCorrect ? feedbackText[0] : feedbackText[1];
         fbLabel.className = isCorrect ? "correct" : "incorrect";
         fbLabel.style.visibility = "visible";
 
