@@ -3,41 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forward Blocking – Replication</title>
+    <title>Forward Blocking – Online Replication</title>
 
+    <!-- jsPsych core -->
     <script src="jspsych/jspsych.js"></script>
     <script src="jspsych/plugin-html-button-response.js"></script>
     <script src="jspsych/plugin-preload.js"></script>
 
+    <!-- Experiment config and stimuli -->
     <script src="config/settings.js"></script>
     <script src="stimuli/cues.js"></script>
     <script src="stimuli/outcomes.js"></script>
+    <script src="../../../common/components/designs/lepelley2007.js"></script>
     
+    <!-- Generic utilities -->
     <script src="../../../common/components/utils/randomisation.js"></script>
     <script src="../../../common/components/utils/renderCues.js"></script>
+    
+    <!-- Generic stage builders -->
+    <script src="../../../common/components/stages/buildBlock.js"></script>
+    <script src="../../../common/components/stages/buildStageBlocks.js"></script>
+    <script src="../../../common/components/stages/buildStageTrials.js"></script>
+    
+    <!-- Generic trial factories -->
+    <script src="../../../common/components/trials/makeInstructionTrial.js"></script>
     <script src="../../../common/components/trials/makeLearningTrial.js"></script>
     <script src="../../../common/components/trials/makeTestTrial.js"></script>
+
+    <!-- Experiment-specific orchestrator -->
+    <script src="buildTimeline.js"></script>
 
     <link href="jspsych/jspsych.css" rel="stylesheet" />
   </head>
   <body></body>
   <script>
     
-    // Check whether run on JATOS
+    // ── JATOS detection ──────────────────────────────────────────────────
     const runOnServer = (typeof jatos !== "undefined");
     
-    // Start jsPsych
+    // ── Start jsPsych ────────────────────────────────────────────────────
     const jsPsych = initJsPsych({
       on_trial_finish: function(data) {
-        // If the experiment runs on JATOS, save after each trial
-        // https://github.com/jspsych/jsPsych/discussions/811#discussioncomment-33269
-        if (runOnServer) {
-          var trial_json_results = JSON.stringify(data);
-          jatos.appendResultData(trial_json_results);
-        }
+        if (runOnServer) jatos.appendResultData(JSON.stringify(data));
       },
       on_finish: function() {
-        var resultJson = jsPsych.data.get().json();
         if (runOnServer) {
           jatos.endStudy();
         } else {
@@ -46,45 +55,23 @@
       }
     });
     
-    // Randomise stimulus mappings
-    const cueMap = randomisePairings(cues, chemicals);
+    // ── Randomise stimulus mappings ──────────────────────────────────────
+    const cueMap     = randomisePairings(cues, chemicals);
     const outcomeMap = randomisePairwise(outcomes, sideEffects);
     
-    // Preload all side-effect images
+    // ── Preload ──────────────────────────────────────────────────────────
     const preload = {
       type: jsPsychPreload,
-      images: [sideEffects, images.cuePicture]
+      images: [sideEffects, images.cuePicture],
     };
     
-    // Build timeline
-    const timeline = [preload];
-    
-    // Add a single learning trial
-    timeline.push(makeLearningTrial({
-      cue: ["A", "B"],
-      outcome: ["o1", "o2"],
-      correct: "o1",
-      stage: "stage2",
-      cueMap: cueMap,
-      outcomeMap: outcomeMap,
-      texts: texts,
-      times: times,
-      images: images,
-    }));
-    
-    // Add a single test trial
-    timeline.push(makeTestTrial({
-      cue: ["T", "B"],
-      outcome: ["o3", "o4"],
-      expectation: "o4",
-      stage: "test",
-      cueMap: cueMap,
-      outcomeMap: outcomeMap,
-      texts: texts,
-      times: times,
-      images: images,
-    }));
+    // ── Build timeline ───────────────────────────────────────────────────
+    const timeline = [
+      preload,
+      ...buildTimeline({ design, settings, cueMap, outcomeMap }),
+    ];
 
+    // ── Run ──────────────────────────────────────────────────────────────
     jsPsych.run(timeline);
   </script>
 </html>

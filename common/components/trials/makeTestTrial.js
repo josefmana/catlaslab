@@ -1,5 +1,6 @@
 /**
  * makeTestTrial
+ * 
  * A single jsPsych trial for the test phase, handled in one uninterrupted DOM.
  * Structurally mirrors makeLearningTrial but replaces feedback with an inline
  * confidence Likert scale (1–10).
@@ -59,7 +60,7 @@ function makeTestTrial({
   
   return {
     type: jsPsychHtmlButtonResponse,
-    trial_duration: maxTrialDuration,
+    trial_duration: null, // ensure plugin does not race against on_load's timer
     stimulus: `
       <style>
         html, body {
@@ -335,16 +336,41 @@ function makeTestTrial({
       }
     },
     on_load: function () {
-      let selected = null;
+      let selected   = null;
       let confidence = null;
-      let t0 = performance.now(); // trial onset
-      let t1;                     // set at first OK click (phase-2 onset)
+      let done       = false;
+      let t0 = performance.now();
+      let t1;
+      let phase = 1;
 
       const options       = document.querySelectorAll(".lt-option");
       const okBtn         = document.getElementById("lt-ok-btn");
       const promptBlock   = document.getElementById("lt-prompt-block");
       const confWrap      = document.getElementById("lt-confidence-wrap");
       const confBtns      = document.querySelectorAll(".lt-conf-btn");
+      
+      function finishOnce(data) {
+        if (done) return;
+        done = true;
+        jsPsych.finishTrial(data);
+      }
+      
+      // ── Hard timeout ──────────────────────────────────────────────────
+      if (maxTrialDuration !== null) {
+        jsPsych.pluginAPI.setTimeout(() => {
+          finishOnce({
+            timed_out:   true,
+            stage,
+            cues:        cue.join(""),
+            response:    null,
+            expectation,
+            is_correct:  null,
+            confidence:  null,
+            rt1:         null,
+            rt2:         null,
+          });
+        }, maxTrialDuration);
+      }
 
       // ── Phase 1: Response selection ─────────────────────────────────
       options.forEach((opt) => {
@@ -357,7 +383,7 @@ function makeTestTrial({
         });
       });
       
-      // ── Confidence button selection (mirrors image selection) ────────
+      // ── Phase 2: Confidence rating ───────────────────────────────────
       confBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
           confBtns.forEach(b => b.classList.remove("selected"));
@@ -368,12 +394,10 @@ function makeTestTrial({
       });
 
       // ── Single OK handler — branches on phase ───────────────────────
-      let phase = 1;
       okBtn.addEventListener("click", () => {
-
         if (phase === 1) {
           if (selected === null) return;
-          const rt1 = performance.now() - t0;  // Type 1 decision time
+          const rt1 = performance.now() - t0;
 
           // 1. Lock outcome images; keep the selection border visible.
           options.forEach(opt => opt.style.pointerEvents = "none");
@@ -395,11 +419,11 @@ function makeTestTrial({
           if (confidence === null) return;
           const rt2 = performance.now() - t1;  // Type 2 decision time
 
-          // Lock confidence buttons against accidental double-submission.
           confBtns.forEach(b => b.style.pointerEvents = "none");
           okBtn.disabled = true;
 
-          jsPsych.finishTrial({
+          finishOnce({
+            timed_out:   false,
             stage,
             cues:        cue.join(""),
             response:    selected,

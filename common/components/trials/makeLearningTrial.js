@@ -1,5 +1,6 @@
 /**
  * makeLearningTrial
+ * 
  * A single jsPsych trial that handles both response collection AND feedback
  * in one uninterrupted DOM — eliminating the inter-trial lag that appears
  * when feedback is a separate trial.
@@ -49,7 +50,7 @@ function makeLearningTrial({
   
   return {
     type: jsPsychHtmlButtonResponse,
-    trial_duration: maxTrialDuration,
+    trial_duration: null, // ensure plugin does not race against on_load's timer
     stimulus: `
       <style>
         html, body {
@@ -278,11 +279,33 @@ function makeLearningTrial({
     },
     on_load: function () {
       let selected = null;
-      let t0 = performance.now(); // trial onset
+      let done     = false;
+      let t0       = performance.now();
 
       const options = document.querySelectorAll(".lt-option");
       const okBtn   = document.getElementById("lt-ok-btn");
       const fbLabel = document.getElementById("lt-feedback-label");
+      
+      function finishOnce(data) {
+        if (done) return;
+        done = true;
+        jsPsych.finishTrial(data);
+      }
+      
+      // ── Hard timeout ────────────────────────────────────────────────
+      if (maxTrialDuration !== null) {
+        jsPsych.pluginAPI.setTimeout(() => {
+          finishOnce({
+            timed_out:       true,
+            stage,
+            cues:            cue.join(""),
+            response:        null,
+            correct_outcome: correct,
+            is_correct:      null,
+            rt1:             null,
+          });
+        }, maxTrialDuration);
+      }
 
       // ── Response phase ─────────────────────────────────────────────
       options.forEach((opt) => {
@@ -297,10 +320,9 @@ function makeLearningTrial({
 
       okBtn.addEventListener("click", () => {
         if (selected === null) return;
-        const rt1 = performance.now() - t0;  // Type 1 decision time
+        const rt1 = performance.now() - t0;
         const isCorrect = selected === correct;
 
-        // ── Switch to feedback phase (no DOM teardown) ──────────────
         // 1. Disable further clicks on images
         options.forEach(opt => opt.style.pointerEvents = "none");
 
@@ -320,19 +342,17 @@ function makeLearningTrial({
             wrap.classList.add("chosen-wrong");
           }
         });
-        
-        // Store rt1 for use when the trial completes.
-        okBtn.dataset.rt1 = rt1;
 
         // 4. Save data and end trial after feedbackDuration
-        setTimeout(() => {
-          jsPsych.finishTrial({
+        jsPsych.pluginAPI.setTimeout(() => {
+          finishOnce({
+            timed_out:       false,
             stage,
             cues:            cue.join(""),
             response:        selected,
             correct_outcome: correct,
             is_correct:      isCorrect,
-            rt1:             parseFloat(okBtn.dataset.rt1),
+            rt1,
           });
         }, feedbackDuration);
       });
