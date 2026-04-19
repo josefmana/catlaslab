@@ -16,6 +16,7 @@
     <script src="../../../common/components/utils/randomisation.js"></script>
     <script src="../../../common/components/utils/renderCues.js"></script>
     <script src="../../../common/components/trials/makeLearningTrial.js"></script>
+    <script src="../../../common/components/trials/makeTestTrial.js"></script>
 
     <link href="jspsych/jspsych.css" rel="stylesheet" />
   </head>
@@ -52,26 +53,36 @@
     // Preload all side-effect images
     const preload = {
       type: jsPsychPreload,
-      images: [sideEffects, settings.cuePicture]
+      images: [sideEffects, images.cuePicture]
     };
     
     // Build timeline
     const timeline = [preload];
     
-    // Each makeLearningTrial call returns [trialNode, feedbackNode]
+    // Add a single learning trial
     timeline.push(makeLearningTrial({
-      cue:               ["A", "B"],
-      outcome:           ["o1", "o2"],
-      correct:           "o1",
-      stage:             "stage2",
-      cueMap:            cueMap,
-      outcomeMap:        outcomeMap,
-      cueText:           texts.cueText,
-      promptText:        texts.promptText,
-      promptInstruction: texts.promptInstruction,
-      cuePicture:        settings.cuePicture,
-      feedbackText:      texts.feedbackText,
-      feedbackDuration:  settings.feedbackDuration,
+      cue: ["A", "B"],
+      outcome: ["o1", "o2"],
+      correct: "o1",
+      stage: "stage2",
+      cueMap: cueMap,
+      outcomeMap: outcomeMap,
+      texts: texts,
+      times: times,
+      images: images,
+    }));
+    
+    // Add a single test trial
+    timeline.push(makeTestTrial({
+      cue: ["T", "B"],
+      outcome: ["o3", "o4"],
+      expectation: "o4",
+      stage: "test",
+      cueMap: cueMap,
+      outcomeMap: outcomeMap,
+      texts: texts,
+      times: times,
+      images: images,
     }));
 
     jsPsych.run(timeline);

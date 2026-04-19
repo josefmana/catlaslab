@@ -8,23 +8,29 @@
  *   1. Participant sees the cue(s) and two outcome images with an OK button.
  *   2. They click an image (selection highlighted in black) then click OK.
  *   3. Without any DOM teardown, the OK button is replaced inline by
- *      "Správně" (green) or "Špatně" (red), and the correct image gets a
- *      bold blue frame.
+ *      "Correct" (green) or "Incorret" (red) label, and the correct image
+ *      gets a bold blue frame.
  *   4. After `feedbackDuration` ms the trial ends automatically.
+ *   If `times.maxLearningTrialDuration` elapses before OK is clicked, jsPsych
+ *   ends the trial with timed_out: true and all response fields null.
  *
- * @param {object}    params
- * @param {string[]}  params.cue               - Cue keys, e.g. ["A"] or ["A","B"]
- * @param {string[]}  params.outcome           - Exactly two outcome keys
- * @param {string}    params.correct           - The correct outcome key
- * @param {string}    params.stage             - Label stored in the data record
- * @param {object}    params.cueMap            - Maps cue key → display label
- * @param {object}    params.outcomeMap        - Maps outcome key → image path
- * @param {string}    params.cuePicture        - Path to the cue image
- * @param {string}    params.cueText           - Text to appear above cues
- * @param {string}    params.promptText        - Text in the middle of the screen
- * @param {string}    params.promptInstruction - Text to instruct subjects to click on right things
- * @param {string[]}  params.feedbackText      - Text for feedback in a fixed order ["Correct", "Wrong"]
- * @param {number}    [params.feedbackDuration=1500] - Feedback display time (ms)
+ * @param {object}   params
+ * @param {string[]} params.cue               - Cue keys, e.g. ["A"] or ["A","B"]
+ * @param {string[]} params.outcome           - Exactly two outcome keys
+ * @param {string}   params.correct           - The correct outcome key
+ * @param {string}   params.stage             - Label stored in the data record
+ * @param {object}   params.cueMap            - Maps cue key → display label
+ * @param {object}   params.outcomeMap        - Maps outcome key → image path
+ * @param {object}   params.texts
+ * @param {string}   params.texts.cueText           - Text above the cue(s)
+ * @param {string}   params.texts.promptText        - Bold question in the middle
+ * @param {string}   params.texts.promptInstruction - Smaller instruction below the question
+ * @param {string[]} params.texts.feedbackText      - ["Correct label", "Wrong label"]
+ * @param {object}   params.times
+ * @param {number}   [params.times.maxLearningTrialDuration=10000] - Hard timeout (ms); null = no limit
+ * @param {number}   [params.times.feedbackDuration=1500]          - Feedback display time (ms)
+ * @param {object}   params.images
+ * @param {string}   params.images.cuePicture  - Path to the image shown above each cue label
  */
 function makeLearningTrial({
   cue,
@@ -33,15 +39,17 @@ function makeLearningTrial({
   stage,
   cueMap,
   outcomeMap,
-  cueText,
-  promptText,
-  promptInstruction,
-  cuePicture,
-  feedbackText,
-  feedbackDuration = 1500,
+  texts,
+  times,
+  images,
 }) {
+  const { cueText, promptText, promptInstruction, feedbackText } = texts;
+  const { maxLearningTrialDuration: maxTrialDuration = 10000, feedbackDuration = 1500 } = times;
+  const { cuePicture } = images;
+  
   return {
     type: jsPsychHtmlButtonResponse,
+    trial_duration: maxTrialDuration,
     stimulus: `
       <style>
         html, body {
@@ -74,11 +82,11 @@ function makeLearningTrial({
         /* ── top ── */
         .lt-top {
           text-align: center;
-          padding-top: 8vh;
+          padding-top: 3vh;
           flex-shrink: 0;
         }
         .lt-top p {
-          font-size: clamp(14px, 2.2vh, 26px);
+          font-size: clamp(14px, 2.6vh, 26px);
           margin: 0 0 1vh 0;
         }
         .lt-cue-row {
@@ -120,12 +128,12 @@ function makeLearningTrial({
           flex-shrink: 0;
         }
         .lt-middle p.lt-q {
-          font-size: clamp(14px, 2.2vh, 26px);
+          font-size: clamp(14px, 2.8vh, 26px);
           font-weight: bold;
           margin: 0 0 0.6vh 0;
         }
         .lt-middle p.lt-hint {
-          font-size: clamp(11px, 1.6vh, 18px);
+          font-size: clamp(11px, 2.2vh, 18px);
           margin: 0;
         }
 
@@ -136,7 +144,7 @@ function makeLearningTrial({
           justify-content: center;
           gap: clamp(20px, 4vw, 80px);
           flex-shrink: 0;
-          padding-bottom: 10vh;
+          padding-bottom: 5vh;
         }
         .lt-option {
           display: flex;
@@ -191,7 +199,7 @@ function makeLearningTrial({
 
         /* ── OK button (response phase) ── */
         #lt-ok-btn {
-          font-size: clamp(13px, 1.8vh, 20px);
+          font-size: clamp(13px, 2.2vh, 20px);
           padding: 1vh 2.5vw;
           border: 2px solid #555;
           background: #e8e8e8;
@@ -254,8 +262,23 @@ function makeLearningTrial({
       </div>
     `,
     choices: "NO_KEYS",
+    on_finish: function (data) {
+      data.stimulus = null;
+      if (data.response === null) {
+        data.timed_out      = true;
+        data.stage          = stage;
+        data.cues           = cue.join("");
+        data.response       = null;
+        data.correct_outcome = correct;
+        data.is_correct     = null;
+        data.rt1            = null;
+      } else {
+        data.timed_out = false;
+      }
+    },
     on_load: function () {
       let selected = null;
+      let t0 = performance.now(); // trial onset
 
       const options = document.querySelectorAll(".lt-option");
       const okBtn   = document.getElementById("lt-ok-btn");
@@ -274,6 +297,7 @@ function makeLearningTrial({
 
       okBtn.addEventListener("click", () => {
         if (selected === null) return;
+        const rt1 = performance.now() - t0;  // Type 1 decision time
         const isCorrect = selected === correct;
 
         // ── Switch to feedback phase (no DOM teardown) ──────────────
@@ -296,6 +320,9 @@ function makeLearningTrial({
             wrap.classList.add("chosen-wrong");
           }
         });
+        
+        // Store rt1 for use when the trial completes.
+        okBtn.dataset.rt1 = rt1;
 
         // 4. Save data and end trial after feedbackDuration
         setTimeout(() => {
@@ -305,6 +332,7 @@ function makeLearningTrial({
             response:        selected,
             correct_outcome: correct,
             is_correct:      isCorrect,
+            rt1:             parseFloat(okBtn.dataset.rt1),
           });
         }, feedbackDuration);
       });
