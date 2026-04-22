@@ -44,7 +44,7 @@ function buildStageTrials(
         : [...descriptor.cue];
 
       const trial = trialFactory({
-        ...descriptor,   // spreads cue (overridden above), outcome, correct/expectation, type
+        ...descriptor,   // spreads cue (overridden above), outcome, correct, type
         cue,
         stage: stageLabel,
         cueMap,

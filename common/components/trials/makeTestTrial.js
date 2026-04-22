@@ -17,19 +17,16 @@
  *        so the centre-slot width is preserved).
  *      - A confidence Likert scale (1–10) slides into view below the images.
  *   4. Participant clicks a rating button (1–10); the trial ends immediately,
- *      recording response, expectation, is_correct, and confidence.
+ *      recording response, correct, is_correct, and confidence.
  *   If `times.maxTestTrialDuration` elapses at any point, jsPsych ends the trial
  *   with timed_out: true and all response fields null.
- * 
- * Note: `expectation` (not `correct`) is used throughout, matching the
- * field name in base.js's test array. It is recorded for analysis but
- * never shown to the participant.
  *
  * @param {object}   params
  * @param {string[]} params.cue         - Exactly two cue keys, e.g. ["B","T"]
  * @param {string[]} params.outcome     - Exactly two outcome keys
- * @param {string}   params.expectation - The outcome key the design predicts
+ * @param {string}   params.correct     - The outcome key the design predicts
  * @param {string}   params.stage       - Label stored in the data record
+ * @param {string}   params.type         - Label stored in the data record
  * @param {object}   params.cueMap      - Maps cue key → display label
  * @param {object}   params.outcomeMap  - Maps outcome key → image path
  * @param {object}   params.texts
@@ -46,8 +43,9 @@
 function makeTestTrial({
   cue,
   outcome,
-  expectation,
+  correct,
   stage,
+  type,
   cueMap,
   outcomeMap,
   texts,
@@ -324,9 +322,10 @@ function makeTestTrial({
       if (data.response === null) {
         data.timed_out  = true;
         data.stage      = stage;
+        data.type       = type;
         data.cues       = cue.join("");
         data.response   = null;
-        data.expectation = expectation;
+        data.correct = correct;
         data.is_correct = null;
         data.confidence = null;
         data.rt1        = null;
@@ -355,15 +354,16 @@ function makeTestTrial({
         jsPsych.finishTrial(data);
       }
       
-      // ── Hard timeout ──────────────────────────────────────────────────
+      // ── Hard timeout ───────────────────────────────────────────────────────
       if (maxTrialDuration !== null) {
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
             timed_out:   true,
             stage,
+            type,
             cues:        cue.join(""),
             response:    null,
-            expectation,
+            correct,
             is_correct:  null,
             confidence:  null,
             rt1:         null,
@@ -372,7 +372,7 @@ function makeTestTrial({
         }, maxTrialDuration);
       }
 
-      // ── Phase 1: Response selection ─────────────────────────────────
+      // ── Phase 1: Response selection ────────────────────────────────────────
       options.forEach((opt) => {
         opt.addEventListener("click", () => {
           document.querySelectorAll(".lt-option-img-wrap")
@@ -393,7 +393,7 @@ function makeTestTrial({
         });
       });
 
-      // ── Single OK handler — branches on phase ───────────────────────
+      // ── Single OK handler — branches on phase ──────────────────────────────
       okBtn.addEventListener("click", () => {
         if (phase === 1) {
           if (selected === null) return;
@@ -425,10 +425,11 @@ function makeTestTrial({
           finishOnce({
             timed_out:   false,
             stage,
+            type,
             cues:        cue.join(""),
             response:    selected,
-            expectation,
-            is_correct:  selected === expectation,
+            correct,
+            is_correct:  selected === correct,
             confidence,
             rt1:         parseFloat(okBtn.dataset.rt1),
             rt2,

@@ -1,13 +1,13 @@
 const design = {
   stage1: [
-    { cue: ["A"], outcome: ["o1", "o2"], correct: "o1" },
-    { cue: ["C"], outcome: ["o1", "o2"], correct: "o1" },
-    { cue: ["E"], outcome: ["o1", "o2"], correct: "o2" },
-    { cue: ["G"], outcome: ["o1", "o2"], correct: "o2" },
-    { cue: ["I"], outcome: ["o1", "o2"], correct: "o1" },
-    { cue: ["L"], outcome: ["o1", "o2"], correct: "o1" },
-    { cue: ["O"], outcome: ["o1", "o2"], correct: "o2" },
-    { cue: ["R"], outcome: ["o1", "o2"], correct: "o2" },
+    { cue: ["A"], outcome: ["o1", "o2"], correct: "o1", type: "pretrain" },
+    { cue: ["C"], outcome: ["o1", "o2"], correct: "o1", type: "pretrain" },
+    { cue: ["E"], outcome: ["o1", "o2"], correct: "o2", type: "pretrain" },
+    { cue: ["G"], outcome: ["o1", "o2"], correct: "o2", type: "pretrain" },
+    { cue: ["I"], outcome: ["o1", "o2"], correct: "o1", type: "pretrain" },
+    { cue: ["L"], outcome: ["o1", "o2"], correct: "o1", type: "pretrain" },
+    { cue: ["O"], outcome: ["o1", "o2"], correct: "o2", type: "pretrain" },
+    { cue: ["R"], outcome: ["o1", "o2"], correct: "o2", type: "pretrain" },
   ],
   stage2: [
     { cue: ["A", "B"], outcome: ["o1", "o2"], correct: "o1", type: "blocking" },
@@ -30,13 +30,13 @@ const design = {
     { cue: ["alpha", "beta"], outcome: ["o3", "o4"], correct: "o4", type: "filler" }
   ],
   test: [
-    { cue: ["B", "T"], outcome: ["o3", "o4"], expectation: "o4" },
-    { cue: ["D", "Q"], outcome: ["o3", "o4"], expectation: "o3" },
-    { cue: ["F", "N"], outcome: ["o3", "o4"], expectation: "o4" },
-    { cue: ["H", "K"], outcome: ["o3", "o4"], expectation: "o3" },
-    { cue: ["B", "N"], outcome: ["o3", "o4"], expectation: "o4" },
-    { cue: ["D", "K"], outcome: ["o3", "o4"], expectation: "o3" },
-    { cue: ["F", "T"], outcome: ["o3", "o4"], expectation: "o4" },
-    { cue: ["H", "Q"], outcome: ["o3", "o4"], expectation: "o3" },
+    { cue: ["B", "T"], outcome: ["o3", "o4"], correct: "o4", type: "test" }, // in test stage, "correct"
+    { cue: ["D", "Q"], outcome: ["o3", "o4"], correct: "o3", type: "test" }, // stand for expecatation
+    { cue: ["F", "N"], outcome: ["o3", "o4"], correct: "o4", type: "test" }, // consistent with blocking
+    { cue: ["H", "K"], outcome: ["o3", "o4"], correct: "o3", type: "test" },
+    { cue: ["B", "N"], outcome: ["o3", "o4"], correct: "o4", type: "test" },
+    { cue: ["D", "K"], outcome: ["o3", "o4"], correct: "o3", type: "test" },
+    { cue: ["F", "T"], outcome: ["o3", "o4"], correct: "o4", type: "test" },
+    { cue: ["H", "Q"], outcome: ["o3", "o4"], correct: "o3", type: "test" },
   ]
 };

@@ -20,6 +20,7 @@
  * @param {string[]} params.outcome           - Exactly two outcome keys
  * @param {string}   params.correct           - The correct outcome key
  * @param {string}   params.stage             - Label stored in the data record
+ * @param {string}   params.type              - Label stored in the data record
  * @param {object}   params.cueMap            - Maps cue key → display label
  * @param {object}   params.outcomeMap        - Maps outcome key → image path
  * @param {object}   params.texts
@@ -38,6 +39,7 @@ function makeLearningTrial({
   outcome,
   correct,
   stage,
+  type,
   cueMap,
   outcomeMap,
   texts,
@@ -268,6 +270,7 @@ function makeLearningTrial({
       if (data.response === null) {
         data.timed_out      = true;
         data.stage          = stage;
+        data.type           = type;
         data.cues           = cue.join("");
         data.response       = null;
         data.correct_outcome = correct;
@@ -292,12 +295,13 @@ function makeLearningTrial({
         jsPsych.finishTrial(data);
       }
       
-      // ── Hard timeout ────────────────────────────────────────────────
+      // ── Hard timeout ───────────────────────────────────────────────────────
       if (maxTrialDuration !== null) {
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
             timed_out:       true,
             stage,
+            type,
             cues:            cue.join(""),
             response:        null,
             correct_outcome: correct,
@@ -307,7 +311,7 @@ function makeLearningTrial({
         }, maxTrialDuration);
       }
 
-      // ── Response phase ─────────────────────────────────────────────
+      // ── Response phase ─────────────────────────────────────────────────────
       options.forEach((opt) => {
         opt.addEventListener("click", () => {
           document.querySelectorAll(".lt-option-img-wrap")
@@ -348,6 +352,7 @@ function makeLearningTrial({
           finishOnce({
             timed_out:       false,
             stage,
+            type,
             cues:            cue.join(""),
             response:        selected,
             correct_outcome: correct,
