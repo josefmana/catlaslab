@@ -60,21 +60,7 @@
     // ── Randomise stimulus mappings ──────────────────────────────────────────
     const cueMap     = randomisePairings(cues, chemicals);
     const outcomeMap = randomisePairwise(outcomes, sideEffects);
-    
-    const saveMaps = {
-      type: jsPsychHtmlKeyboardResponse,
-      stimulus: "",
-      trial_duration: 0,
-      choices: "NO_KEYS",
-      data: {
-        cueMap:     JSON.stringify(cueMap),
-        outcomeMap: JSON.stringify(
-          Object.fromEntries(
-            Object.entries(outcomeMap).map(([k, v]) => [k, Array.isArray(v) ? v.map(extractFilename) : extractFilename(v)])
-          )
-        )
-      }
-    };
+    const saveMaps   = saveMappings(cueMap, outcomeMap);
     
     // ── Preload ──────────────────────────────────────────────────────────────
     const preload = {
