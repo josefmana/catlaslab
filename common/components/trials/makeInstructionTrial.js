@@ -6,7 +6,7 @@
  * The continue button is rendered by jsPsych in its default button area.
  *
  * @param {object} params
- * @param {string} params.html        - HTML content for the instruction screen
+ * @param {string} params.html                - HTML content for the instruction screen
  * @param {string} [params.buttonText="Next"] - Continue button label
  */
 function makeInstructionTrial({ html, buttonText = "Next" }) {

@@ -13,7 +13,7 @@ const blocks = {
 };
 
 const texts = {
-  // ── Trial texts ───────────────────────────────────────────────────────
+  // ── Trial texts ────────────────────────────────────────────────────────────
   cueText:           "Tento multivitamín obsahuje:",
   promptText:        "Kterým z následujících nežádoucích účinků bude pacient trpět?",
   promptInstruction: "Klikněte na obrázek vašeho výběru a poté potvrďte stisknutím OK",
@@ -22,7 +22,7 @@ const texts = {
   confidenceText:    ["Vůbec", "Velmi"],
   continueText:      "Pokračovat",
   
-  // ── Instruction screens ───────────────────────────────────────────────
+  // ── Instruction screens ────────────────────────────────────────────────────
   // Stage 1 instructions also cover Stage 2 (no break between them).
   instructions: {
     stage1: `

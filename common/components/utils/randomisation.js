@@ -1,11 +1,11 @@
-// ── Check lengths ───────────────────────────────────────────────────────────
+// ── Check lengths ────────────────────────────────────────────────────────────
 function assertSameLength(a, b) {
   if (a.length !== b.length) {
     throw new Error(`Length mismatch: ${a.length} vs ${b.length}`);
   }
 }
  
-// ── Fisher-Yates ────────────────────────────────────────────────────────────
+// ── Fisher-Yates ─────────────────────────────────────────────────────────────
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

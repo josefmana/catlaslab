@@ -38,10 +38,10 @@
   <body></body>
   <script>
     
-    // ── JATOS detection ──────────────────────────────────────────────────
+    // ── JATOS detection ──────────────────────────────────────────────────────
     const runOnServer = (typeof jatos !== "undefined");
     
-    // ── Start jsPsych ────────────────────────────────────────────────────
+    // ── Start jsPsych ────────────────────────────────────────────────────────
     const jsPsych = initJsPsych({
       on_trial_finish: function(data) {
         if (runOnServer) jatos.appendResultData(JSON.stringify(data));
@@ -55,23 +55,22 @@
       }
     });
     
-    // ── Randomise stimulus mappings ──────────────────────────────────────
+    // ── Randomise stimulus mappings ──────────────────────────────────────────
     const cueMap     = randomisePairings(cues, chemicals);
     const outcomeMap = randomisePairwise(outcomes, sideEffects);
     
-    // ── Preload ──────────────────────────────────────────────────────────
+    // ── Preload ──────────────────────────────────────────────────────────────
     const preload = {
       type: jsPsychPreload,
       images: [sideEffects, images.cuePicture],
     };
     
-    // ── Build timeline ───────────────────────────────────────────────────
+    // ── Build & run timeline ─────────────────────────────────────────────────
     const timeline = [
       preload,
       ...buildTimeline({ design, settings, cueMap, outcomeMap }),
     ];
 
-    // ── Run ──────────────────────────────────────────────────────────────
     jsPsych.run(timeline);
   </script>
 </html>

@@ -5,12 +5,12 @@
  * forward-blocking replication.
  *
  * Stage structure
- * ──────────────────────────────────────────────────────────────────────
+ * ─────────────────────────────────────────────────────────────────────────────
  *  Stage 1   instructions  → blocks.stage1 × 8 single-cue learning trials
- *  Stage 2   (no break)    → blocks.stage2 × 8 two-cue  learning trials
- *  Stage 3   instructions  → blocks.stage3 × 8 two-cue  learning trials
- *  Test      instructions  → blocks.test   × 8 two-cue  test    trials
- * ──────────────────────────────────────────────────────────────────────
+ *  Stage 2   (no break)    → blocks.stage2 × 8 two-cue learning trials
+ *  Stage 3   instructions  → blocks.stage3 × 8 two-cue learning trials
+ *  Test      instructions  → blocks.test   × 8 two-cue test trials
+ * ─────────────────────────────────────────────────────────────────────────────
  *
  * Cue counterbalancing: applied per-trial in stages 2, 3, and test (random
  * 50/50 left–right flip). Stage 1 is single-cue so counterbalancing is off.
@@ -29,7 +29,7 @@ function buildTimeline({ design, settings, cueMap, outcomeMap }) {
   const opts = { cueMap, outcomeMap, texts, times, images };
   const timeline = [];
 
-  // ── Stage 1: instructions + single-cue learning ──────────────────────
+  // ── Stage 1: instructions + single-cue learning ────────────────────────────
   timeline.push(makeInstructionTrial({
     html:       texts.instructions.stage1,
     buttonText: texts.continueText,
@@ -43,7 +43,7 @@ function buildTimeline({ design, settings, cueMap, outcomeMap }) {
     opts
   ));
 
-  // ── Stage 2: continues from Stage 1, two-cue learning ────────────────
+  // ── Stage 2: continues from Stage 1, two-cue learning ──────────────────────
   timeline.push(...buildStageTrials(
     design.stage2,
     blockCounts.stage2,
@@ -53,7 +53,7 @@ function buildTimeline({ design, settings, cueMap, outcomeMap }) {
     opts
   ));
 
-  // ── Stage 3: new instructions + new outcomes, two-cue learning ───────
+  // ── Stage 3: new instructions + new outcomes, two-cue learning ─────────────
   timeline.push(makeInstructionTrial({
     html:       texts.instructions.stage3,
     buttonText: texts.continueText,
@@ -67,7 +67,7 @@ function buildTimeline({ design, settings, cueMap, outcomeMap }) {
     opts
   ));
 
-  // ── Test: instructions + two-cue test trials ─────────────────────────
+  // ── Test: instructions + two-cue test trials ───────────────────────────────
   timeline.push(makeInstructionTrial({
     html:       texts.instructions.test,
     buttonText: texts.continueText,
