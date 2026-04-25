@@ -1,7 +1,7 @@
 const times = {
   maxLearningTrialDuration: 10000, // ms; null = no limit
   maxTestTrialDuration:     null,  // ms; null = no limit
-  feedbackDuration:         1000,
+  feedbackDuration:         2000,
   interTrialInterval:       500,
 };
 
@@ -73,10 +73,6 @@ const texts = {
   },
 };
 
-const images = {
-  cuePicture: "../../../common/stimuli/img/tube.jpg",
-};
-
 // Bundled object consumed by buildTimeline;
 // individual exports remain available for the preload trial.
-const settings = { times, blocks, texts, images };
+const settings = { times, blocks, texts };

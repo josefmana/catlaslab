@@ -5,6 +5,17 @@ function extractFilename(path) {
   return filename.replace(/\.[^/.]+$/, "");
 }
 
+// ── Loop extract names withou extensions ─────────────────────────────────────
+function extractAllFilenames(object) {
+  return JSON.stringify(
+    Object.fromEntries(
+      Object.entries(object).map(
+        ([k, v]) => [k, Array.isArray(v) ? v.map(extractFilename) : extractFilename(v)]
+      )
+    )
+  )
+}
+
 // ── Save cue and outcome mappings ────────────────────────────────────────────
 function saveMappings(cueMap, outcomeMap) {
   return {
@@ -13,12 +24,8 @@ function saveMappings(cueMap, outcomeMap) {
     trial_duration: 0,
     choices: "NO_KEYS",
     data: {
-      cueMap: JSON.stringify(cueMap),
-      outcomeMap: JSON.stringify(
-        Object.fromEntries(
-          Object.entries(outcomeMap).map(([k, v]) => [k, Array.isArray(v) ? v.map(extractFilename) : extractFilename(v)])
-        )
-      )
+      cueMap:     extractAllFilenames(cueMap),
+      outcomeMap: extractAllFilenames(outcomeMap)
     }
   }
 }

@@ -26,9 +26,9 @@
  * @param {string[]} params.outcome     - Exactly two outcome keys
  * @param {string}   params.correct     - The outcome key the design predicts
  * @param {string}   params.stage       - Label stored in the data record
- * @param {string}   params.type         - Label stored in the data record
- * @param {object}   params.cueMap      - Maps cue key → display label
- * @param {object}   params.outcomeMap  - Maps outcome key → image path
+ * @param {string}   params.type        - Label stored in the data record
+ * @param {object}   params.cueMap      - Maps cue key → cue image path
+ * @param {object}   params.outcomeMap  - Maps outcome key → outcome image path
  * @param {object}   params.texts
  * @param {string}   params.texts.cueText           - Text above the cue(s)
  * @param {string}   params.texts.promptText        - Bold question in the middle
@@ -37,8 +37,6 @@
  * @param {string[]} params.texts.confidenceText    - ["Low anchor label", "High anchor label"]
  * @param {object}   params.times
  * @param {number}   [params.times.maxTestTrialDuration=null] - Hard timeout (ms); null = no limit
- * @param {object}   params.images
- * @param {string}   params.images.cuePicture  - Path to the image shown above each cue label
  */
 function makeTestTrial({
   cue,
@@ -50,11 +48,9 @@ function makeTestTrial({
   outcomeMap,
   texts,
   times,
-  images,
 }) {
   const { cueText, promptText, promptInstruction, testPromptText, confidenceText } = texts;
   const { maxTestTrialDuration: maxTrialDuration = null } = times;
-  const { cuePicture } = images;
   
   return {
     type: jsPsychHtmlButtonResponse,
@@ -93,14 +89,20 @@ function makeTestTrial({
           text-align: center;
           padding-top: 3vh;
           flex-shrink: 0;
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
         }
         .lt-top p {
           font-size: clamp(14px, 2.6vh, 26px);
           margin: 0 0 1vh 0;
+          white-space: nowrap;
         }
         .lt-cue-row {
-          display: flex; align-items: center;
-          justify-content: center; gap: 4vw;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 3vw;
         }
         .lt-cue-block {
           display: flex;
@@ -108,23 +110,10 @@ function makeTestTrial({
           align-items: center;
           gap: 0.8vh;
         }
-        .lt-flask-wrap {
-          width: clamp(50px, 8vw, 110px);
-          height: clamp(50px, 8vw, 110px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .lt-flask-img {
-          width: 100%;
-          height: 100%;
+        .lt-cue-img {
+          width:  clamp(100px, 12vw, 200px);
+          height: clamp(100px, 12vw, 200px);
           object-fit: contain;
-          mix-blend-mode: multiply;
-        }
-        .lt-cue-label {
-          font-size: clamp(18px, 3.2vh, 32px);
-          font-weight: normal;
-          text-align: center;
         }
         .lt-and {
           font-size: clamp(16px, 6.0vh, 40px);
@@ -268,7 +257,7 @@ function makeTestTrial({
 
         <div class="lt-top">
           <p>${cueText}</p>
-          ${renderCues({ cue, cuePicture, cueMap })}
+          ${renderCues({ cue, cueMap })}
         </div>
 
         <div class="lt-spacer-top"></div>
@@ -358,16 +347,16 @@ function makeTestTrial({
       if (maxTrialDuration !== null) {
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
-            timed_out:   true,
+            timed_out:       true,
             stage,
             type,
-            cues:        cue.join(""),
-            response:    null,
-            correct,
-            is_correct:  null,
-            confidence:  null,
-            rt1:         null,
-            rt2:         null,
+            cues:            cue.join(""),
+            response:        null,
+            correct_outcome: correct,
+            is_correct:      null,
+            confidence:      null,
+            rt1:             null,
+            rt2:             null,
           });
         }, maxTrialDuration);
       }
@@ -426,12 +415,12 @@ function makeTestTrial({
             timed_out:   false,
             stage,
             type,
-            cues:        cue.join(""),
-            response:    selected,
-            correct,
-            is_correct:  selected === correct,
+            cues:            cue.join(""),
+            response:        selected,
+            correct_outcome: correct,
+            is_correct:      selected === correct,
             confidence,
-            rt1:         parseFloat(okBtn.dataset.rt1),
+            rt1:             parseFloat(okBtn.dataset.rt1),
             rt2,
           });
         }

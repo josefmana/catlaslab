@@ -20,7 +20,6 @@
     <!-- Generic utilities -->
     <script src="../../../common/components/utils/randomisation.js"></script>
     <script src="../../../common/components/utils/helpers.js"></script>
-    <script src="../../../common/components/utils/renderCues.js"></script>
     
     <!-- Generic stage builders -->
     <script src="../../../common/components/stages/buildBlock.js"></script>
@@ -28,6 +27,7 @@
     <script src="../../../common/components/stages/buildStageTrials.js"></script>
     
     <!-- Generic trial factories -->
+    <script src="../../../common/components/trials/renderCues.js"></script>
     <script src="../../../common/components/trials/makeInstructionTrial.js"></script>
     <script src="../../../common/components/trials/makeLearningTrial.js"></script>
     <script src="../../../common/components/trials/makeTestTrial.js"></script>
@@ -65,7 +65,7 @@
     // ── Preload ──────────────────────────────────────────────────────────────
     const preload = {
       type: jsPsychPreload,
-      images: [sideEffects, images.cuePicture],
+      images: [chemicals, sideEffects],
     };
     
     // ── Build & run timeline ─────────────────────────────────────────────────

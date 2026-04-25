@@ -20,14 +20,14 @@
  * @param {boolean}   counterbalance - Randomly flip cue[0]/cue[1] per trial
  *                                     (ignored for single-cue trials)
  * @param {Function}  trialFactory   - makeLearningTrial | makeTestTrial | custom
- * @param {object}    opts           - { cueMap, outcomeMap, texts, times, images }
+ * @param {object}    opts           - { cueMap, outcomeMap, texts, times }
  * 
  * @returns {object[]} Flat array of jsPsych trial objects
  */
 function buildStageTrials(
   stageDesign, nBlocks, stageLabel, counterbalance, trialFactory, opts
 ) {
-  const { cueMap, outcomeMap, texts, times, images } = opts;
+  const { cueMap, outcomeMap, texts, times } = opts;
   const iti = Number.isFinite(times.interTrialInterval) && times.interTrialInterval > 0
     ? times.interTrialInterval
     : 0;
@@ -50,8 +50,7 @@ function buildStageTrials(
         cueMap,
         outcomeMap,
         texts,
-        times,
-        images,
+        times
       });
 
       if (iti > 0) trial.post_trial_gap = iti;

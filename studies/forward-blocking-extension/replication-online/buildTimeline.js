@@ -18,15 +18,15 @@
  * Outcome order: fixed; o1/o3 always left, o2/o4 always right.
  *
  * @param {object} design     - Experimental design
- * @param {object} settings   - { times, blocks, texts, images }
+ * @param {object} settings   - { times, blocks, texts }
  * @param {object} cueMap     - Randomised cue key → display label
  * @param {object} outcomeMap - Randomised outcome key → image path
  * 
  * @returns {object[]} Ready-to-run jsPsych timeline array
  */
 function buildTimeline({ design, settings, cueMap, outcomeMap }) {
-  const { times, blocks: blockCounts, texts, images } = settings;
-  const opts = { cueMap, outcomeMap, texts, times, images };
+  const { times, blocks: blockCounts, texts } = settings;
+  const opts = { cueMap, outcomeMap, texts, times };
   const timeline = [];
 
   // ── Stage 1: instructions + single-cue learning ────────────────────────────
