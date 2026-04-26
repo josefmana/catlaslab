@@ -59,7 +59,7 @@
     
     // ── Randomise stimulus mappings ──────────────────────────────────────────
     const cueMap     = randomisePairings(cues, chemicals);
-    const outcomeMap = randomisePairwise(outcomes, sideEffects);
+    const outcomeMap = randomiseConstrainedPairings(outcomes, sideEffects);
     const saveMaps   = saveMappings(cueMap, outcomeMap);
     
     // ── Preload ──────────────────────────────────────────────────────────────

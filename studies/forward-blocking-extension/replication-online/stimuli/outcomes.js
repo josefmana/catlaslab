@@ -6,8 +6,16 @@ const outcomes = [
 ];
 
 const sideEffects = [
-  "../../../common/stimuli/img/outcomes/dizziness_cz.jpeg",
-  "../../../common/stimuli/img/outcomes/itchiness_cz.jpeg",
-  "../../../common/stimuli/img/outcomes/headache_cz.jpeg",
-  "../../../common/stimuli/img/outcomes/nausea_cz.jpeg"
+  x = [
+    "../../../common/stimuli/img/outcomes/x_dizziness.png",
+    "../../../common/stimuli/img/outcomes/x_itchiness.png",
+    "../../../common/stimuli/img/outcomes/x_headache.png",
+    "../../../common/stimuli/img/outcomes/x_nausea.png",
+  ],
+  y = [
+    "../../../common/stimuli/img/outcomes/y_dizziness.png",
+    "../../../common/stimuli/img/outcomes/y_itchiness.png",
+    "../../../common/stimuli/img/outcomes/y_headache.png",
+    "../../../common/stimuli/img/outcomes/y_nausea.png",
+  ],
 ]

@@ -47,6 +47,68 @@ function randomisePairwise(keys, values) {
 }
 
 /**
+ * randomiseConstrainedPairings
+ *
+ * Maps two groups of 4 elements to 4 outcome labels with index-level constraints.
+ * 
+ * Algorithm:
+ * 1. Randomly shuffle indices [0, 1, 2, 3]
+ * 2. First group gets the first 2 shuffled indices, paired with first 2 outcomes
+ * 3. Second group gets the remaining 2 indices, paired with last 2 outcomes
+ *
+ * This ensures that whatever indices group[0] uses, group[1] cannot use,
+ * and vice versa. All orderings are randomized.
+ *
+ * @param {Array}        outcomeLabels - Array of 4 outcome labels (any type: strings, objects, etc.)
+ * @param {Array<Array>} elementGroups - Array of 2 arrays, each of length 4
+ * 
+ * @returns {Object} Mapping { outcomeLabel: element, ... }
+ *
+ * @example
+ * const groups = [
+ *   ["a_dizzy", "a_itchy", "a_headache", "a_nausea"],
+ *   ["b_dizzy", "b_itchy", "b_headache", "b_nausea"]
+ * ];
+ * const outcomes = ["o1", "o2", "o3", "o4"];
+ * const mapping = randomiseConstrainedPairings(groups, outcomes);
+ * // { o1: "a_headache", o2: "a_dizzy", o3: "b_nausea", o4: "b_itchy" }
+ */
+function randomiseConstrainedPairings(outcomeLabels, elementGroups) {
+  // ── Validation ─────────────────────────────────────────────────────────────
+  if (!Array.isArray(elementGroups) || elementGroups.length !== 2) {
+    throw new Error("elementGroups must be an array of exactly 2 groups");
+  }
+  if (!Array.isArray(outcomeLabels) || outcomeLabels.length !== 4) {
+    throw new Error("outcomeLabels must be an array of exactly 4 labels");
+  }
+  for (let i = 0; i < 2; i++) {
+    if (!Array.isArray(elementGroups[i]) || elementGroups[i].length !== 4) {
+      throw new Error(`elementGroups[${i}] must be an array of length 4`);
+    }
+  }
+ 
+  // ── Create random partition of indices ─────────────────────────────────────
+  const indices = [0, 1, 2, 3];
+  shuffle(indices); // Fisher-Yates mutation
+ 
+  const group0Indices = indices.slice(0, 2);
+  const group1Indices = indices.slice(2, 4);
+ 
+  // ── Build outcome mapping ─────────────────────────────────────────────────
+  const mapping = {};
+  
+  // First group = first 2 outcomes
+  mapping[outcomeLabels[0]] = elementGroups[0][group0Indices[0]];
+  mapping[outcomeLabels[1]] = elementGroups[0][group0Indices[1]];
+  
+  // Second group = last 2 outcomes
+  mapping[outcomeLabels[2]] = elementGroups[1][group1Indices[0]];
+  mapping[outcomeLabels[3]] = elementGroups[1][group1Indices[1]];
+ 
+  return mapping;
+}
+
+/**
  * buildFlipSchedule
  *
  * Returns a 2-D boolean array [descriptorIdx][rowLength] controlling cue-order
