@@ -15,20 +15,48 @@ function makeInstructionTrial({ html, buttonText = "Next" }) {
     stimulus: `
       <style>
         html, body {
-          width: 100%; height: 100%;
-          margin: 0 !important; padding: 0 !important;
+          width: 100%;
+          height: 100%;
+          margin: 0 !important;
+          padding: 0 !important;
           overflow-x: hidden;
         }
-        .jspsych-display-element,
-        .jspsych-content-wrapper,
+        .jspsych-display-element {
+          height: 100% !important;
+          background: #c8c8c8 !important;
+        }
+        .jspsych-content-wrapper {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
         .jspsych-content {
-          margin: 0 !important; padding: 0 !important;
-          width: 100% !important; max-width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          background: #c8c8c8 !important;
+        }
+        .jspsych-button-box {
+          background: #c8c8c8 !important;
+          margin-top: 2vh !important;
+          padding: 2vh 0 4vh 0 !important;
+        }
+        .jspsych-btn {
+          background-color: #e0e0e0;
+          border: 1px solid #999;
+          padding: 0.75vh 2vw;
+          font-size: clamp(14px, 1.8vh, 18px);
+        }
+        .jspsych-btn:hover {
+          background-color: #d0d0d0;
         }
         .inst-wrap {
-          width: 100vw; min-height: 80vh;
-          display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
+          width: 100vw;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
           background: #c8c8c8;
           font-family: Arial, sans-serif;
           box-sizing: border-box;
