@@ -20,6 +20,7 @@
  * @param {string[]} params.outcome    - Exactly two outcome keys
  * @param {string}   params.correct    - The correct outcome key
  * @param {string}   params.stage      - Label stored in the data record
+ * @param {number}   params.block      - Block count
  * @param {string}   params.type       - Label stored in the data record
  * @param {object}   params.cueMap     - Maps cue key → cue image path
  * @param {object}   params.outcomeMap - Maps outcome key → outcome image path
@@ -37,6 +38,7 @@ function makeLearningTrial({
   outcome,
   correct,
   stage,
+  block,
   type,
   cueMap,
   outcomeMap,
@@ -290,6 +292,7 @@ function makeLearningTrial({
           finishOnce({
             timed_out:       true,
             stage,
+            block,
             type,
             cues:            cue.join(""),
             response:        null,
@@ -343,6 +346,7 @@ function makeLearningTrial({
           finishOnce({
             timed_out:       false,
             stage,
+            block,
             type,
             cues:            cue.join(""),
             response:        selected,

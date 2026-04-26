@@ -26,6 +26,7 @@
  * @param {string[]} params.outcome     - Exactly two outcome keys
  * @param {string}   params.correct     - The outcome key the design predicts
  * @param {string}   params.stage       - Label stored in the data record
+ * @param {number}   params.block      - Block count
  * @param {string}   params.type        - Label stored in the data record
  * @param {object}   params.cueMap      - Maps cue key → cue image path
  * @param {object}   params.outcomeMap  - Maps outcome key → outcome image path
@@ -43,6 +44,7 @@ function makeTestTrial({
   outcome,
   correct,
   stage,
+  block,
   type,
   cueMap,
   outcomeMap,
@@ -349,6 +351,7 @@ function makeTestTrial({
           finishOnce({
             timed_out:       true,
             stage,
+            block,
             type,
             cues:            cue.join(""),
             response:        null,
@@ -414,6 +417,7 @@ function makeTestTrial({
           finishOnce({
             timed_out:   false,
             stage,
+            block,
             type,
             cues:            cue.join(""),
             response:        selected,

@@ -45,3 +45,31 @@ function randomisePairwise(keys, values) {
   }
   return mapping;
 }
+
+/**
+ * buildFlipSchedule
+ *
+ * Returns a 2-D boolean array [descriptorIdx][rowLength] controlling cue-order
+ * flips for the entire stage. true = cue[1] left, cue[0] right.
+ *
+ * Each row has length nBlocks (even) or nBlocks+1 (odd). Exactly rowLength/2
+ * entries are true, placed at uniformly random positions. buildStageTrials
+ * indexes rows by blockIdx ∈ [0, nBlocks-1], so the padding column added for
+ * odd nBlocks is allocated but never read — balance across the nBlocks
+ * presentations used is as close to equal as the integer constraint allows.
+ *
+ * @param {number} nTrials - Number of distinct trial descriptors (= stageDesign.length)
+ * @param {number} nBlocks - Number of blocks in the stage (>= 1)
+ *
+ * @returns {boolean[][]} [nTrials × rowLength] flip schedule
+ */
+function buildFlipSchedule(nTrials, nBlocks) {
+  const rowLength = nBlocks + (nBlocks % 2); // round up to nearest even number
+  const nFlips    = rowLength / 2;
+ 
+  return Array.from({ length: nTrials }, () => {
+    const row = Array.from({ length: rowLength }, (_, i) => i < nFlips);
+    shuffle(row); // Fisher-Yates from randomisation.js
+    return row;
+  });
+}
