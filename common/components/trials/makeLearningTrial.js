@@ -74,7 +74,7 @@ function makeLearningTrial({
           justify-content: flex-start;
           box-sizing: border-box;
           padding: 2vh 3vw 3vh;
-          background: #c8c8c8;
+          background: #c1c1c1;
           font-family: Arial, sans-serif;
         }
         .lt-spacer-top { flex: 3; min-height: 0; }
@@ -159,12 +159,12 @@ function makeLearningTrial({
         /* participant selection (response phase) */
         .lt-option-img-wrap.selected {
           border-color: #000;
-          outline-color: #c8c8c8;
+          outline-color: #c1c1c1;
         }
         /* participant was wrong — keep black on chosen image */
         .lt-option-img-wrap.chosen-wrong {
           border-color: #000;
-          outline-color: #c8c8c8;
+          outline-color: #c1c1c1;
         }
         /* correct answer — bold blue ring */
         .lt-option-img-wrap.correct-answer {

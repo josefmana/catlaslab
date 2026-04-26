@@ -23,7 +23,7 @@ function makeInstructionTrial({ html, buttonText = "Next" }) {
         }
         .jspsych-display-element {
           height: 100% !important;
-          background: #c8c8c8 !important;
+          background: #c1c1c1 !important;
         }
         .jspsych-content-wrapper {
           display: flex !important;
@@ -35,10 +35,10 @@ function makeInstructionTrial({ html, buttonText = "Next" }) {
           padding: 0 !important;
           width: 100% !important;
           max-width: 100% !important;
-          background: #c8c8c8 !important;
+          background: #c1c1c1 !important;
         }
         .jspsych-button-box {
-          background: #c8c8c8 !important;
+          background: #c1c1c1 !important;
           margin-top: 2vh !important;
           padding: 2vh 0 4vh 0 !important;
         }
@@ -57,7 +57,7 @@ function makeInstructionTrial({ html, buttonText = "Next" }) {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          background: #c8c8c8;
+          background: #c1c1c1;
           font-family: Arial, sans-serif;
           box-sizing: border-box;
           padding: 4vh 8vw;
