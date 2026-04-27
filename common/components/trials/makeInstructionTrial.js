@@ -8,8 +8,13 @@
  * @param {object} params
  * @param {string} params.html                - HTML content for the instruction screen
  * @param {string} [params.buttonText="Next"] - Continue button label
+ * @param {number} params.maxDuration         - Maximum duration in ms
  */
-function makeInstructionTrial({ html, buttonText = "Next" }) {
+function makeInstructionTrial({
+  html,
+  buttonText  = "Next",
+  maxDuration = 120000,
+}) {
   return {
     type: jsPsychHtmlButtonResponse,
     stimulus: `
@@ -80,6 +85,7 @@ function makeInstructionTrial({ html, buttonText = "Next" }) {
       </div>
     `,
     choices: [buttonText],
+    trial_duration: maxDuration,
     on_finish: function (data) { data.stimulus = null; },
   };
 }

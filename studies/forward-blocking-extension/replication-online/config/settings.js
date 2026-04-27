@@ -1,7 +1,8 @@
 const times = {
-  maxLearningTrialDuration: 10000, // ms; null = no limit
-  maxTestTrialDuration:     null,  // ms; null = no limit
-  feedbackDuration:         2000,
+  maxInstructionDuration:   120000,
+  maxLearningTrialDuration: 10000, // null = no limit
+  maxTestTrialDuration:     200, // null = no limit
+  feedbackDuration:         1500,
   interTrialInterval:       500,
 };
 
@@ -22,9 +23,93 @@ const texts = {
   confidenceText:    ["Vůbec", "Velmi"],
   continueText:      "Pokračovat",
   
+  // ── Tutorial texts ─────────────────────────────────────────────────────────
+  tutorials: {
+    page1: `
+      <h2>Návod</h2>
+      <p>
+      V tomto experimentu budete hrát roli alergologa.
+      </p>
+      <p>
+      Bude vám prezentována chemikálie obsažená v tabletě multivitamínu, kterou
+      váš pacient pozřel (obrázek a text nahoře).
+      </p>
+      <p>
+      Vaším úkolem bude vybrat ze dvou nežádoucích účinků (prezentovaných na
+      obrázku dole) ten, kterým se domníváte, že bude pacient po pozření
+      multivitamínu s touto chemikálií trpět.
+      </p>
+    `,
+    page2: `
+      <h2>Návod</h2>
+      <p>
+      <b>Svou odpověd zaznamenáte následovně:</b>
+        </br> 1. kliknete na odpověď svého výběru,
+        </br> 2. vaše odpověď se automaticky odpověď označí tenkým černým rámem,
+        </br> 3. kliknete na tlačítko "OK" uprostřed obrazovky
+      </p>
+      <p>
+      <b>Po zaznamenání vaší odpovědi obdržíte zpětonou vazbu:</b>
+        </br> - správná odpověď bude zarámována modře
+        </br> - pokud jste zvolili správně, uvidíte zeleně psáno "Správně",
+        </br> - pokud jste zvolili nesprávně, uvidíte červeně psáno "Nesprávně"
+      </p>
+      <p>
+      Experiment vás poté sám posune k další položce.
+      </p>
+    `,
+    page3: `
+      <h2>Návod</h2>
+      <p>
+      V některých případech se stane, že pacient zkonzumoval multivitamín s
+      jednou podezřelou chemikálií (jako tomu bylo na předchozí stránce), jindy
+      pacient pozře multivitamín s dvěmi podezřelými chemikáliemi.
+      </p>
+      <p>
+      Váš úkol bude stejný bez ohledu na pošet chemikálií v multivitamínu.
+      Pokaždé se pokuste odhadnout, kterým ze dvou nežádoucích účinků bude
+      pacient trpět.
+      </p>
+    `,
+    page4: `
+      <h2>Návod</h2>
+      <p>
+      Na konci experimentu otestujeme vaše vědomosti o chemikáliích, se kterými
+      se v průběhu studie setkáte. Během toho testu již nedostanete zpětnou
+      vazbu o správnosti vaší odpovědi. Namísto toho se vás zeptám, jak moc
+      své odpovědi důvěřujete.
+      </p>
+      <b>Svou odpověd zaznamenáte následovně:</b>
+        </br> 1. kliknete na odpověď svého výběru,
+        </br> 2. vaše odpověď se automaticky odpověď označí tenkým černým rámem,
+        </br> 3. kliknete na tlačítko "OK" uprostřed obrazovky,
+        </br> 4. namísto otázky se objeví desetibodá škála,
+        </br> 5. kliknutím zaznačíte, nakolik si jste jisti správností své odpovědi,
+        </br> 6. vámi zvolená varianta se automatcky označí modře,
+        </br> 7. kliknete opět na tlačítko "OK" a tím se posunete k dalšímu úkolu.
+      </p>
+    `,
+  },
+  
   // ── Instruction screens ────────────────────────────────────────────────────
   // Stage 1 instructions also cover Stage 2 (no break between them).
   instructions: {
+    welcome: `
+      <h2>Vítejte ve studii diagnostického rozhodování [catlas-01]</h2>
+      <p>
+      V této studii budete predikovat, jakým nežádoucím účinkem bude trpět
+      fiktivní pacient po zkonzumování multivitamínu obsahujícího určité
+      chemikálie.
+      </p>
+      <p>
+      Vaším úkolem bude postupně se naučit, která chemikálie pacientovi
+      způsobuje ten který nežádoucí účinek.
+      </p>
+      Na následujících několika slidech spolu podrobně projdeme, jak bude
+      experiment vypadat a co bude Vaším úkolem.
+      Pokračujte prosím stisknutím tlačítka "Pokračovat".
+      </p>
+    `,
     stage1: `
       <h2>Instrukce</h2>
       <p>
@@ -73,6 +158,14 @@ const texts = {
   },
 };
 
+// Gif animations for tutorials
+const images = {
+  tutorial1: "tutorial_1.png",
+  tutorial2: "tutorial_2.gif",
+  tutorial3: "tutorial_3.gif",
+  tutorial4: "tutorial_4.gif",
+};
+
 // Bundled object consumed by buildTimeline;
 // individual exports remain available for the preload trial.
-const settings = { times, blocks, texts };
+const settings = { times, blocks, texts, images };

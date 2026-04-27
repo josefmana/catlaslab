@@ -29,6 +29,7 @@
     <!-- Generic trial factories -->
     <script src="../../../common/components/trials/renderCues.js"></script>
     <script src="../../../common/components/trials/makeInstructionTrial.js"></script>
+    <script src="../../../common/components/trials/makeTutorialTrial.js"></script>
     <script src="../../../common/components/trials/makeLearningTrial.js"></script>
     <script src="../../../common/components/trials/makeTestTrial.js"></script>
 
@@ -65,7 +66,7 @@
     // ── Preload ──────────────────────────────────────────────────────────────
     const preload = {
       type: jsPsychPreload,
-      images: [chemicals, sideEffects],
+      images: [Object.values(images), chemicals, sideEffects],
     };
     
     // ── Build & run timeline ─────────────────────────────────────────────────
