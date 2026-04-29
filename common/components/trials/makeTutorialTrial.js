@@ -109,7 +109,7 @@ function makeTutorialTrial({
           display: grid;
           grid-template-columns: ${gridCols};
           gap: 4vw;
-          align-items: start;
+          align-items: center;
         }
 
         /* ── Left: text ──────────────────────────────────────────────────── */

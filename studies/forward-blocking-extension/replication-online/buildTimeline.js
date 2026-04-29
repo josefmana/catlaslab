@@ -35,33 +35,17 @@ function buildTimeline({ design, settings, cueMap, outcomeMap }) {
     buttonText:  texts.continueText,
     maxDuration: times.maxInstructionDuration,
   }));
-  
+
   // ── Tutorial ───────────────────────────────────────────────────────────────
-  timeline.push(makeTutorialTrial({
-    html:        texts.tutorials.page1,
-    gifSrc:      images.tutorial1,
-    buttonText:  texts.continueText,
-    maxDuration: times.maxInstructionDuration,
-  }));
-  timeline.push(makeTutorialTrial({
-    html:        texts.tutorials.page2,
-    gifSrc:      images.tutorial2,
-    buttonText:  texts.continueText,
-    maxDuration: times.maxInstructionDuration,
-  }));
-  timeline.push(makeTutorialTrial({
-    html:        texts.tutorials.page3,
-    gifSrc:      images.tutorial3,
-    buttonText:  texts.continueText,
-    maxDuration: times.maxInstructionDuration,
-  }));
-  timeline.push(makeTutorialTrial({
-    html:        texts.tutorials.page4,
-    gifSrc:      images.tutorial4,
-    buttonText:  texts.continueText,
-    maxDuration: times.maxInstructionDuration,
-  }));
-  
+  timeline.push(
+    ...[1, 2, 3, 4].map(i => makeTutorialTrial({
+      html:        texts.tutorials[`page${i}`],
+      gifSrc:      images[`tutorial${i}`],
+      buttonText:  texts.continueText,
+      maxDuration: times.maxInstructionDuration,
+    }))
+  );
+
   // ── Stage 1: instructions + single-cue learning ────────────────────────────
   timeline.push(makeInstructionTrial({
     html:        texts.instructions.stage1,
