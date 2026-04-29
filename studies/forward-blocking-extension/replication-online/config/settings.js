@@ -1,16 +1,16 @@
 const times = {
   maxInstructionDuration:   120000,
   maxLearningTrialDuration: 10000, // null = no limit
-  maxTestTrialDuration:     200, // null = no limit
+  maxTestTrialDuration:     null, // null = no limit
   feedbackDuration:         1500,
   interTrialInterval:       500,
 };
 
 const blocks = {
-  stage1: 10, // 10 × 8 = 80 learning trials
-  stage2:  8, //  8 × 8 = 64 learning trials
-  stage3:  6, //  6 × 8 = 48 learning trials
-  test:    2, //  2 × 8 = 16 test trials
+  stage1:  3, // 10 × 8 = 80 learning trials
+  stage2:  3, //  8 × 8 = 64 learning trials
+  stage3:  3, //  6 × 8 = 48 learning trials
+  test:    1, //  2 × 8 = 16 test trials
 };
 
 const texts = {
@@ -160,10 +160,10 @@ const texts = {
 
 // Gif animations for tutorials
 const images = {
-  tutorial1: "tutorial_1.png",
-  tutorial2: "tutorial_2.gif",
-  tutorial3: "tutorial_3.gif",
-  tutorial4: "tutorial_4.gif",
+  tutorial1: "../../../common/stimuli/img/tutorials/learning_single_cue.png",
+  tutorial2: "../../../common/stimuli/img/tutorials/learning_single_cue.gif",
+  tutorial3: "../../../common/stimuli/img/tutorials/learning_double_cue.gif",
+  tutorial4: "../../../common/stimuli/img/tutorials/test_double_cue.gif",
 };
 
 // Bundled object consumed by buildTimeline;

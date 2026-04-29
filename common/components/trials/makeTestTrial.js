@@ -415,7 +415,7 @@ function makeTestTrial({
           okBtn.disabled = true;
 
           finishOnce({
-            timed_out:   false,
+            timed_out:       false,
             stage,
             block,
             type,

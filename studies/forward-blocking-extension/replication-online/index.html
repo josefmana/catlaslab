@@ -15,9 +15,8 @@
     <script src="config/settings.js"></script>
     <script src="stimuli/cues.js"></script>
     <script src="stimuli/outcomes.js"></script>
-    <script src="../../../common/components/designs/dummy.js"></script>
-    <!-- <script src="../../../common/components/designs/lepelley2007.js"></script> -->
-    
+    <script src="../../../common/components/designs/lepelley2007.js"></script>
+
     <!-- Generic utilities -->
     <script src="../../../common/components/utils/randomisation.js"></script>
     <script src="../../../common/components/utils/helpers.js"></script>
@@ -61,8 +60,7 @@
     
     // ── Randomise stimulus mappings ──────────────────────────────────────────
     const cueMap     = randomisePairings(cues, chemicals);
-    //const outcomeMap = randomiseConstrainedPairings(outcomes, sideEffects);
-    const outcomeMap = randomisePairings(outcomes, sideEffects);
+    const outcomeMap = randomiseConstrainedPairings(outcomes, sideEffects);
     const saveMaps   = saveMappings(cueMap, outcomeMap);
     
     // ── Preload ──────────────────────────────────────────────────────────────
