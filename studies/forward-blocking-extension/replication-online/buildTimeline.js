@@ -51,6 +51,7 @@ function buildTimeline({
     html:        texts.instructions.welcome,
     buttonText:  texts.continueText,
     maxDuration: times.maxInstructionDuration,
+    trialType:   "welcome",
   }));
   
   // ── Preload images ─────────────────────────────────────────────────────────
@@ -171,6 +172,7 @@ function buildTimeline({
     buttonText:  texts.farewellText,
     maxDuration: times.maxInstructionDuration,
     textAlign:   "center",
+    trialType:   "farewell",
   }));
   
   return timeline;

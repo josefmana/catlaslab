@@ -23,9 +23,10 @@ function saveMappings(cueMap, outcomeMap) {
     stimulus: "",
     trial_duration: 0,
     choices: "NO_KEYS",
-    data: {
-      cueMap:     extractAllFilenames(cueMap),
-      outcomeMap: extractAllFilenames(outcomeMap)
+    on_finish: function(data) {
+      data.trial_type = "stimuli-map";
+      data.cueMap     = extractAllFilenames(cueMap);
+      data.outcomeMap = extractAllFilenames(outcomeMap)
     }
   }
 }

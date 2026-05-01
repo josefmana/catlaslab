@@ -1,32 +1,11 @@
+// ── Cues: abstract variables and stimuli images ──────────────────────────────
 const cues = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-  "alpha",
-  "beta"
+  "A", "C", "E", "G",                           // Pretrained blocking cues
+  "I", "L", "O", "R",                           // Pretrained filler cues
+  "B", "D", "F", "H",                           // Novel blocked cues
+  "J", "M", "P", "S",                           // Novel "non-blocking" cues
+  "K", "N", "Q", "T",                           // Novel control cues
+  "U", "V", "W", "X", "Y", "Z", "alpha", "beta" // Stage 3 filler cues
 ];
 
 const chemicals = [
@@ -58,4 +37,27 @@ const chemicals = [
   "../../../common/stimuli/img/cues/Goladine.png",
   "../../../common/stimuli/img/cues/Ilomine.png",
   "../../../common/stimuli/img/cues/Daktyre.png"
+]
+
+// ── Outcomes: abstract variables and stimuli images ──────────────────────────
+const outcomes = [
+  "o1",
+  "o2",
+  "o3",
+  "o4",
+];
+
+const sideEffects = [
+  x = [
+    "../../../common/stimuli/img/outcomes/x_dizziness.png",
+    "../../../common/stimuli/img/outcomes/x_itchiness.png",
+    "../../../common/stimuli/img/outcomes/x_headache.png",
+    "../../../common/stimuli/img/outcomes/x_nausea.png",
+  ],
+  y = [
+    "../../../common/stimuli/img/outcomes/y_dizziness.png",
+    "../../../common/stimuli/img/outcomes/y_itchiness.png",
+    "../../../common/stimuli/img/outcomes/y_headache.png",
+    "../../../common/stimuli/img/outcomes/y_nausea.png",
+  ],
 ]
