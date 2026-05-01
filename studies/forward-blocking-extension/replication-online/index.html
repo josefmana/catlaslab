@@ -7,16 +7,21 @@
 
     <!-- jsPsych core -->
     <script src="jspsych/jspsych.js"></script>
+    <script src="jspsych/plugin-browser-check.js"></script>
+    <script src="jspsych/plugin-preload.js"></script>
+    <script src="jspsych/plugin-fullscreen.js"></script>
     <script src="jspsych/plugin-html-button-response.js"></script>
     <script src="jspsych/plugin-html-keyboard-response.js"></script>
-    <script src="jspsych/plugin-preload.js"></script>
+    <script src="jspsych/plugin-call-function.js"></script>
     
     <!-- Experiment config and stimuli -->
     <script src="config/settings.js"></script>
     <script src="stimuli/cues.js"></script>
     <script src="stimuli/outcomes.js"></script>
     <script src="../../../common/components/designs/lepelley2007.js"></script>
-
+    <script src="../../../common/components/globals/initExperiment.js"></script>
+    <script src="../../../common/components/globals/enterFullscreen.js"></script>
+    
     <!-- Generic utilities -->
     <script src="../../../common/components/utils/randomisation.js"></script>
     <script src="../../../common/components/utils/helpers.js"></script>
@@ -44,36 +49,38 @@
     // ── JATOS detection ──────────────────────────────────────────────────────
     const runOnServer = (typeof jatos !== "undefined");
     
-    // ── Start jsPsych ────────────────────────────────────────────────────────
-    const jsPsych = initJsPsych({
-      on_trial_finish: function(data) {
-        if (runOnServer) jatos.appendResultData(JSON.stringify(data));
-      },
-      on_finish: function() {
-        if (runOnServer) {
-          jatos.endStudy();
-        } else {
-          jsPsych.data.get().localSave("json", "mydata.json");
-        }
-      }
-    });
+    // ── Trial count ──────────────────────────────────────────────────────────
+    const totalTrials =
+      design.stage1.length * blocks.stage1 +
+      design.stage2.length * blocks.stage2 +
+      design.stage3.length * blocks.stage3 +
+      design.test.length   * blocks.test;
     
+    // ── Start jsPsych ────────────────────────────────────────────────────────
+    const { jsPsych, setFullscreenExpected, incrementProgress } = initExperiment({
+      texts,
+      runOnServer,
+      enforceFullscreen: true,
+      showProgressBar:   false,
+      totalTrials,
+    });
+
     // ── Randomise stimulus mappings ──────────────────────────────────────────
     const cueMap     = randomisePairings(cues, chemicals);
     const outcomeMap = randomiseConstrainedPairings(outcomes, sideEffects);
     const saveMaps   = saveMappings(cueMap, outcomeMap);
     
-    // ── Preload ──────────────────────────────────────────────────────────────
-    const preload = {
-      type: jsPsychPreload,
-      images: [Object.values(images), chemicals, sideEffects],
-    };
-    
     // ── Build & run timeline ─────────────────────────────────────────────────
     const timeline = [
-      preload,
       saveMaps,
-      ...buildTimeline({ design, settings, cueMap, outcomeMap }),
+      ...buildTimeline({
+        design,
+        settings,
+        cueMap,
+        outcomeMap,
+        setFullscreenExpected,
+        incrementProgress,
+      }),
     ];
 
     jsPsych.run(timeline);

@@ -32,6 +32,11 @@
  * @param {object}   params.times
  * @param {number}   [params.times.maxLearningTrialDuration=10000] - Hard timeout (ms); null = no limit
  * @param {number}   [params.times.feedbackDuration=1500]          - Feedback display time (ms)
+ * @param {Function} [params.incrementProgress]  - Advances the progress bar by one step;
+ *                                                 injected by buildStageTrials from the
+ *                                                 setter returned by initExperiment.
+ *                                                 Called once inside finishOnce so it fires
+ *                                                 on every trial outcome (response or timeout).
  */
 function makeLearningTrial({
   cue,
@@ -44,6 +49,7 @@ function makeLearningTrial({
   outcomeMap,
   texts,
   times,
+  incrementProgress,
 }) {
   const { cueText, promptText, promptInstruction, feedbackText } = texts;
   const { maxLearningTrialDuration: maxTrialDuration = 10000, feedbackDuration = 1500 } = times;
@@ -54,8 +60,10 @@ function makeLearningTrial({
     stimulus: `
       <style>
         html, body {
-          width: 100%; height: 100%;
-          margin: 0 !important; padding: 0 !important;
+          width: 100%;
+          height: 100%;
+          margin: 0 !important;
+          padding: 0 !important;
           overflow: hidden;
         }
         .jspsych-display-element,
@@ -67,7 +75,8 @@ function makeLearningTrial({
           max-width: 100% !important;
         }
         .lt-wrap {
-          width: 100vw; height: 100vh;
+          width: 100vw;
+          height: calc(100vh - var(--jspsych-bar-h, 0px));
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -255,7 +264,7 @@ function makeLearningTrial({
 
       </div>
     `,
-    choices: "NO_KEYS",
+    choices: [],
     on_finish: function (data) {
       data.stimulus = null;
       if (data.response === null) {
@@ -283,6 +292,7 @@ function makeLearningTrial({
       function finishOnce(data) {
         if (done) return;
         done = true;
+        if (typeof incrementProgress === "function") incrementProgress();
         jsPsych.finishTrial(data);
       }
       

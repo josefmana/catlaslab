@@ -38,6 +38,11 @@
  * @param {string[]} params.texts.confidenceText    - ["Low anchor label", "High anchor label"]
  * @param {object}   params.times
  * @param {number}   [params.times.maxTestTrialDuration=null] - Hard timeout (ms); null = no limit
+ * @param {Function} [params.incrementProgress]  - Advances the progress bar by one step;
+ *                                                 injected by buildStageTrials from the
+ *                                                 setter returned by initExperiment.
+ *                                                 Called once inside finishOnce so it fires
+ *                                                 on every trial outcome (response or timeout).
  */
 function makeTestTrial({
   cue,
@@ -50,6 +55,7 @@ function makeTestTrial({
   outcomeMap,
   texts,
   times,
+  incrementProgress,
 }) {
   const { cueText, promptText, promptInstruction, testPromptText, confidenceText } = texts;
   const { maxTestTrialDuration: maxTrialDuration = null } = times;
@@ -60,8 +66,10 @@ function makeTestTrial({
     stimulus: `
       <style>
         html, body {
-          width: 100%; height: 100%;
-          margin: 0 !important; padding: 0 !important;
+          width: 100%;
+          height: 100%;
+          margin: 0 !important;
+          padding: 0 !important;
           overflow: hidden;
         }
         .jspsych-display-element,
@@ -73,7 +81,8 @@ function makeTestTrial({
           max-width: 100% !important;
         }
         .lt-wrap {
-          width: 100vw; height: 100vh;
+          width: 100vw;
+          height: calc(100vh - var(--jspsych-bar-h, 0px));
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -342,6 +351,7 @@ function makeTestTrial({
       function finishOnce(data) {
         if (done) return;
         done = true;
+        if (typeof incrementProgress === "function") incrementProgress();
         jsPsych.finishTrial(data);
       }
       

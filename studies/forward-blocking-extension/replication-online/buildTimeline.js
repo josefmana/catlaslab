@@ -17,25 +17,53 @@
  *
  * Outcome order: fixed; o1/o3 always left, o2/o4 always right.
  *
- * @param {object} design     - Experimental design
- * @param {object} settings   - { times, blocks, texts, images }
- * @param {object} cueMap     - Randomised cue key → display label
- * @param {object} outcomeMap - Randomised outcome key → image path
+ * @param {object}   design                - Experimental design
+ * @param {object}   settings              - { times, blocks, texts, images }
+ * @param {object}   cueMap                - Randomised cue key → display label
+ * @param {object}   outcomeMap            - Randomised outcome key → image path
+ * @param {Function} setFullscreenExpected - Function for fullscreen control
+ * @param {Function} incrementProgress    - Advances the progress bar by one trial;
+ *                                          threaded into opts so every trial factory
+ *                                          can call it without touching jsPsych directly
  * 
  * @returns {object[]} Ready-to-run jsPsych timeline array
  */
-function buildTimeline({ design, settings, cueMap, outcomeMap }) {
+function buildTimeline({
+  design,
+  settings,
+  cueMap,
+  outcomeMap,
+  setFullscreenExpected,
+  incrementProgress
+}) {
   const { times, blocks: blockCounts, texts, images } = settings;
-  const opts = { cueMap, outcomeMap, texts, times, images };
+  const opts = { cueMap, outcomeMap, texts, times, images, incrementProgress };
   const timeline = [];
 
+  // ── Check the browser ──────────────────────────────────────────────────────
+  timeline.push({
+    type: jsPsychBrowserCheck,
+    inclusion_function: (data) => { return data.mobile === false },
+  });
+  
   // ── Welcome slide ──────────────────────────────────────────────────────────
   timeline.push(makeInstructionTrial({
     html:        texts.instructions.welcome,
     buttonText:  texts.continueText,
     maxDuration: times.maxInstructionDuration,
   }));
-
+  
+  // ── Preload images ─────────────────────────────────────────────────────────
+  timeline.push({
+    type: jsPsychPreload,
+    auto_preload: false,
+    images: [
+      ...Object.values(images),
+      ...Object.values(cueMap),
+      ...Object.values(outcomeMap),
+    ],
+  });
+  
   // ── Tutorial ───────────────────────────────────────────────────────────────
   timeline.push(
     ...[1, 2, 3, 4].map(i => makeTutorialTrial({
@@ -45,6 +73,13 @@ function buildTimeline({ design, settings, cueMap, outcomeMap }) {
       maxDuration: times.maxInstructionDuration,
     }))
   );
+  
+  // ── Enter fullscreen ───────────────────────────────────────────────────────
+  timeline.push(enterFullscreen({
+    message:               texts.instructions.start,
+    buttonText:            texts.startText,
+    setFullscreenExpected,
+  }));
 
   // ── Stage 1: instructions + single-cue learning ────────────────────────────
   timeline.push(makeInstructionTrial({
@@ -56,7 +91,7 @@ function buildTimeline({ design, settings, cueMap, outcomeMap }) {
     design.stage1,
     blockCounts.stage1,
     "stage1",
-    false, // single cue — no counterbalancing
+    false,
     makeLearningTrial,
     opts
   ));
@@ -100,6 +135,25 @@ function buildTimeline({ design, settings, cueMap, outcomeMap }) {
     makeTestTrial,
     opts
   ));
-
+  
+  // ── Exit fullscreen then farewell ──────────────────────────────────────────
+  timeline.push({
+    type: jsPsychCallFunction,
+    async: true,
+    func: function (done) {
+      setFullscreenExpected(false);
+      if (document.fullscreenElement) {
+        document.exitFullscreen().finally(done);
+      } else {
+        done();
+      }
+    },
+  });
+  timeline.push(makeInstructionTrial({
+    html:        texts.instructions.farewell,
+    buttonText:  texts.farewellText,
+    maxDuration: times.maxInstructionDuration,
+  }));
+  
   return timeline;
 }

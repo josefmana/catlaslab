@@ -25,14 +25,14 @@
  * @param {boolean}   counterbalance - Balance cue[0]/cue[1] order across trials
  *                                     (ignored for single-cue trials)
  * @param {Function}  trialFactory   - makeLearningTrial | makeTestTrial | custom
- * @param {object}    opts           - { cueMap, outcomeMap, texts, times }
+ * @param {object}    opts           - { cueMap, outcomeMap, texts, times, incrementProgress }
  * 
  * @returns {object[]} Flat array of jsPsych trial objects
  */
 function buildStageTrials(
   stageDesign, nBlocks, stageLabel, counterbalance, trialFactory, opts
 ) {
-  const { cueMap, outcomeMap, texts, times } = opts;
+  const { cueMap, outcomeMap, texts, times, incrementProgress } = opts;
   const iti =
     Number.isFinite(times.interTrialInterval) && times.interTrialInterval > 0
       ? times.interTrialInterval
@@ -67,7 +67,8 @@ function buildStageTrials(
         cueMap,
         outcomeMap,
         texts,
-        times
+        times,
+        incrementProgress,
       });
  
       if (iti > 0) trial.post_trial_gap = iti;
