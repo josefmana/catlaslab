@@ -82,7 +82,7 @@ function makeLearningTrial({
           align-items: center;
           justify-content: flex-start;
           box-sizing: border-box;
-          padding: 2vh 3vw 3vh;
+          padding: 4vh 3vw 3vh;
           background: #c1c1c1;
           font-family: Arial, sans-serif;
         }
@@ -268,6 +268,7 @@ function makeLearningTrial({
     on_finish: function (data) {
       data.stimulus = null;
       if (data.response === null) {
+        data.trial_type     = "experiment-trial",
         data.timed_out      = true;
         data.stage          = stage;
         data.type           = type;
@@ -300,6 +301,7 @@ function makeLearningTrial({
       if (maxTrialDuration !== null) {
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
+            trial_type:      "experiment-trial",
             timed_out:       true,
             stage,
             block,
@@ -354,6 +356,7 @@ function makeLearningTrial({
         // 4. Save data and end trial after feedbackDuration
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
+            trial_type:      "experiment-trial",
             timed_out:       false,
             stage,
             block,

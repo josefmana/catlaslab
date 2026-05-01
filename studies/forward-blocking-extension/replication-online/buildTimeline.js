@@ -64,6 +64,23 @@ function buildTimeline({
     ],
   });
   
+  // ── E-mail ─────────────────────────────────────────────────────────────────
+  timeline.push(makeEmailTrial({
+    headerHtml:  texts.instructions.email,
+    buttonText:  texts.continueText,
+    errorText:   texts.emailError,
+    maxDuration: times.maxInstructionDuration,
+  }));
+  
+  // ── Demography ─────────────────────────────────────────────────────────────
+  timeline.push(makeInstructionTrial({
+    html:        texts.instructions.demography,
+    buttonText:  texts.continueText,
+    maxDuration: times.maxInstructionDuration,
+    textAlign:   "center",
+    trialType:   "demography",
+  }));
+  
   // ── Tutorial ───────────────────────────────────────────────────────────────
   timeline.push(
     ...[1, 2, 3, 4].map(i => makeTutorialTrial({
@@ -153,6 +170,7 @@ function buildTimeline({
     html:        texts.instructions.farewell,
     buttonText:  texts.farewellText,
     maxDuration: times.maxInstructionDuration,
+    textAlign:   "center",
   }));
   
   return timeline;

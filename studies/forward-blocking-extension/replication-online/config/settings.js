@@ -25,9 +25,9 @@ const texts = {
   confidenceText:    ["Vůbec", "Velmi"],
   continueText:      "Pokračovat",
   farewellText:      "Ukončit experiment",
+  emailError:        `Zadejte platnou e-mailovou adresu nebo napište „x".`,
   
   // ── Instruction screens ────────────────────────────────────────────────────
-  // Stage 1 instructions also cover Stage 2 (no break between them).
   instructions: {
     welcome: `
       <h2>Vítejte ve studii diagnostického rozhodování [catlas-01]</h2>
@@ -47,6 +47,31 @@ const texts = {
       </p>
     `,
     
+    email: `
+      <h2>Registrace</h2>
+      <p>Zadejte prosím svůj e-mail nebo napište „x" pro anonymní účast.</p>
+    `,
+    
+    demography: `
+      <h2>Demografie</h2>
+      <p>Odpovězte prosím na následující otázky:</p>
+      <p>K jakému pohlaví se hlásíte?</p>
+      <p>
+        <select style="height:22px; font-size: 18px"; text-align-last: center; name="sex">
+          <option value="female">žena</option>
+          <option value="male">muž</option>
+          <option value="other">jiné</option>
+        </select>
+      </p>
+      <p>Kolik je vám let?</p>
+      <p>
+        <select style="height:22px; font-size: 16px"; text-align-last: center; name="age">
+          ${Array.from({ length: 82 }, (_, i) =>
+            `<option value="${i + 18}">${i + 18}</option>`).join('')}
+        </select>
+      </p>
+    `,
+    
     start: `
       <p>
       Experiment bude probíhat v režimu celé obrazovky. Stisknutím tlačítka
@@ -58,6 +83,7 @@ const texts = {
       </p>
     `,
     
+    // Stage 1 instructions also cover Stage 2 (no break between them).
     stage1: `
       <h2>Instrukce</h2>
       <p>
@@ -110,7 +136,7 @@ const texts = {
     `,
     
     farewell: `
-      <p>Děkujeme za účast ve studii diagnostického rozhodování [catlas-01]</p>
+      <h2>Děkujeme za účast ve studii diagnostického rozhodování [catlas-01]</h2>
       <p>Experiment ukončíte stisknutím tlačítka.</p>
     `,
     

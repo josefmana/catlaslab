@@ -88,7 +88,7 @@ function makeTestTrial({
           align-items: center;
           justify-content: flex-start;
           box-sizing: border-box;
-          padding: 2vh 3vw 3vh;
+          padding: 4vh 3vw 3vh;
           background: #c1c1c1;
           font-family: Arial, sans-serif;
         }
@@ -320,6 +320,7 @@ function makeTestTrial({
     on_finish: function (data) {
       data.stimulus = null;
       if (data.response === null) {
+        data.trial_type     = "experiment-trial",
         data.timed_out  = true;
         data.stage      = stage;
         data.type       = type;
@@ -359,6 +360,7 @@ function makeTestTrial({
       if (maxTrialDuration !== null) {
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
+            trial_type:      "experiment-trial",
             timed_out:       true,
             stage,
             block,
@@ -425,6 +427,7 @@ function makeTestTrial({
           okBtn.disabled = true;
 
           finishOnce({
+            trial_type:      "experiment-trial",
             timed_out:       false,
             stage,
             block,

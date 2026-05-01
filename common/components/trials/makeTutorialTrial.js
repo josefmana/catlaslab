@@ -185,6 +185,9 @@ function makeTutorialTrial({
     `,
     choices: [buttonText],
     trial_duration: maxDuration,
-    on_finish: function (data) { data.stimulus = null; },
+    on_finish: function (data) {
+      data.trial_type = "tutorial";
+      data.stimulus   = null;
+    }
   };
 }

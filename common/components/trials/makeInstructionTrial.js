@@ -6,14 +6,18 @@
  * The continue button is rendered by jsPsych in its default button area.
  *
  * @param {object} params
- * @param {string} params.html                - HTML content for the instruction screen
- * @param {string} [params.buttonText="Next"] - Continue button label
- * @param {number} params.maxDuration         - Maximum duration in ms
+ * @param {string} params.html                       - HTML content for the instruction screen
+ * @param {string} [params.buttonText="Next"]        - Continue button label
+ * @param {number} [params.maxDuration=12000]        - Maximum duration in ms
+ * @param {string} [params.textAlign="left"]         - Text alignment
+ * @param {string} [params.trialType="instructions"] - Label for jsPsych exported trial_type
  */
 function makeInstructionTrial({
   html,
   buttonText  = "Next",
   maxDuration = 120000,
+  textAlign = "left",
+  trialType = "instructions",
 }) {
   return {
     type: jsPsychHtmlButtonResponse,
@@ -68,10 +72,11 @@ function makeInstructionTrial({
           padding: 4vh 8vw;
         }
         .inst-body {
-          max-width: 680px; width: 100%;
+          max-width: 680px;
+          width: 100%;
           font-size: clamp(14px, 2.2vh, 22px);
           line-height: 1.65;
-          text-align: left;
+          text-align: ${textAlign};
         }
         .inst-body h2 {
           font-size: clamp(18px, 3.0vh, 28px);
@@ -86,6 +91,32 @@ function makeInstructionTrial({
     `,
     choices: [buttonText],
     trial_duration: maxDuration,
-    on_finish: function (data) { data.stimulus = null; },
+    on_load: function () {
+      formData = {};
+      const container = document.querySelector(".inst-body");
+      if (!container) return;
+
+      const inputs = container.querySelectorAll("select, input, textarea");
+
+      inputs.forEach(el => {
+        if (el.name) {
+          formData[el.name] = el;
+        }
+      });
+    },
+    on_finish: function (data) {
+      data.trial_type = trialType;
+      data.stimulus   = null;
+      
+      Object.entries(formData).forEach(([name, el]) => {
+        if (el.type === "checkbox") {
+          data[name] = el.checked;
+        } else if (el.type === "radio") {
+          if (el.checked) data[name] = el.value;
+        } else {
+          data[name] = el.value;
+        }
+      });
+    }
   };
 }
