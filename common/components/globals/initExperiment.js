@@ -180,7 +180,7 @@ function initExperiment({
     // Finalise the study or save locally
     on_finish: function() {
       if (runOnServer) {
-        jatos.endStudy(jsPsych.data.get().json());
+        jatos.endStudy();
       } else {
         jsPsych.data.get().localSave("json", "mydata.json");
       }

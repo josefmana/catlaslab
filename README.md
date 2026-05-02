@@ -17,13 +17,13 @@ and SR Research Experiment Builder.
 ## Repository structure
 
 /studies/
-  study-*/              # Individual experiments (online or lab)
+  <group>/              # Individual studies
+    <experiment>/       # Individual experiments
 /common/
   stimuli/              # Common stimuli
   components/           # Reusable building blocks (e.g., trial logic)
-/platform/
-  jatos/                # Deployment configs for JATOS
-  prolific/             # Prolific integration, recruitment metadata
+/deploy/
+  package_for_jatos.sh  # Deployment configs for JATOS
 
 ## Design principles
 

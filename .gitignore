@@ -1,3 +1,6 @@
+# Experiments
+*.jzip
+
 # Stimuli
 *.jpeg
 *.jpg
