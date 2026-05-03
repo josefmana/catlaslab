@@ -149,6 +149,20 @@ LOCAL_PATHS=()   # relative paths that stay inside the experiment dir
 OUTTREE_PATHS=() # paths that escape via ../../../common/
 UNKNOWN_PATHS=() # anything else (absolute URLs, CDN, etc.)
 
+# Known files injected by JATOS at runtime — never present locally, never
+# need to be bundled. Treat as implicitly resolved; suppress all warnings.
+JATOS_RUNTIME_FILES=("jatos.js")
+
+is_jatos_runtime() {
+  local f base
+  f="$1"
+  base="$(basename "$f")"
+  for rt in "${JATOS_RUNTIME_FILES[@]}"; do
+    [[ "$base" == "$rt" ]] && return 0
+  done
+  return 1
+}
+
 for raw in "${RAW_PATHS[@]}"; do
   if [[ "$raw" == http://* ]] || [[ "$raw" == https://* ]]; then
     UNKNOWN_PATHS+=("$raw")
@@ -160,6 +174,8 @@ for raw in "${RAW_PATHS[@]}"; do
     # Relative path that escapes but NOT via the expected common/ prefix
     UNKNOWN_PATHS+=("$raw")
     warn "Unexpected relative escape (manual review needed): $raw"
+  elif is_jatos_runtime "$raw"; then
+    info "JATOS runtime (skipped): $raw"
   else
     LOCAL_PATHS+=("$raw")
     info "Local:       $raw"
@@ -315,6 +331,12 @@ VALIDATION_FAILURES=()
 for rp in "${REWRITTEN_PATHS[@]}"; do
   # Skip external URLs
   [[ "$rp" == http://* ]] || [[ "$rp" == https://* ]] && continue
+  
+  # Skip files served by JATOS at runtime
+  if is_jatos_runtime "$rp"; then
+    info "JATOS runtime (validation skipped, expected): ${rp}"
+    continue
+  fi
 
   target="${BUNDLE_DIR}/${rp}"
   if [[ -e "$target" ]]; then

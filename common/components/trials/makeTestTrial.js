@@ -160,7 +160,7 @@ function makeTestTrial({
           justify-content: center;
           gap: clamp(20px, 4vw, 80px);
           flex-shrink: 0;
-          padding-bottom: 5vh;
+          padding-bottom: 6vh;
         }
         .lt-option {
           display: flex;
