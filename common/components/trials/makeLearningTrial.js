@@ -266,20 +266,8 @@ function makeLearningTrial({
     `,
     choices: [],
     on_finish: function (data) {
-      data.stimulus = null;
-      if (data.response === null) {
-        data.trial_type     = "experiment-trial",
-        data.timed_out      = true;
-        data.stage          = stage;
-        data.type           = type;
-        data.cues           = cue.join("");
-        data.response       = null;
-        data.correct_outcome = correct;
-        data.is_correct     = null;
-        data.rt1            = null;
-      } else {
-        data.timed_out = false;
-      }
+      data.stimulus   = null;
+      data.trial_type = "experiment-trial";
     },
     on_load: function () {
       let selected = null;
@@ -301,7 +289,6 @@ function makeLearningTrial({
       if (maxTrialDuration !== null) {
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
-            trial_type:      "experiment-trial",
             timed_out:       true,
             stage,
             block,
@@ -356,7 +343,6 @@ function makeLearningTrial({
         // 4. Save data and end trial after feedbackDuration
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
-            trial_type:      "experiment-trial",
             timed_out:       false,
             stage,
             block,
