@@ -39,12 +39,18 @@ function buildTimeline({
   const { times, blocks: blockCounts, texts, images } = settings;
   const opts = { cueMap, outcomeMap, texts, times, images, incrementProgress };
   const timeline = [];
-
+  
   // ── Check the browser ──────────────────────────────────────────────────────
   timeline.push({
     type: jsPsychBrowserCheck,
     inclusion_function: (data) => { return data.mobile === false },
   });
+  
+  // ── Save stimuli mappings ──────────────────────────────────────────────────
+  timeline.push(saveMappings(
+    cueMap,
+    outcomeMap
+  ));
   
   // ── Welcome slide ──────────────────────────────────────────────────────────
   timeline.push(makeInstructionTrial({

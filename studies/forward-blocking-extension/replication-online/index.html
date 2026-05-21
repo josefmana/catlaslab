@@ -69,11 +69,9 @@
     // ── Randomise stimulus mappings ──────────────────────────────────────────
     const cueMap     = randomisePairings(cues, chemicals);
     const outcomeMap = randomiseConstrainedPairings(outcomes, sideEffects);
-    const saveMaps   = saveMappings(cueMap, outcomeMap);
     
     // ── Build & run timeline ─────────────────────────────────────────────────
     const timeline = [
-      saveMaps,
       ...buildTimeline({
         design,
         settings,
