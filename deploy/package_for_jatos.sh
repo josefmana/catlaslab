@@ -406,14 +406,15 @@ cat > "$JAS_PATH" <<EOF
   "data": {
     "uuid": "${STUDY_UUID}",
     "title": "${STUDY_NAME}",
-    "description": "",
-    "dirName": "${STUDY_NAME_SAFE}",
+    "description": null,
     "groupStudy": false,
     "linearStudy": false,
     "allowPreview": false,
+    "dirName": "${STUDY_NAME_SAFE}",
     "comments": "",
     "jsonData": null,
-    "endRedirectUrl": null,
+    "endRedirectUrl": "",
+    "studyEntryMsg": "",
     "componentList": [
       {
         "uuid": "${COMPONENT_UUID}",
@@ -434,13 +435,12 @@ cat > "$JAS_PATH" <<EOF
         "maxTotalMembers": null,
         "maxTotalWorkers": null,
         "allowedWorkerTypes": [
-          "JatosWorker",
-          "PersonalSingleWorker",
-          "PersonalMultipleWorker",
-          "GeneralSingleWorker",
-          "GeneralMultipleWorker",
-          "MTWorker"
-        ]
+          "PersonalSingle",
+          "Jatos",
+          "PersonalMultiple"
+        ],
+        "comments": null,
+        "jsonData": null
       }
     ]
   }
