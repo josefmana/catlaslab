@@ -108,6 +108,11 @@ function makeEmailTrial({
         margin: 2vh 0 2.5vh 0;
         text-align: center;
       }
+      .inst-body hr {
+          border: none;
+          border-top: 1px solid #aaa;
+          margin: 2vh 0;
+      }
       .inst-body p { margin: 0 0 1.4vh 0; }
 
       /* ── E-mail field ── */

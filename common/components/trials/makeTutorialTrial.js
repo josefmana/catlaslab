@@ -126,6 +126,11 @@ function makeTutorialTrial({
           margin: 0 0 2vh 0;
           text-align: center;
         }
+        .tut-text hr {
+          border: none;
+          border-top: 1px solid #aaa;
+          margin: 0 0 2vh 4vw;
+        }
         .tut-text p  { margin: 0 0 2.5vh 4vw; text-align: justify; }
         .tut-text ul,
         .tut-text ol { margin: 0 0 1.4vh 1.4em; padding: 0; }

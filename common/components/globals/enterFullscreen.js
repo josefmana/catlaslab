@@ -79,6 +79,11 @@ function enterFullscreen({
       margin: 0 0 2vh 0;
       text-align: center;
     }
+    .fs-trial-body hr {
+      border: none;
+      border-top: 1px solid #aaa;
+      margin: 2vh 0;
+    }
     .fs-trial-body p { margin: 0 0 1.4vh 0; }
   `;
 
