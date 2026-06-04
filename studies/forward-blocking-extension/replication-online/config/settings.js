@@ -24,29 +24,93 @@ const texts = {
   testPromptText:    "Na kolik jste si jist/a svou odpovědí?",
   confidenceText:    ["Vůbec", "Velmi"],
   continueText:      "Pokračovat",
+  agreeText:         "Souhlasím<br/>(Pokračovat)",
+  disagreeText:      "Nesouhlasím<br/>(Odejít!)",
   farewellText:      "Ukončit experiment",
   emailError:        `Zadejte platnou e-mailovou adresu nebo napište „x".`,
   
   // ── Instruction screens ────────────────────────────────────────────────────
   instructions: {
     welcome: `
-      <h2>Vítejte ve studii diagnostického rozhodování [catlas-01]</h2>
+      <h2>Vítejte ve studii diagnostického rozhodování</br>[catlas-01]</h2>
       <p>
       V této studii budete odhadovat, jakým nežádoucím účinkem bude trpět
       fiktivní pacient po požití multivitamínu obsahujícího určité chemikálie.
-      <br />
-      Vaším úkolem bude postupně se naučit, která chemikálie způsobuje konkrétní
-      nežádoucí účinek.
+      Vaším úkolem bude postupně se naučit, která chemikálie způsobuje který
+      konkrétní nežádoucí účinek.
       </p>
+    `,
+    
+    prelude: `
       <p>
       Nyní proběhne načtení materiálů potřebných pro experiment. Tento proces
       může trvat několik sekund až minut v závislosti na rychlosti vašeho
       internetového připojení.
       </p>
       <p>
-      Po načtení materiálů vás požádáme o uvedení základních informací o sobě
-      a poté si na několika stránkách podrobně vysvětlíme, jak bude experiment
-      probíhat.
+      Po načtení materiálů vás požádáme o přečtení si <i>Souhlasu s účastí na
+      výzkumu</i>. Nebudete-li souhlasit, experiment se ukončí. Pokud
+      souhlasit budete, požádáme vás následně o uvedení základních informací o
+      sobě a poté si na několika stránkách podrobně vysvětlíme, jak bude
+      experiment probíhat.
+      </p>
+    `,
+    
+    consent: `
+      <div class="consent-form">
+        <h2>Souhlas s účastí na výzkumu</h2>
+        <p>
+          Potvrzuji, že:
+          <ul>
+            <li>Seznámil/a jsem se s informacemi o cílech a průběhu výše
+            popsaného výzkumu;</li>
+            <li>Dobrovolně souhlasím s účastí na tomto výzkumu;</li>
+            <li>Beru na vědomí, že se mohu kdykoli rozhodnout od výzkumu
+            odstoupit;</li>
+            <li>Jsem si vědom(a) toho, že jakékoli použití a zveřejnění údajů a
+            výsledků výzkumu mi nezakládá nárok na odměnu nebo náhradu, což
+            znamená, že poskytuji veškerá práva na bezplatné použití a
+            zveřejnění údajů a výsledků výzkumu.</li>
+          </ul>
+        </p>
+        <p>
+          Rovněž prohlašuji, že:
+          <ul>
+            <li>Souhlasím se zveřejněním anonymizovaných údajů a výsledků
+            výzkumu a s jejich dalším využitím;</li>
+            <li>Souhlasím se zpracováním a uchováním osobních a citlivých údajů
+            uvedených v tomto formuláři informovaného souhlasu Psychologickým
+            ústavem Akademie věd ČR, IČ: 68081740, se sídlem Pod Vodárenskou
+            věží 1143/4, 182 00 Praha 8, pro účely zpracování dat z výzkumu,
+            případného kontaktu související se zpracováním dat, nabídek účasti
+            na obdobných akcích a pro účely evidence a archivace. Jsem
+            srozuměn/a s tím, že tyto osobní údaje mohou být poskytnuty
+            subjektům oprávněným k dohledu nad projektem, v jehož rámci je
+            výzkum prováděn;</li>
+            <li>Jsem informován/a o svých právech týkajících se přístupu k
+            informacím a jejich ochrany podle § 46 a 49 zákona č. 110/2019 Sb.,
+            o ochraně osobních údajů a o změně některých zákonů, ve znění
+            pozdějších předpisů. To znamená, že mohu požádat Psychologický ústav
+            Akademie věd ČR o informace o zpracování svých osobních a citlivých
+            údajů a mám právo je obdržet. Mohu také požádat Psychologický ústav
+            Akademie věd ČR o opravu nepřesných osobních údajů, jejich doplnění,
+            blokování nebo likvidaci.</li>
+          </ul>
+        </p>
+        <p>
+          Výše uvedená oprávnění a souhlasy uděluji dobrovolně na dobu neurčitou
+          do jejich odvolání a zavazuji se, že je bez závažného důvodu založeného
+          na podstatné změně okolností neodvolám.
+        </p>
+      </div>
+    `,
+    
+    declineConsent: `
+      <p>
+      Experiment byl ukočen pro odmítnutí podmínek účasti na studii.
+      </p>
+      <p>
+      Pro další informace kontaktujte autora studie: mana@psu.cas.cz.
       </p>
     `,
     
@@ -74,14 +138,27 @@ const texts = {
       </p>
     `,
     
-    start: `
+    prestart:`
+      <h2>Před zahájením</h2>
       <p>
-      Studie bude probíhat v režimu celé obrazovky, do kterého se přepne
-      stisknutím tlačítka „Zahájit experiment“.
+      Během experimentu:
+      <ul>
+        <li><b>si nedělejte zápisky</b>; spoléhejte prosím na svůj úsudek,</li>
+        <li><b>nespěchejte</b>; správnost odpovědi je důležitější než rychlost,</li>
+        <li><b>setrvejte v režimu celé obrazovky</b>.</li>
+      </ul>
+      </p>
+    `,
+    
+    start: `
+      <h2>Začínáme</h2>
+      <p>
+      Nyní začne samotná experimentální část studie. Stisknutím tlačítka „Zahájit
+      experiment“ se otevřou dveře vaší ordinace a přivítáte svého prvního
+      pacienta.
       </p>
       <p>
-      Pokud byste omylem z tohoto režimu v přůběhu studie odešli,
-      experiment vás požádá o navrácení se na celou obrazovku.
+      Přejeme vám hodně zdaru ve vaší nové roli.
       </p>
     `,
     
@@ -89,9 +166,9 @@ const texts = {
     stage1: `
       <h2>Instrukce</h2>
       <p>
-      Vaším úkolem bude odhadnout, kterým ze dvou nežádoucích účinků
-      bude trpět váš pacient, pan X, po pozření multivitamínu obsahujícího
-      určité chemikálie.
+      Vaším úkolem je odhadnout, kterým ze dvou nežádoucích účinků
+      bude trpět váš pacient, <b>pan X</b>, po pozření multivitamínu
+      obsahujícího určité chemikálie.
       </p>
       <p>
       Zpočátku budete odpovědi spíše odhadovat, ale díky zpětné vazbě
@@ -104,10 +181,10 @@ const texts = {
       <p>Skvělá práce!</p>
       <p>
       Váš úkol se nyní mírně změní. Budete pracovat s novým pacientem,
-      panem Y, který trpí jinými nežádoucími účinky než pan X.
+      <br>panem Y</b>, který trpí jinými nežádoucími účinky než pan X.
       </p>
       <p>
-      Stejně jako dříve budete na základě chemického složení multivitamínu
+      Stejně jako doteď budete na základě chemického složení multivitamínu
       odhadovat, kterým nežádoucím účinkem bude váš nový pacient trpět.
       </p>
       <p>
@@ -120,16 +197,16 @@ const texts = {
       <h2>Instrukce</h2>
       <p>Výborně!</p>
       <p>
-      Čeká vás poslední část experimentu. Nyní otestujeme vaše znalosti
-      o pacientovi Y.
+      Čeká vás poslední část experimentu. Nyní otestujeme vaše <b>znalosti
+      o reakcích pana Y</b>.
       </p>
       <p>
       Uvidíte chemické složení multivitamínu a vaším úkolem bude opět
       odhadnout, kterým ze dvou nežádoucích účinků bude pacient trpět.
       </p>
       <p>
-      Na rozdíl od předchozí části však již neobdržíte zpětnou vazbu.
-      Místo toho budete hodnotit svou jistotu.
+      Na rozdíl od předchozí části však již <b>neobdržíte zpětnou vazbu</b>.
+      Místo toho budete hodnotit, nakolik jste si svou odpovědí jist/a.
       </p>
       <p>
       Po každé odpovědi zvolíte hodnotu od <b>1 („Nejsem si vůbec jistý/á“)</b>
@@ -193,8 +270,8 @@ const texts = {
       <h2>Návod</h2>
       <p>
       V některých případech pacient zkonzumuje multivitamín obsahující jednu
-      podezřelou chemikálii (jako na předchozí stránce), jindy může obsahovat
-      chemikálie dvě.
+      podezřelou chemikálii (jako na předchozí stránce), jindy může multivitamín
+      obsahovat chemikálie dvě.
       </p>
       <p>
       Váš úkol zůstává stejný bez ohledu na počet chemikálií. Vždy se pokuste

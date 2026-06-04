@@ -38,8 +38,10 @@ function makeTutorialTrial({
 
   /* ── grid-template-columns value from the split preset ───────────── */
   const gridCols = {
-    "50/50": "1fr 1fr",
     "40/60": "2fr 3fr",
+    "45/50": "9fr 10fr",
+    "50/50": "1fr 1fr",
+    "55/45": "10 fr 9fr",
     "60/40": "3fr 2fr",
   }[columnSplit] ?? "1fr 1fr";
 
@@ -116,7 +118,7 @@ function makeTutorialTrial({
         .tut-text {
           min-width: 0;
           font-size: clamp(14px, 2.2vh, 22px);
-          line-height: 1.65;
+          line-height: 1.5;
           text-align: left;
         }
         .tut-text h2 {
@@ -124,7 +126,7 @@ function makeTutorialTrial({
           margin: 0 0 2vh 0;
           text-align: center;
         }
-        .tut-text p  { margin: 0 0 1.4vh 0; }
+        .tut-text p  { margin: 0 0 2.5vh 4vw; text-align: justify; }
         .tut-text ul,
         .tut-text ol { margin: 0 0 1.4vh 1.4em; padding: 0; }
         .tut-text li { margin-bottom: 0.6vh; }

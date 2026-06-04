@@ -74,7 +74,7 @@ function makeEmailTrial({
       .jspsych-button-box {
         background: #c1c1c1 !important;
         margin-top: 2vh !important;
-        padding: 2vh 0 4vh 0 !important;
+        padding: 0.5vh 0 3vh 0 !important;
       }
       .jspsych-btn {
         background-color: #e0e0e0;
@@ -94,7 +94,7 @@ function makeEmailTrial({
         background: #c1c1c1;
         font-family: Arial, sans-serif;
         box-sizing: border-box;
-        padding: 4vh 8vw;
+        padding: 3vh 8vw 1vh 8vw;
       }
       .inst-body {
         max-width: 680px;
@@ -105,7 +105,7 @@ function makeEmailTrial({
       }
       .inst-body h2 {
         font-size: clamp(18px, 3.0vh, 28px);
-        margin: 0 0 2vh 0;
+        margin: 2vh 0 2.5vh 0;
         text-align: center;
       }
       .inst-body p { margin: 0 0 1.4vh 0; }

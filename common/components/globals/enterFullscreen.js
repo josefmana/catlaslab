@@ -7,13 +7,15 @@
  * @param {string}   params.message                 - HTML message shown on the slide
  * @param {boolean}  [params.fullscreenMode=true]   - true = enter, false = exit
  * @param {string}   [params.buttonText="Next"]     - Continue button label
+ * @param {string}   [params.textAlign="left"]         - Text alignment
  * @param {function} [params.setFullscreenExpected] - Function for working with initExperiment
  * @param {function} [params.onStart]               - Optional extra on_start callback
  * @param {function} [params.onFinish]              - Optional extra on_finish callback
  */
 function enterFullscreen({
   message,
-  buttonText     = "Next",
+  buttonText = "Next",
+  textAlign  = "left",
   setFullscreenExpected,
   onStart,
   onFinish,
@@ -51,7 +53,7 @@ function enterFullscreen({
       padding: 0.75vh 2vw;
       font-size: clamp(14px, 1.8vh, 18px);
       cursor: pointer;
-      margin-top: 2vh;
+      margin-top: 0vh;
     }
     .jspsych-content button:hover { background-color: #d0d0d0; }
     
@@ -64,13 +66,13 @@ function enterFullscreen({
       background: #c1c1c1;
       font-family: Arial, sans-serif;
       box-sizing: border-box;
-      padding: 4vh 8vw;
+      padding: 3vh 8vw 1vh 8vw;
     }
     .fs-trial-body {
-      max-width: 680px; width: 100%;
+      max-width: 600px; width: 100%;
       font-size: clamp(14px, 2.2vh, 22px);
       line-height: 1.65;
-      text-align: left;
+      text-align: ${textAlign}
     }
     .fs-trial-body h2 {
       font-size: clamp(18px, 3.0vh, 28px);

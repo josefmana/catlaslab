@@ -58,6 +58,16 @@ function buildTimeline({
     buttonText:  texts.continueText,
     maxDuration: times.maxInstructionDuration,
     trialType:   "welcome",
+    textAlign:   "justify",
+  }));
+  
+  // ── Information slide ──────────────────────────────────────────────────────
+  timeline.push(makeInstructionTrial({
+    html:        texts.instructions.prelude,
+    buttonText:  texts.continueText,
+    maxDuration: times.maxInstructionDuration,
+    trialType:   "instructions",
+    textAlign:   "justify",
   }));
   
   // ── Preload images ─────────────────────────────────────────────────────────
@@ -70,6 +80,19 @@ function buildTimeline({
       ...Object.values(outcomeMap),
     ],
   });
+  
+  // ── Informed consent ───────────────────────────────────────────────────────
+  timeline.push(makeInstructionTrial({
+    html:        texts.instructions.consent,
+    buttonText:  texts.agreeText,
+    maxDuration: times.maxInstructionDuration,
+    trialType:   "consent",
+    textAlign:   "left",
+    terminateButton: {
+      label:   texts.disagreeText,
+      message: texts.instructions.declineConsent
+    },
+  }));
   
   // ── E-mail ─────────────────────────────────────────────────────────────────
   timeline.push(makeEmailTrial({
@@ -95,14 +118,25 @@ function buildTimeline({
       gifSrc:      images[`tutorial${i}`],
       buttonText:  texts.continueText,
       maxDuration: times.maxInstructionDuration,
+      columnSplit: "45/55",
     }))
   );
   
+  // ── Last instructions ──────────────────────────────────────────────────────
+  timeline.push(makeInstructionTrial({
+    html:        texts.instructions.prestart,
+    buttonText:  texts.continueText,
+    maxDuration: times.maxInstructionDuration,
+    textAlign:   "justify",
+    trialType:   "instructions",
+  }));
+  
   // ── Enter fullscreen ───────────────────────────────────────────────────────
   timeline.push(enterFullscreen({
-    message:               texts.instructions.start,
-    buttonText:            texts.startText,
-    setFullscreenExpected,
+    message:    texts.instructions.start,
+    buttonText: texts.startText,
+    textAlign:  "justify",
+    setFullscreenExpected
   }));
 
   // ── Stage 1: instructions + single-cue learning ────────────────────────────
