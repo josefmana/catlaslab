@@ -146,7 +146,7 @@ function makeInstructionTrial({
           margin: 0 0 2.5vh 0;
           text-align: ${textAlign};
         }
-        .inst-body ul { margin: 0 0 2.0vh 2.2em; padding: 0; !important},
+        .inst-body ul { margin: 0 0 2.0vh 2.2em; padding: 0; }
         .inst-body ol { margin: 0 0 1.4vh 1.4em; padding: 0; }
         .inst-body li { margin-bottom: 0.5vh; }
         .inst-body hr {

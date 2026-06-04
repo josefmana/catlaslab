@@ -92,7 +92,7 @@ function makeTestTrial({
           background: #c1c1c1;
           font-family: Arial, sans-serif;
         }
-        .lt-spacer-top { flex: 3; min-height: 0; }
+        .lt-spacer-top { flex: 1; min-height: 0; }
         .lt-spacer-mid { flex: 1; min-height: 0; }
 
         /* ── top ── */
@@ -106,7 +106,7 @@ function makeTestTrial({
         }
         .lt-top p {
           font-size: clamp(14px, 2.6vh, 26px);
-          margin: 0 0 1vh 0;
+          margin: 0 0 1.3vh 0;
           white-space: nowrap;
         }
         .lt-cue-row {
