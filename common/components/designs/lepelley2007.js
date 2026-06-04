@@ -1,13 +1,13 @@
 const design = {
   stage1: [
-    { cue: ["A"], outcome: ["o1", "o2"], correct: "o1", type: "pretrain" },
-    { cue: ["C"], outcome: ["o1", "o2"], correct: "o1", type: "pretrain" },
-    { cue: ["E"], outcome: ["o1", "o2"], correct: "o2", type: "pretrain" },
-    { cue: ["G"], outcome: ["o1", "o2"], correct: "o2", type: "pretrain" },
-    { cue: ["I"], outcome: ["o1", "o2"], correct: "o1", type: "pretrain" },
-    { cue: ["L"], outcome: ["o1", "o2"], correct: "o1", type: "pretrain" },
-    { cue: ["O"], outcome: ["o1", "o2"], correct: "o2", type: "pretrain" },
-    { cue: ["R"], outcome: ["o1", "o2"], correct: "o2", type: "pretrain" },
+    { cue: ["A"], outcome: ["o1", "o2"], correct: "o1", type: "blocking" },
+    { cue: ["C"], outcome: ["o1", "o2"], correct: "o1", type: "blocking" },
+    { cue: ["E"], outcome: ["o1", "o2"], correct: "o2", type: "blocking" },
+    { cue: ["G"], outcome: ["o1", "o2"], correct: "o2", type: "blocking" },
+    { cue: ["I"], outcome: ["o1", "o2"], correct: "o1", type: "control" },
+    { cue: ["L"], outcome: ["o1", "o2"], correct: "o1", type: "control" },
+    { cue: ["O"], outcome: ["o1", "o2"], correct: "o2", type: "control" },
+    { cue: ["R"], outcome: ["o1", "o2"], correct: "o2", type: "control" },
   ],
   stage2: [
     { cue: ["A", "B"], outcome: ["o1", "o2"], correct: "o1", type: "blocking" },
