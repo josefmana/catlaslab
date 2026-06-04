@@ -7,10 +7,10 @@ const times = {
 };
 
 const blocks = {
-  stage1: 10, // 10 × 8 = 80 learning trials
-  stage2:  8, //  8 × 8 = 64 learning trials
-  stage3:  6, //  6 × 8 = 48 learning trials
-  test:    2, //  2 × 8 = 16 test trials
+  stage1: 1, // 10 × 8 = 80 learning trials
+  stage2:  1, //  8 × 8 = 64 learning trials
+  stage3:  1, //  6 × 8 = 48 learning trials
+  test:    1, //  2 × 8 = 16 test trials
 };
 
 const texts = {
@@ -28,12 +28,14 @@ const texts = {
   disagreeText:      "Nesouhlasím<br/>(Odejít!)",
   farewellText:      "Ukončit experiment",
   emailError:        `Zadejte platnou e-mailovou adresu nebo napište „x".`,
+  priorKnowledge:    { yes: "Ano", no: "Ne" },
   
   // ── Instruction screens ────────────────────────────────────────────────────
   instructions: {
     welcome: `
       <h2>Vítejte ve studii diagnostického rozhodování</br>[catlas-01]</h2>
       <p>
+      <hr>
       V této studii budete odhadovat, jakým nežádoucím účinkem bude trpět
       fiktivní pacient po požití multivitamínu obsahujícího určité chemikálie.
       Vaším úkolem bude postupně se naučit, která chemikálie způsobuje který
@@ -42,6 +44,7 @@ const texts = {
     `,
     
     prelude: `
+      <hr>
       <p>
       Nyní proběhne načtení materiálů potřebných pro experiment. Tento proces
       může trvat několik sekund až minut v závislosti na rychlosti vašeho
@@ -59,6 +62,7 @@ const texts = {
     consent: `
       <div class="consent-form">
         <h2>Souhlas s účastí na výzkumu</h2>
+        <hr>
         <p>
           Potvrzuji, že:
           <ul>
@@ -116,11 +120,13 @@ const texts = {
     
     email: `
       <h2>Registrace</h2>
+      <hr>
       <p>Zadejte prosím svůj e-mail nebo napište „x" pro zcela anonymní účast:</p>
     `,
     
     demography: `
       <h2>Demografie</h2>
+      <hr>
       <p>K jakému pohlaví se hlásíte?</p>
       <p>
         <select style="height:24px; font-size: 18px"; text-align-last: center; name="sex">
@@ -140,6 +146,7 @@ const texts = {
     
     prestart:`
       <h2>Před zahájením</h2>
+      <hr>
       <p>
       Během experimentu:
       <ul>
@@ -152,6 +159,7 @@ const texts = {
     
     start: `
       <h2>Začínáme</h2>
+      <hr>
       <p>
       Nyní začne samotná experimentální část studie. Stisknutím tlačítka „Zahájit
       experiment“ se otevřou dveře vaší ordinace a přivítáte svého prvního
@@ -165,6 +173,7 @@ const texts = {
     // Stage 1 instructions also cover Stage 2 (no break between them).
     stage1: `
       <h2>Instrukce</h2>
+      <hr>
       <p>
       Vaším úkolem je odhadnout, kterým ze dvou nežádoucích účinků
       bude trpět váš pacient, <b>pan X</b>, po pozření multivitamínu
@@ -178,10 +187,11 @@ const texts = {
     
     stage3: `
       <h2>Instrukce</h2>
+      <hr>
       <p>Skvělá práce!</p>
       <p>
       Váš úkol se nyní mírně změní. Budete pracovat s novým pacientem,
-      <br>panem Y</b>, který trpí jinými nežádoucími účinky než pan X.
+      <b>panem Y</b>, který trpí jinými nežádoucími účinky než pan X.
       </p>
       <p>
       Stejně jako doteď budete na základě chemického složení multivitamínu
@@ -195,6 +205,7 @@ const texts = {
     
     test: `
       <h2>Instrukce</h2>
+      <hr>
       <p>Výborně!</p>
       <p>
       Čeká vás poslední část experimentu. Nyní otestujeme vaše <b>znalosti
@@ -209,14 +220,21 @@ const texts = {
       Místo toho budete hodnotit, nakolik jste si svou odpovědí jist/a.
       </p>
       <p>
-      Po každé odpovědi zvolíte hodnotu od <b>1 („Nejsem si vůbec jistý/á“)</b>
-      do <b>10 („Jsem si velmi jistý/á“)</b>, která vyjadřuje vaši míru jistoty.
+      K vyjádření míry jistoty ve svou volbu po každé odpovědi zvolíte hodnotu
+      od <b>1 („Nejsem si vůbec jistý/á“)</b> do <b>10 („Jsem si velmi jistý/á“)</b>.
       </p>
     `,
     
     farewell: `
       <h2>Děkujeme za účast ve studii diagnostického rozhodování [catlas-01]</h2>
-      <p>Experiment ukončíte stisknutím tlačítka.</p>
+      <hr>
+      <p>
+      Aby vám účast ve studii mohla být uznána v rámci LABELS, pořidte
+      screenshot této stránky, který bude sloužit jako potvrzení účasti.
+      </p>
+      <p>
+      Experiment ukončíte stisknutím tlačítka.
+      </p>
     `,
     
     fullscreen: `
@@ -228,6 +246,7 @@ const texts = {
   tutorials: {
     page1: `
       <h2>Návod</h2>
+      <hr>
       <p>
       V tomto experimentu budete hrát roli alergologa.
       </p>
@@ -243,6 +262,7 @@ const texts = {
     
     page2: `
       <h2>Návod</h2>
+      <hr>
       <p>
       <b>Svou odpověď zaznamenáte následovně:</b>
       <br /> &ensp; 1. Kliknete na vámi zvolenou odpověď.
@@ -268,6 +288,7 @@ const texts = {
     
     page3: `
       <h2>Návod</h2>
+      <hr>
       <p>
       V některých případech pacient zkonzumuje multivitamín obsahující jednu
       podezřelou chemikálii (jako na předchozí stránce), jindy může multivitamín
@@ -281,6 +302,7 @@ const texts = {
     
     page4: `
       <h2>Návod</h2>
+      <hr>
       <p>
       Na konci experimentu otestujeme vaše znalosti o chemikáliích, se kterými
       se v roli alergologa setkáte. V této části studie již neobdržíte zpětnou
@@ -304,6 +326,41 @@ const texts = {
       </p>
     `,
   },
+  
+  // ── Debrief texts ──────────────────────────────────────────────────────────
+  debrief: {
+    intro: `
+      <h2>Téměř hotovo</h2>
+      <hr>
+      <p>
+      Blahopřejeme, úspěšně jste dokončili celý experiment!
+      </p>
+      <p>
+      Děkujeme za účast ve studii. Před úplným ukončením výzkumu bychom vás rádi
+      požádali o zodpovězení jedné či dvou krátkých doplňujících otázek.
+      </p>
+      <p>
+      Zajímá nás zejména, zda jste se již někdy účastnil/a podobného experimentu
+      nebo zda jste tento typ úlohy znal/a z odborné literatury, výuky či jiného
+      zdroje.
+      </p>
+      <p>
+      Máte-li jakékoli komentáře, připomínky nebo domněnky týkající se cíle studie,
+      můžete je rovněž uvést. Vyplnění těchto položek je zcela dobrovolné.
+      </p>
+    `,
+    priorKnowledge:`
+      Účastnil/a jste se již dříve podobného experimentu nebo jste tento typ
+      úlohy znal/a z jiného zdroje?
+    `,
+    question: `
+      Doplňující komentáře, připomínky nebo dotazy:
+    `,
+    placeholder: `
+      Sem můžete napsat své postřehy ... (volitelné)
+    `,
+  },
+  
 };
 
 // Gif animations for tutorials

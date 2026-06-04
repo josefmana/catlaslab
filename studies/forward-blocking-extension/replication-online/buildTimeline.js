@@ -144,6 +144,8 @@ function buildTimeline({
     html:        texts.instructions.stage1,
     buttonText:  texts.continueText,
     maxDuration: times.maxInstructionDuration,
+    textAlign:   "justify",
+    trialType:   "instructions",
   }));
   timeline.push(...buildStageTrials(
     design.stage1,
@@ -169,6 +171,8 @@ function buildTimeline({
     html:        texts.instructions.stage3,
     buttonText:  texts.continueText,
     maxDuration: times.maxInstructionDuration,
+    textAlign:   "justify",
+    trialType:   "instructions",
   }));
   timeline.push(...buildStageTrials(
     design.stage3,
@@ -184,6 +188,8 @@ function buildTimeline({
     html:        texts.instructions.test,
     buttonText:  texts.continueText,
     maxDuration: times.maxInstructionDuration,
+    textAlign:   "justify",
+    trialType:   "instructions",
   }));
   timeline.push(...buildStageTrials(
     design.test,
@@ -193,6 +199,26 @@ function buildTimeline({
     makeTestTrial,
     opts
   ));
+  
+  // ── Debriefing  ────────────────────────────────────────────────────────────
+  timeline.push(makeInstructionTrial({
+    html:        texts.debrief.intro,
+    buttonText:  texts.continueText,
+    maxDuration: times.maxInstructionDuration,
+    textAlign:   "justify",
+    trialType:   "instructions",
+  }));
+  
+  timeline.push(makeDebriefTrial({
+    introHtml:              "<hr>",
+    priorKnowledgeQuestion: texts.debrief.priorKnowledge,
+    priorKnowledgeOptions:  texts.priorKnowledge,
+    detailQuestion:         texts.debrief.question,
+    detailPlaceholder:      texts.debrief.placeholder,
+    buttonText:             texts.continueText,
+    maxDuration:            times.maxInstructionDuration,
+  }));
+  
   
   // ── Exit fullscreen then farewell ──────────────────────────────────────────
   timeline.push({
@@ -207,6 +233,7 @@ function buildTimeline({
       }
     },
   });
+  
   timeline.push(makeInstructionTrial({
     html:        texts.instructions.farewell,
     buttonText:  texts.farewellText,
