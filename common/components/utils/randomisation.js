@@ -5,6 +5,7 @@ function assertSameLength(a, b) {
   }
 }
  
+ 
 // ── Fisher-Yates ─────────────────────────────────────────────────────────────
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -13,6 +14,7 @@ function shuffle(arr) {
   }
   return arr;
 }
+
 
 /**
  * randomisePairings
@@ -24,6 +26,7 @@ function randomisePairings(keys, values) {
   const shuffled = shuffle([...values]);
   return Object.fromEntries(keys.map((key, i) => [key, shuffled[i]]));
 }
+
 
 /**
  * randomisePairwise
@@ -45,6 +48,7 @@ function randomisePairwise(keys, values) {
   }
   return mapping;
 }
+
 
 /**
  * randomiseConstrainedPairings
@@ -108,6 +112,7 @@ function randomiseConstrainedPairings(outcomeLabels, elementGroups) {
   return mapping;
 }
 
+
 /**
  * buildFlipSchedule
  *
@@ -126,11 +131,24 @@ function randomiseConstrainedPairings(outcomeLabels, elementGroups) {
  * @returns {boolean[][]} [nTrials × rowLength] flip schedule
  */
 function buildFlipSchedule(nTrials, nBlocks) {
-  const rowLength = nBlocks + (nBlocks % 2); // round up to nearest even number
-  const nFlips    = rowLength / 2;
+  if (nBlocks % 2 !== 0) {
+    console.warn(
+      `buildFlipSchedule: nBlocks (${nBlocks}) is odd — ` +
+      `rounding down to ${nBlocks - 1}.`
+    );
+    nBlocks--;
+  }
+  
+  if (nBlocks < 2) {
+    throw new RangeError(
+      `buildFlipSchedule: nBlocks must be ≥ 2 after rounding (got ${nBlocks}).`
+    );
+  }
+  
+  const halfBlocks = nBlocks / 2;
  
   return Array.from({ length: nTrials }, () => {
-    const row = Array.from({ length: rowLength }, (_, i) => i < nFlips);
+    const row = Array.from({ length: nBlocks }, (_, i) => i < halfBlocks);
     shuffle(row); // Fisher-Yates from randomisation.js
     return row;
   });
