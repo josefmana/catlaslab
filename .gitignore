@@ -6,6 +6,7 @@
 *.jpg
 *.png
 *.gif
+*.mov
 
 # R / RStudio files
 .Rhistory

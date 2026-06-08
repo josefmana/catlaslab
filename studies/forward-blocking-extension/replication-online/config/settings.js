@@ -7,10 +7,10 @@ const times = {
 };
 
 const blocks = {
-  stage1: 1, // 10 × 8 = 80 learning trials
-  stage2:  1, //  8 × 8 = 64 learning trials
-  stage3:  1, //  6 × 8 = 48 learning trials
-  test:    1, //  2 × 8 = 16 test trials
+  stage1: 10, // 10 × 8 = 80 learning trials
+  stage2:  8, //  8 × 8 = 64 learning trials
+  stage3:  6, //  6 × 8 = 48 learning trials
+  test:    4, //  4 × 8 = 32 test trials
 };
 
 const texts = {
@@ -337,7 +337,7 @@ const texts = {
       </p>
       <p>
       Děkujeme za účast ve studii. Před úplným ukončením výzkumu bychom vás rádi
-      požádali o zodpovězení jedné či dvou krátkých doplňujících otázek.
+      požádali o zodpovězení dvou krátkých doplňujících otázek.
       </p>
       <p>
       Zajímá nás zejména, zda jste se již někdy účastnil/a podobného experimentu
