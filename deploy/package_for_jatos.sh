@@ -31,8 +31,16 @@
 #               ├── index.html
 #               ├── buildTimeline.js
 #               ├── config/
+#               │   ├── timing.js
+#               │   ├── blocks.js
+#               │   ├── images.js
 #               │   ├── settings.js
-#               │   └── stimuli.js
+#               │   ├── stimuli.js
+#               │   └── texts/
+#               │       ├── ui.js
+#               │       ├── instructions.js
+#               │       ├── tutorials.js
+#               │       └── debrief.js
 #               └── jspsych/
 #                   ├── jspsych.js
 #                   ├── jspsych.css
@@ -246,17 +254,35 @@ else
   info "No out-of-tree paths to rewrite"
 fi
 
+# ── Discover all JS files under config/ ──────────────────────────────────────
+header "Discovering config JS files"
+
+# Walk the entire config/ tree so that split subdirectories (e.g. config/texts/)
+# are included automatically — no manual list to maintain.
+JS_CONFIG_FILES=()
+if [[ -d "${EXPERIMENT_DIR}/config" ]]; then
+  while IFS= read -r abs_path; do
+    # Store paths relative to EXPERIMENT_DIR for consistent use below
+    JS_CONFIG_FILES+=("${abs_path#${EXPERIMENT_DIR}/}")
+  done < <(find "${EXPERIMENT_DIR}/config" -name "*.js" | sort)
+fi
+
+if [[ ${#JS_CONFIG_FILES[@]} -eq 0 ]]; then
+  warn "No JS files found under config/ — skipping config rewrite and image copy steps"
+else
+  info "Found ${#JS_CONFIG_FILES[@]} config JS file(s):"
+  for f in "${JS_CONFIG_FILES[@]}"; do echo "    $f"; done
+fi
+
 # ── Rewrite paths in config JS files ──────────────────────────────────────────
 header "Rewriting paths in config JS files"
 
-# settings.js and stimuli.js contain ../../../common/stimuli/... string literals
+# All config JS files may contain ../../../common/... string literals
 # (tutorial GIFs, cue images, outcome images). The browser resolves these
-# relative to index.html — identical rule to index.html: strip ../../../common/.
+# relative to index.html — identical rule: strip ../../../common/.
 # IMPORTANT: this runs unconditionally on every bundle copy that exists.
 # Do NOT gate it on finding image paths first — that caused both rewrites and
 # copies to be silently skipped when the image-extraction grep returned nothing.
-
-JS_CONFIG_FILES=("config/settings.js" "config/stimuli.js")
 
 for js_rel in "${JS_CONFIG_FILES[@]}"; do
   js_bundle="${BUNDLE_DIR}/${js_rel}"
@@ -348,7 +374,7 @@ for rp in "${REWRITTEN_PATHS[@]}"; do
 done
 
 # Validate image paths in the rewritten config JS files
-for js_rel in "config/settings.js" "config/stimuli.js"; do
+for js_rel in "${JS_CONFIG_FILES[@]}"; do
   js_bundle="${BUNDLE_DIR}/${js_rel}"
   [[ -f "$js_bundle" ]] || continue
 
