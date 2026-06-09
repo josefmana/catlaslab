@@ -37,7 +37,6 @@ const tutorials = {
     Dokud nestisknete tlačítko „OK", můžete svou volbu libovolně měnit (viz
     ukázka vpravo).
     </p>
-    <br/>
     <p>
     <b>Po potvrzení odpovědi obdržíte zpětnou vazbu:</b>
       <ul>
@@ -78,7 +77,6 @@ const tutorials = {
     <p>
     Místo toho budete hodnotit, jak moc si jste svou odpovědí jisti.
     </p>
-    <br/>
     <p>
     <b>Postup bude následující:</b>
     </p>

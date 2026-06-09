@@ -107,7 +107,7 @@ function makeTutorialTrial({
         /* ── Two-column grid ─────────────────────────────────────────────── */
         .tut-columns {
           width: 100%;
-          max-width: 1200px;
+          max-width: 2000px;
           display: grid;
           grid-template-columns: ${gridCols};
           gap: 4vw;
@@ -120,7 +120,6 @@ function makeTutorialTrial({
           font-size: clamp(14px, 2.2vh, 22px);
           line-height: 1.5;
           text-align: left;
-          padding: 0 3vw;
           box-sizing: border-box;
         }
         .tut-text h2 {

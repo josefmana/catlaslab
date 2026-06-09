@@ -215,7 +215,7 @@ function makeLearningTrial({
 
         /* ── Feedback label (swapped in after OK) ── */
         #lt-feedback-label {
-          font-size: clamp(16px, 4.2vh, 48px);
+          font-size: clamp(16px, 3.2vh, 36px);
           font-weight: normal;
           text-align: center;
           visibility: hidden;
