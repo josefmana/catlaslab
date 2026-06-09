@@ -15,18 +15,28 @@
     <script src="jspsych/plugin-html-keyboard-response.js"></script>
     <script src="jspsych/plugin-call-function.js"></script>
     
-    <!-- Experiment config and stimuli -->
-    <script src="config/settings.js"></script>
+    <!-- Experiment config: stimuli -->
     <script src="config/stimuli.js"></script>
-    <script src="../../../common/components/designs/lepelley2007.js"></script>
-    <script src="../../../common/components/globals/initExperiment.js"></script>
-    <script src="../../../common/components/globals/enterFullscreen.js"></script>
-    <script src="../../../common/components/trials/makeEmailTrial.js"></script>
+    
+    <!-- Experiment config: settings (load order matters) -->
+    <script src="config/timing.js"></script>
+    <script src="config/blocks.js"></script>
+    <script src="config/texts/ui.js"></script>
+    <script src="config/texts/instructions.js"></script>
+    <script src="config/texts/tutorials.js"></script>
+    <script src="config/texts/debrief.js"></script>
+    <script src="config/images.js"></script>
+    <script src="config/settings.js"></script>
     
     <!-- Generic utilities -->
     <script src="../../../common/components/utils/randomisation.js"></script>
     <script src="../../../common/components/utils/helpers.js"></script>
-    
+ 
+    <!-- Generic globals -->
+    <script src="../../../common/components/designs/lepelley2007.js"></script>
+    <script src="../../../common/components/globals/initExperiment.js"></script>
+    <script src="../../../common/components/globals/enterFullscreen.js"></script>
+
     <!-- Generic stage builders -->
     <script src="../../../common/components/stages/buildBlock.js"></script>
     <script src="../../../common/components/stages/buildStageBlocks.js"></script>
@@ -38,6 +48,7 @@
     <script src="../../../common/components/trials/makeTutorialTrial.js"></script>
     <script src="../../../common/components/trials/makeLearningTrial.js"></script>
     <script src="../../../common/components/trials/makeTestTrial.js"></script>
+    <script src="../../../common/components/trials/makeEmailTrial.js"></script>
     <script src="../../../common/components/trials/makeDebriefTrial.js"></script>
 
     <!-- Experiment-specific orchestrator -->
