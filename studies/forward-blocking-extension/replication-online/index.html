@@ -17,7 +17,7 @@
     
     <!-- Experiment config: stimuli -->
     <script src="config/stimuli.js"></script>
-    
+
     <!-- Experiment config: settings (load order matters) -->
     <script src="config/timing.js"></script>
     <script src="config/blocks.js"></script>
@@ -27,11 +27,11 @@
     <script src="config/texts/debrief.js"></script>
     <script src="config/images.js"></script>
     <script src="config/settings.js"></script>
-    
+
     <!-- Generic utilities -->
     <script src="../../../common/components/utils/randomisation.js"></script>
     <script src="../../../common/components/utils/helpers.js"></script>
- 
+
     <!-- Generic globals -->
     <script src="../../../common/components/designs/lepelley2007.js"></script>
     <script src="../../../common/components/globals/initExperiment.js"></script>
@@ -41,7 +41,7 @@
     <script src="../../../common/components/stages/buildBlock.js"></script>
     <script src="../../../common/components/stages/buildStageBlocks.js"></script>
     <script src="../../../common/components/stages/buildStageTrials.js"></script>
-    
+
     <!-- Generic trial factories -->
     <script src="../../../common/components/trials/renderCues.js"></script>
     <script src="../../../common/components/trials/makeInstructionTrial.js"></script>
@@ -58,17 +58,17 @@
   </head>
   <body></body>
   <script>
-    
+
     // ── JATOS detection ──────────────────────────────────────────────────────
     const runOnServer = (typeof jatos !== "undefined");
-    
+
     // ── Trial count ──────────────────────────────────────────────────────────
     const totalTrials =
       design.stage1.length * blocks.stage1 +
       design.stage2.length * blocks.stage2 +
       design.stage3.length * blocks.stage3 +
       design.test.length   * blocks.test;
-    
+
     // ── Start jsPsych ────────────────────────────────────────────────────────
     const { jsPsych, setFullscreenExpected, incrementProgress } = initExperiment({
       texts,

@@ -8,6 +8,6 @@
 #
 # ==============================================================================
 
-ffmpeg -i learning_single_cue.mov -vf "fps=10" learning_single_cue_gif
-ffmpeg -i learning_double_cue.mov -vf "fps=10" learning_double_cue_gif
-ffmpeg -i test_double_cue.mov     -vf "fps=10" test_double_cue_gif
+ffmpeg -i learning_single_cue.mov -vf "fps=10" learning_single_cue.gif
+ffmpeg -i learning_double_cue.mov -vf "fps=10" learning_double_cue.gif
+ffmpeg -i test_double_cue.mov     -vf "fps=10" test_double_cue.gif
