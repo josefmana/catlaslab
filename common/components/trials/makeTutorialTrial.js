@@ -120,6 +120,8 @@ function makeTutorialTrial({
           font-size: clamp(14px, 2.2vh, 22px);
           line-height: 1.5;
           text-align: left;
+          padding: 0 3vw;
+          box-sizing: border-box;
         }
         .tut-text h2 {
           font-size: clamp(18px, 3.0vh, 28px);
@@ -129,12 +131,12 @@ function makeTutorialTrial({
         .tut-text hr {
           border: none;
           border-top: 1px solid #aaa;
-          margin: 0 0 2vh 4vw;
+          margin: 0 0 2vh 0;
         }
-        .tut-text p  { margin: 0 0 2.5vh 4vw; text-align: justify; }
-        .tut-text ul,
-        .tut-text ol { margin: 0 0 1.4vh 1.4em; padding: 0; }
-        .tut-text li { margin-bottom: 0.6vh; }
+        .tut-text p { margin: 0 0 1.5vh 0; text-align: justify; }
+        .tut-text ul { margin: 0 0 2.0vh 2.2em; padding: 0; }
+        .tut-text ol { margin: 0 0 2.0vh 2.2em; padding: 0; }
+        .tut-text li { margin-bottom: 0.5vh; }
 
         /* ── Right: image ────────────────────────────────────────────────── */
         .tut-gif-panel {

@@ -105,7 +105,7 @@ function makeTestTrial({
           box-sizing: border-box;
         }
         .lt-top p {
-          font-size: clamp(14px, 2.6vh, 26px);
+          font-size: clamp(14px, 3vh, 32px);
           margin: 0 0 1.3vh 0;
           white-space: nowrap;
         }
@@ -122,12 +122,12 @@ function makeTestTrial({
           gap: 0.8vh;
         }
         .lt-cue-img {
-          width:  clamp(100px, 12vw, 200px);
-          height: clamp(100px, 12vw, 200px);
+          width:  clamp(100px, 20vw, 225px);
+          height: clamp(100px, 20vw, 225px);
           object-fit: contain;
         }
         .lt-and {
-          font-size: clamp(16px, 6.0vh, 40px);
+          font-size: clamp(16px, 10vh, 52px);
           font-weight: normal;
         }
 
@@ -144,12 +144,12 @@ function makeTestTrial({
           flex-shrink: 0;
         }
         .lt-middle p.lt-q {
-          font-size: clamp(14px, 2.8vh, 26px);
+          font-size: clamp(14px, 3.2vh, 32px);
           font-weight: bold;
           margin: 0 0 0.6vh 0;
         }
         .lt-middle p.lt-hint {
-          font-size: clamp(11px, 2.2vh, 18px);
+          font-size: clamp(11px, 2.4vh, 24px);
           margin: 0;
         }
 
@@ -160,7 +160,7 @@ function makeTestTrial({
           justify-content: center;
           gap: clamp(20px, 4vw, 80px);
           flex-shrink: 0;
-          padding-bottom: 6vh;
+          padding-bottom: 3.3vh;
         }
         .lt-option {
           display: flex;
@@ -184,8 +184,8 @@ function makeTestTrial({
         }
         .lt-option img {
           display: block;
-          width: clamp(80px, 20vw, 260px);
-          height: clamp(88px, 22vw, 284px);
+          width: clamp(80px, 24vw, 312px);
+          height: clamp(88px, 26.4vw, 340.8px);
           object-fit: contain;
           background: #fff;
         }
@@ -204,7 +204,7 @@ function makeTestTrial({
 
         /* ── OK button ── */
         #lt-ok-btn {
-          font-size: clamp(13px, 2.2vh, 20px);
+          font-size: clamp(13px, 2.5vh, 25px);
           padding: 1vh 2.5vw;
           border: 2px solid #555;
           background: #e8e8e8;
@@ -226,24 +226,28 @@ function makeTestTrial({
           display: flex;
         }
         .lt-conf-prompt {
-          font-size: clamp(14px, 2.8vh, 26px);
+          font-size: clamp(16px, 3vh, 30px);
           font-weight: bold;
           margin: 0;
           text-align: center;
         }
         .lt-conf-scale {
-          display: flex;
+          display: inline-flex;
           flex-direction: column;
-          align-items: center;
+          align-items: stretch;
           gap: 0.6vh;
           width: 100%;
         }
         .lt-conf-buttons {
           display: flex;
-          gap: clamp(4px, 0.7vw, 10px);
+          gap: clamp(4px, 0.9vw, 12px);
+        }
+        .lt-conf-scale-inner {
+          display: inline-flex;
+          flex-direction: column;
         }
         .lt-conf-btn {
-          width:  clamp(28px, 3.8vw, 52px);
+          width: clamp(28px, 3.8vw, 52px);
           height: clamp(28px, 3.8vw, 52px);
           font-size: clamp(12px, 2.0vh, 20px);
           border: 2px solid #555;
@@ -257,10 +261,14 @@ function makeTestTrial({
         .lt-conf-labels {
           display: flex;
           justify-content: space-between;
-          width: calc(10 * clamp(28px, 3.8vw, 52px) + 9 * clamp(4px, 0.7vw, 10px));
-          font-size: clamp(10px, 2.0vh, 15px);
+          width: 100%;
+          font-size: clamp(10px, 2.2vh, 22px);
           color: #444;
           padding-top: 0.2vh;
+        }
+        .lt-conf-labels span {
+          width: clamp(28px, 3.8vw, 52px);
+          text-align: center;
         }
       </style>
 
@@ -281,14 +289,16 @@ function makeTestTrial({
           <div id="lt-confidence-wrap">
             <p class="lt-conf-prompt">${testPromptText}</p>
             <div class="lt-conf-scale">
-              <div class="lt-conf-buttons">
-                ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+              <div class="lt-conf-scale-inner">
+                <div class="lt-conf-buttons">
+                  ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                   .map(n => `<button class="lt-conf-btn" data-rating="${n}">${n}</button>`)
                   .join("")}
-              </div>
-              <div class="lt-conf-labels">
-                <span>${confidenceText[0]}</span>
-                <span>${confidenceText[1]}</span>
+                </div>
+                <div class="lt-conf-labels">
+                  <span>${confidenceText[0]}</span>
+                  <span>${confidenceText[1]}</span>
+                </div>
               </div>
             </div>
           </div>

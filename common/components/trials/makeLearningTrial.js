@@ -99,7 +99,7 @@ function makeLearningTrial({
           box-sizing: border-box;
         }
         .lt-top p {
-          font-size: clamp(14px, 2.6vh, 26px);
+          font-size: clamp(14px, 3vh, 32px);
           margin: 0 0 1.3vh 0;
           white-space: nowrap;
         }
@@ -116,12 +116,12 @@ function makeLearningTrial({
           gap: 0.8vh;
         }
         .lt-cue-img {
-          width:  clamp(100px, 12vw, 200px);
-          height: clamp(100px, 12vw, 200px);
+          width:  clamp(100px, 20vw, 225px);
+          height: clamp(100px, 20vw, 225px);
           object-fit: contain;
         }
         .lt-and {
-          font-size: clamp(16px, 6.0vh, 40px);
+          font-size: clamp(16px, 10vh, 52px);
           font-weight: normal;
         }
 
@@ -131,12 +131,12 @@ function makeLearningTrial({
           flex-shrink: 0;
         }
         .lt-middle p.lt-q {
-          font-size: clamp(14px, 2.8vh, 26px);
+          font-size: clamp(14px, 3.2vh, 32px);
           font-weight: bold;
           margin: 0 0 0.6vh 0;
         }
         .lt-middle p.lt-hint {
-          font-size: clamp(11px, 2.2vh, 18px);
+          font-size: clamp(11px, 2.4vh, 24px);
           margin: 0;
         }
 
@@ -147,7 +147,7 @@ function makeLearningTrial({
           justify-content: center;
           gap: clamp(20px, 4vw, 80px);
           flex-shrink: 0;
-          padding-bottom: 6vh;
+          padding-bottom: 3.3vh;
         }
         .lt-option {
           display: flex;
@@ -182,8 +182,8 @@ function makeLearningTrial({
         }
         .lt-option img {
           display: block;
-          width: clamp(80px, 20vw, 260px);
-          height: clamp(88px, 22vw, 284px);
+          width: clamp(80px, 24vw, 312px);
+          height: clamp(88px, 26.4vw, 340.8px);
           object-fit: contain;
           background: #fff;
         }
@@ -202,7 +202,7 @@ function makeLearningTrial({
 
         /* ── OK button (response phase) ── */
         #lt-ok-btn {
-          font-size: clamp(13px, 2.2vh, 20px);
+          font-size: clamp(13px, 2.5vh, 25px);
           padding: 1vh 2.5vw;
           border: 2px solid #555;
           background: #e8e8e8;
@@ -215,15 +215,15 @@ function makeLearningTrial({
 
         /* ── Feedback label (swapped in after OK) ── */
         #lt-feedback-label {
-          font-size: clamp(16px, 2.6vh, 28px);
-          font-weight: bold;
+          font-size: clamp(16px, 4.2vh, 48px);
+          font-weight: normal;
           text-align: center;
           visibility: hidden;
           white-space: nowrap;
           max-width: 100%;
           pointer-events: none;
         }
-        #lt-feedback-label.correct { color: #1a7a1a; }
+        #lt-feedback-label.correct { color: #008000; }
         #lt-feedback-label.incorrect { color: #ff0000; }
       </style>
 
@@ -322,14 +322,17 @@ function makeLearningTrial({
 
         // 1. Disable further clicks on images
         options.forEach(opt => opt.style.pointerEvents = "none");
+        
+        // 2. Hide cursor for the entire feedback window
+        document.body.style.cursor = "none";
 
-        // 2. Swap OK button for feedback label (visibility keeps layout stable)
+        // 3. Swap OK button for feedback label (visibility keeps layout stable)
         okBtn.style.visibility = "hidden";
         fbLabel.textContent = isCorrect ? feedbackText[0] : feedbackText[1];
         fbLabel.className = isCorrect ? "correct" : "incorrect";
         fbLabel.style.visibility = "visible";
 
-        // 3. Apply border highlighting
+        // 4. Apply border highlighting
         options.forEach((opt) => {
           const wrap = opt.querySelector(".lt-option-img-wrap");
           wrap.classList.remove("selected");
@@ -340,7 +343,7 @@ function makeLearningTrial({
           }
         });
 
-        // 4. Save data and end trial after feedbackDuration
+        // 5. Save data and end trial after feedbackDuration
         jsPsych.pluginAPI.setTimeout(() => {
           finishOnce({
             timed_out:       false,
@@ -355,6 +358,7 @@ function makeLearningTrial({
             rt1,
             rt2:             null,
           });
+          document.body.style.cursor = "";
         }, feedbackDuration);
       });
     },
