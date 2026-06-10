@@ -14,10 +14,10 @@
  * The continue button is disabled until the participant selects Yes or No.
  *
  * Data written to jsPsych on finish:
- *   data.trial_type             {string}       – "debrief"
- *   data.prior_knowledge        {boolean|null} – true = yes, false = no, null = timed out
- *   data.prior_knowledge_detail {string}       – free-text content (may be empty string)
- *   data.stimulus               {null}         – nulled (HTML blob not stored)
+ *   data.trial_type      {string}       – "debrief"
+ *   data.prior_knowledge {boolean|null} – true = yes, false = no, null = timed out
+ *   data.comment         {string}       – free-text content (may be empty string)
+ *   data.stimulus        {null}         – nulled (HTML blob not stored)
  *
  * Usage
  * ─────
@@ -296,8 +296,8 @@ function makeDebriefTrial({
 
       data.trial_type      = "debrief";
       data.stimulus        = null;
-      data.prior_knowledge = _priorKnowledge;       // true | false | null
-      data.comment         = _Comment; // string (may be "")
+      data.prior_knowledge = _priorKnowledge; // true | false | null
+      data.comment         = _Comment;        // string (may be "")
     },
   };
 }
