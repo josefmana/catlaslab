@@ -58,7 +58,7 @@ function makeDebriefTrial({
   maxDuration = 120000,
 }) {
   let _priorKnowledge       = null; // true | false | null
-  let _priorKnowledgeDetail = "";
+  let _Comment = "";
 
   const detailLabelHTML = detailQuestion
     ? `<p class="db-detail-label">${detailQuestion}</p>`
@@ -268,7 +268,7 @@ function makeDebriefTrial({
 
     on_load: function () {
       _priorKnowledge       = null;
-      _priorKnowledgeDetail = "";
+      _Comment = "";
 
       const btn      = document.querySelector(".jspsych-btn");
       const radios   = document.querySelectorAll('input[name="db-prior-knowledge"]');
@@ -285,19 +285,19 @@ function makeDebriefTrial({
 
       if (textarea) {
         textarea.addEventListener("input", () => {
-          _priorKnowledgeDetail = textarea.value;
+          _Comment = textarea.value;
         });
       }
     },
 
     on_finish: function (data) {
       const textarea = document.getElementById("db-detail-textarea");
-      if (textarea) _priorKnowledgeDetail = textarea.value;
+      if (textarea) _Comment = textarea.value;
 
-      data.trial_type             = "debrief";
-      data.stimulus               = null;
-      data.prior_knowledge        = _priorKnowledge;       // true | false | null
-      data.prior_knowledge_detail = _priorKnowledgeDetail; // string (may be "")
+      data.trial_type      = "debrief";
+      data.stimulus        = null;
+      data.prior_knowledge = _priorKnowledge;       // true | false | null
+      data.comment         = _Comment; // string (may be "")
     },
   };
 }
