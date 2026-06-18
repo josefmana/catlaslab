@@ -19,6 +19,7 @@
  *
  * @param {object}   design                - Experimental design
  * @param {object}   settings              - { times, blocks, texts, images }
+ * @param {object}   features              - { includeEmail, includeDemography }
  * @param {object}   cueMap                - Randomised cue key → display label
  * @param {object}   outcomeMap            - Randomised outcome key → image path
  * @param {Function} setFullscreenExpected - Function for fullscreen control
@@ -31,6 +32,7 @@
 function buildTimeline({
   design,
   settings,
+  features,
   cueMap,
   outcomeMap,
   setFullscreenExpected,
@@ -95,21 +97,25 @@ function buildTimeline({
   }));
   
   // ── E-mail ─────────────────────────────────────────────────────────────────
-  timeline.push(makeEmailTrial({
-    headerHtml:  texts.instructions.email,
-    buttonText:  texts.continueText,
-    errorText:   texts.emailError,
-    maxDuration: times.maxInstructionDuration,
-  }));
+  if (features.includeEmail) {
+    timeline.push(makeEmailTrial({
+      headerHtml:  texts.instructions.email,
+      buttonText:  texts.continueText,
+      errorText:   texts.emailError,
+      maxDuration: times.maxInstructionDuration,
+    }));
+  }
   
   // ── Demography ─────────────────────────────────────────────────────────────
-  timeline.push(makeInstructionTrial({
-    html:        texts.instructions.demography,
-    buttonText:  texts.continueText,
-    maxDuration: times.maxInstructionDuration,
-    textAlign:   "center",
-    trialType:   "demography",
-  }));
+  if (features.includeDemography) {
+    timeline.push(makeInstructionTrial({
+      html:        texts.instructions.demography,
+      buttonText:  texts.continueText,
+      maxDuration: times.maxInstructionDuration,
+      textAlign:   "center",
+      trialType:   "demography",
+    }));
+  }
   
   // ── Tutorial ───────────────────────────────────────────────────────────────
   timeline.push(
