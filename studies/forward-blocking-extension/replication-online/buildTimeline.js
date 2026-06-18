@@ -83,17 +83,26 @@ function buildTimeline({
     ],
   });
   
+  // ── Information about the study ────────────────────────────────────────────
+  timeline.push(
+    ...[1, 2].map(i => makeInstructionTrial({
+      html:        texts.instructions[`info${i}`],
+      buttonText:  texts.continueText,
+      maxDuration: times.maxInstructionDuration,
+      trialType:   "info",
+      textAlign:   "justify",
+      terminateButton: null,
+    }))
+  );
+  
   // ── Informed consent ───────────────────────────────────────────────────────
   timeline.push(makeInstructionTrial({
     html:        texts.instructions.consent,
     buttonText:  texts.agreeText,
     maxDuration: times.maxInstructionDuration,
     trialType:   "consent",
-    textAlign:   "left",
-    terminateButton: {
-      label:   texts.disagreeText,
-      message: texts.instructions.declineConsent
-    },
+    textAlign:   "justify",
+    terminateButton: null,
   }));
   
   // ── E-mail ─────────────────────────────────────────────────────────────────

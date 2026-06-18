@@ -30,7 +30,7 @@ function makeInstructionTrial({
   maxDuration = 120000,
   textAlign = "left",
   trialType = "instructions",
-  terminateButton  = null,
+  terminateButton = null,
 }) {
   const choices = terminateButton
     ? [terminateButton.label, buttonText]
@@ -142,6 +142,10 @@ function makeInstructionTrial({
           margin: 2vh 0 2.5vh 0;
           text-align: center;
         }
+        .inst-body h3 {
+          margin-top: 1em;
+          margin-bottom: 0.2em;
+        }
         .inst-body p {
           margin: 0 0 2.5vh 0;
           text-align: ${textAlign};
@@ -153,25 +157,6 @@ function makeInstructionTrial({
           border: none;
           border-top: 1px solid #aaa;
           margin: 2vh 0;
-        }
-        .consent-form {
-          width: 100%;
-        }
-        .inst-body.consent-body {
-          max-width: 850px;
-          margin: 0 0 1vh 0;
-        }
-        .consent-form ul {
-          margin: 0 0 4vh 2.2em !important;
-          padding: 0 !important;
-        }
-        .consent-form li {
-          margin-bottom: 1.0vh;
-          line-height: 1.5;
-          font-size: 0.95em;
-        }
-        .consent-form p {
-          margin: 0 0 1vh 0;
         }
       </style>
       

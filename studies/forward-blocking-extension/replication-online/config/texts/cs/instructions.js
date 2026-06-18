@@ -5,7 +5,7 @@
 const instructions = {
 
   welcome: `
-    <h2>Vítejte ve studii diagnostického rozhodování</br>[catlas-01]</h2>
+    <h2>Vítejte ve studii diagnostického rozhodování [catlas\u200D-01]</h2>
     <hr>
     
     <p>
@@ -25,78 +25,113 @@ const instructions = {
     </p>
     
     <p>
-      Po načtení materiálů vás požádáme o přečtení si <i>Souhlasu s účastí na
-      výzkumu</i>. Nebudete-li souhlasit, experiment se ukončí. Pokud
-      souhlasit budete, požádáme vás následně o uvedení základních informací o
-      sobě a poté si na několika stránkách podrobně vysvětlíme, jak bude
-      experiment probíhat.
+      Po načtení materiálů vás požádáme o přečtení si <i>Informací o výzkumu</i>
+      a <i>Souhlasu s účastí na výzkumu</i>. Následně vás požádáme o uvedení
+      základních informací o sobě a poté si na několika stránkách podrobně
+      vysvětlíme, jak bude experiment probíhat.
     </p>
   `,
+  
+  info1: `
+    <h2>Informace o výzkumu</h2>
+    <hr>
+  
+    <h3>Účel výzkumu</h3>
+  
+    <p>
+      Tato studie si klade za cíl přispět k pochopení toho, jak se lidé
+      rozhodují mezi alternativami na základě poskytnutých informací a jak
+      se učí tyto informace při svém rozhodování využívat.
+    </p>
+  
+    <h3>Jaká data budou sbírána</h3>
+  
+    <p>
+      Během experimentu budete rozhodovat, kterým nežádoucím účinkem bude
+      trpět fiktivní pacient po pozření multivitamínu obsahujícího určité
+      chemikálie. Budeme zaznamenávat vaše rozhodnutí, reakční časy a
+      základní demografické údaje (věk a gender).
+    </p>
+  
+    <h3>Jak budou data využita</h3>
+  
+    <p>
+      Data budou použita výhradně pro účely akademického výzkumu a
+      publikování vědeckých výsledků. Anonymizovaná experimentální data (tj.
+      jednotlivá rozhodnutí a reakční časy bez údajů umožňujících identifikaci
+      účastníků) mohou být po ukončení projektu zveřejněna v online datových
+      repozitářích a zpřístupněna dalším výzkumníkům pro ověření výsledků a
+      dalšímu vědeckému využití.
+    </p>
+  
+  `,
+  
+  info2: `
+  <h2>Informace o výzkumu</h2>
+    <hr>
+    
+    <h3>Ochrana soukromí a anonymita</h3>
+  
+    <p>
+      Výsledky budou zpracovávány a zveřejňovány pouze v souhrnné nebo
+      anonymizované podobě. Veřejně sdílené datové soubory nebudou obsahovat
+      jméno, kontaktní údaje ani jiné informace umožňující identifikaci
+      konkrétní osoby.
+    </p>
+    
+    <h3>Uchovávání dat</h3>
 
+    <p>
+      Výzkumná data budou bezpečně uchovávána na zabezpečených serverech
+      Psychologického ústavu Akademie věd ČR po dobu nezbytnou pro splnění
+      účelu výzkumu a archivaci vědeckých výsledků, nejméně však po dobu
+      10 let od ukončení projektu.
+    </p>
+  
+    <h3>Odvolání souhlasu</h3>
+  
+    <p>
+      Účast ve výzkumu je dobrovolná. Svůj souhlas můžete kdykoli odvolat
+      a ukončit účast bez jakýchkoli následků. Pokud budou vaše data stále
+      identifikovatelná prostřednictvím interního identifikátoru, můžete
+      požádat o jejich odstranění.
+    </p>
+  
+    <h3>Právní základ zpracování údajů</h3>
+  
+    <p>
+      Osobní údaje jsou zpracovávány na základě vašeho souhlasu podle
+      Nařízení Evropského parlamentu a Rady (EU) 2016/679 (GDPR) a zákona
+      č. 110/2019 Sb., o zpracování osobních údajů.
+    </p>
+    `,
+  
   consent: `
-    <div class="consent-form">
-      <h2>Souhlas s účastí na výzkumu</h2>
-      <hr>
-      
-      <p>
-        Potvrzuji, že:
-        <ul>
-          <li>
-            Seznámil/a jsem se s informacemi o cílech a průběhu výše
-            popsaného výzkumu;
-          </li>
-          <li>
-            Dobrovolně souhlasím s účastí na tomto výzkumu;
-          </li>
-          <li>
-            Beru na vědomí, že se mohu kdykoli rozhodnout od výzkumu
-            odstoupit;
-          </li>
-          <li>
-            Jsem si vědom(a) toho, že jakékoli použití a zveřejnění údajů a
-            výsledků výzkumu mi nezakládá nárok na odměnu nebo náhradu, což
-            znamená, že poskytuji veškerá práva na bezplatné použití a
-            zveřejnění údajů a výsledků výzkumu.
-          </li>
-        </ul>
-      </p>
-      
-      <p>
-        Rovněž prohlašuji, že:
-        <ul>
-          <li>
-            Souhlasím se zveřejněním anonymizovaných údajů a výsledků
-            výzkumu a s jejich dalším využitím;
-          </li>
-          <li>
-            Souhlasím se zpracováním a uchováním osobních a citlivých údajů
-            uvedených v tomto formuláři informovaného souhlasu Psychologickým
-            ústavem Akademie věd ČR, IČ: 68081740, se sídlem Pod Vodárenskou
-            věží 1143/4, 182 00 Praha 8, pro účely zpracování dat z výzkumu,
-            případného kontaktu související se zpracováním dat, nabídek účasti
-            na obdobných akcích a pro účely evidence a archivace. Jsem
-            srozuměn/a s tím, že tyto osobní údaje mohou být poskytnuty
-            subjektům oprávněným k dohledu nad projektem, v jehož rámci je
-            výzkum prováděn;
-          </li>
-          <li>Jsem informován/a o svých právech týkajících se přístupu k
-          informacím a jejich ochrany podle § 46 a 49 zákona č. 110/2019 Sb.,
-          o ochraně osobních údajů a o změně některých zákonů, ve znění
-          pozdějších předpisů. To znamená, že mohu požádat Psychologický ústav
-          Akademie věd ČR o informace o zpracování svých osobních a citlivých
-          údajů a mám právo je obdržet. Mohu také požádat Psychologický ústav
-          Akademie věd ČR o opravu nepřesných osobních údajů, jejich doplnění,
-          blokování nebo likvidaci.</li>
-        </ul>
-      </p>
-      
-      <p>
-        Výše uvedená oprávnění a souhlasy uděluji dobrovolně na dobu neurčitou
-        do jejich odvolání a zavazuji se, že je bez závažného důvodu založeného
-        na podstatné změně okolností neodvolám.
-      </p>
-      
-    </div>
+    <h2>Souhlas s účastí na výzkumu</h2>
+    <hr>
+  
+    <p style="margin-bottom: 0.25em;">Potvrzuji, že:</p>
+  
+    <ul>
+      <li>jsem si přečetl/a informace o výzkumu a porozuměl/a jim;</li>
+      <li>měl/a jsem možnost se rozhodnout, zda se výzkumu zúčastním;</li>
+      <li>souhlasím s dobrovolnou účastí ve výzkumu;</li>
+      <li>jsem si vědom/a, že mohu kdykoli bez udání důvodu svou účast ukončit;</li>
+      <li>rozumím tomu, jaká data budou sbírána a jak budou využita;</li>
+      <li>souhlasím se zpracováním svých údajů pro účely tohoto výzkumu.</li>
+    </ul>
+  
+    <p>
+      Dále souhlasím s tím, že anonymizovaná data získaná v této studii
+      mohou být zveřejněna v online vědeckých repozitářích a použita dalšími
+      výzkumníky pro výzkumné účely.
+    </p>
+  
+    <p>
+      Beru na vědomí, že výsledky výzkumu mohou být publikovány ve vědeckých
+      článcích, zprávách nebo prezentacích pouze v anonymizované nebo
+      souhrnné podobě.
+    </p>
   `,
 
   declineConsent: `
