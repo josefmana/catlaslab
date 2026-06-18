@@ -10,19 +10,21 @@
  *
  * @param {object}  opts
  * @param {object}  opts.texts
- * @param {string}  opts.texts.progressText               – Progress bar label
- * @param {string}  [opts.texts.continueText]             – Button label on the fullscreen
+ * @param {string}  opts.texts.progressText              – Progress bar label
+ * @param {string}  [opts.texts.continueText]            – Button label on the fullscreen
  *                                                          overlay (required if enforceFullscreen)
- * @param {string}  [opts.texts.instructions.fullscreen]  – HTML string for the image shown
- *                                                          on the overlay (optional)
- * @param {boolean} [opts.runOnServer=false]              – Stream data to JATOS?
- * @param {boolean} [opts.enforceFullscreen=false]        – Re-enter fullscreen on exit?
- * @param {boolean} [opts.showProgressBar=true]           – Show the progress bar?
- * @param {number}  [opts.totalTrials=0]                  – Total number of learning + test
- *                                                          trials; used to compute the
- *                                                          denominator for incrementProgress.
- *                                                          Pass 0 (or omit) to suppress
- *                                                          progress updates.
+ * @param {string}  [opts.texts.instructions.fullscreen] – HTML string for the image shown
+ *                                                         on the overlay (optional)
+ * @param {boolean} [opts.runOnServer=false]             – Stream data to JATOS? Also
+ *                                                         triggers Prolific participant-ID
+ *                                                         capture via jatos.onLoad().
+ * @param {boolean} [opts.enforceFullscreen=false]       – Re-enter fullscreen on exit?
+ * @param {boolean} [opts.showProgressBar=true]          – Show the progress bar?
+ * @param {number}  [opts.totalTrials=0]                 – Total number of learning + test
+ *                                                         trials; used to compute the
+ *                                                         denominator for incrementProgress.
+ *                                                         Pass 0 (or omit) to suppress
+ *                                                         progress updates.
  * 
  * @returns {object} Configured jsPsych instance plus control setters:
  *   - jsPsych                     — the jsPsych instance
@@ -193,6 +195,17 @@ function initExperiment({
   }
 
   const jsPsych = initJsPsych(config);
+  
+  // ── Prolific participant IDs (JATOS path only) ─────────────────────────────
+  if (runOnServer) {
+    jatos.onLoad(() => {
+      jsPsych.data.addProperties({
+        subject_id: jatos.urlQueryParameters.PROLIFIC_PID ?? null,
+        study_id:   jatos.urlQueryParameters.STUDY_ID     ?? null,
+        session_id: jatos.urlQueryParameters.SESSION_ID   ?? null,
+      });
+    });
+  }
   
   return {
     jsPsych,
