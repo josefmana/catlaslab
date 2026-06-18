@@ -2,7 +2,7 @@
 const times = {
   maxInstructionDuration:   120000,
   maxLearningTrialDuration:  60000,
-  maxTestTrialDuration:       null,
+  maxTestTrialDuration:      60000,
   feedbackDuration:           1500,
   interTrialInterval:          500,
 };

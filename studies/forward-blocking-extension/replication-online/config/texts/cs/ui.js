@@ -1,4 +1,4 @@
-// ── Trial-level UI labels ─────────────────────────────────────────────────────
+// ── Trial-level UI labels ────────────────────────────────────────────────────
 //
 // Short strings rendered directly in trial HTML; no multi-line prose here.
 const uiTexts = {

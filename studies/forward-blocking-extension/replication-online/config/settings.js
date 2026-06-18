@@ -1,18 +1,20 @@
-// ── settings.js ───────────────────────────────────────────────────────────────
+// ── settings.js ──────────────────────────────────────────────────────────────
 //
 // Assembles the per-concern config files into the single `settings` object
 // that buildTimeline expects.
 //
 // Edit the individual files, not this one!
 //
-// Load order in index.html must be:
-//   timing.js →
-//    blocks.js →
-//    texts/ui.js →
-//    texts/instructions.js →
-//    texts/tutorials.js →
-//    texts/debrief.js →
-//    images.js →
+// Load order in index.html ought to be:
+//   { timing.js, blocks.js } →
+//    { 
+//      texts/LANG/ui.js,
+//      texts/LANG/instructions.js,
+//      texts/LANG/tutorials.js,
+//      texts/LANG/debrief.js,
+//      images.js,
+//      stimuli.js
+//.   } →
 //    settings.js
 
 const texts = {

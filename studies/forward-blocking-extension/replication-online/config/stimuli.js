@@ -1,3 +1,9 @@
+// ── Stimuli labels and path to files ─────────────────────────────────────────
+//
+// Paths are relative to the experiment root (same base as index.html).
+//
+// Script `lang.js` containing the LANG variable must be loaded before!
+
 // ── Cues: abstract variables and stimuli images ──────────────────────────────
 const cues = [
   "A", "C", "E", "G",                           // Pretrained blocking cues
@@ -9,34 +15,34 @@ const cues = [
 ];
 
 const chemicals = [
-  "../../../common/stimuli/img/cues/Ulginate.png",
-  "../../../common/stimuli/img/cues/Renphane.png",
-  "../../../common/stimuli/img/cues/Nelomine.png",
-  "../../../common/stimuli/img/cues/Kluphane.png",
-  "../../../common/stimuli/img/cues/Bizancrine.png",
-  "../../../common/stimuli/img/cues/Alzaze.png",
-  "../../../common/stimuli/img/cues/Quezalin.png",
-  "../../../common/stimuli/img/cues/Xentine.png",
-  "../../../common/stimuli/img/cues/Frestix.png",
-  "../../../common/stimuli/img/cues/Trizopane.png",
-  "../../../common/stimuli/img/cues/Lobinz.png",
-  "../../../common/stimuli/img/cues/Zapotyne.png",
-  "../../../common/stimuli/img/cues/Fazakane.png",
-  "../../../common/stimuli/img/cues/Jintsone.png",
-  "../../../common/stimuli/img/cues/Eframide.png",
-  "../../../common/stimuli/img/cues/Sistax.png",
-  "../../../common/stimuli/img/cues/Kikaran.png",
-  "../../../common/stimuli/img/cues/Ontone.png",
-  "../../../common/stimuli/img/cues/Pukintz.png",
-  "../../../common/stimuli/img/cues/Gratix.png",
-  "../../../common/stimuli/img/cues/Ventox.png",
-  "../../../common/stimuli/img/cues/Cucose.png",
-  "../../../common/stimuli/img/cues/Yestimox.png",
-  "../../../common/stimuli/img/cues/Halorite.png",
-  "../../../common/stimuli/img/cues/Prental.png",
-  "../../../common/stimuli/img/cues/Goladine.png",
-  "../../../common/stimuli/img/cues/Ilomine.png",
-  "../../../common/stimuli/img/cues/Daktyre.png"
+  `../../../common/stimuli/img/cues/${LANG}/Ulginate.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Renphane.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Nelomine.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Kluphane.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Bizancrine.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Alzaze.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Quezalin.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Xentine.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Frestix.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Trizopane.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Lobinz.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Zapotyne.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Fazakane.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Jintsone.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Eframide.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Sistax.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Kikaran.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Ontone.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Pukintz.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Gratix.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Ventox.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Cucose.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Yestimox.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Halorite.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Prental.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Goladine.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Ilomine.png`,
+  `../../../common/stimuli/img/cues/${LANG}/Daktyre.png`,
 ]
 
 // ── Outcomes: abstract variables and stimuli images ──────────────────────────
@@ -49,15 +55,15 @@ const outcomes = [
 
 const sideEffects = [
   x = [
-    "../../../common/stimuli/img/outcomes/x_dizziness.png",
-    "../../../common/stimuli/img/outcomes/x_itchiness.png",
-    "../../../common/stimuli/img/outcomes/x_headache.png",
-    "../../../common/stimuli/img/outcomes/x_nausea.png",
+    `../../../common/stimuli/img/outcomes/${LANG}/x_dizziness.png`,
+    `../../../common/stimuli/img/outcomes/${LANG}/x_itchiness.png`,
+    `../../../common/stimuli/img/outcomes/${LANG}/x_headache.png`,
+    `../../../common/stimuli/img/outcomes/${LANG}/x_nausea.png`,
   ],
-  y = [
-    "../../../common/stimuli/img/outcomes/y_dizziness.png",
-    "../../../common/stimuli/img/outcomes/y_itchiness.png",
-    "../../../common/stimuli/img/outcomes/y_headache.png",
-    "../../../common/stimuli/img/outcomes/y_nausea.png",
+  [
+    `../../../common/stimuli/img/outcomes/${LANG}/y_dizziness.png`,
+    `../../../common/stimuli/img/outcomes/${LANG}/y_itchiness.png`,
+    `../../../common/stimuli/img/outcomes/${LANG}/y_headache.png`,
+    `../../../common/stimuli/img/outcomes/${LANG}/y_nausea.png`,
   ],
 ]

@@ -15,17 +15,25 @@
     <script src="jspsych/plugin-html-keyboard-response.js"></script>
     <script src="jspsych/plugin-call-function.js"></script>
     
-    <!-- Experiment config: stimuli -->
-    <script src="config/stimuli.js"></script>
-
-    <!-- Experiment config: settings (load order matters) -->
+    <!-- Experiment configuration: independent settings -->
     <script src="config/timing.js"></script>
     <script src="config/blocks.js"></script>
-    <script src="config/texts/ui.js"></script>
-    <script src="config/texts/instructions.js"></script>
-    <script src="config/texts/tutorials.js"></script>
-    <script src="config/texts/debrief.js"></script>
+    
+    <!-- Experiment configuration: language -->
+    <script src="config/lang.js"></script>
+    
+    <!-- Experiment configuration: language-dependent files -->
+    <script>
+      ["ui", "instructions", "tutorials", "debrief"].forEach(f => {
+        document.write(`<script src="config/texts/${LANG}/${f}.js"><\/script>`);
+      });
+    </script>
+    
+    <!-- Experiment configuration: language-dependent scripts -->
     <script src="config/images.js"></script>
+    <script src="config/stimuli.js"></script>
+    
+    <!-- Experiment configuration: setting bundle -->
     <script src="config/settings.js"></script>
 
     <!-- Generic utilities -->

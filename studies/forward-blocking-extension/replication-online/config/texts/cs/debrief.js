@@ -5,22 +5,27 @@ const debrief = {
 
   intro: `
     <h2>Téměř hotovo</h2>
+    
     <hr>
+    
     <p>
-    Blahopřejeme, úspěšně jste dokončili celý experiment!
+      Blahopřejeme, úspěšně jste dokončili celý experiment!
     </p>
+    
     <p>
-    Děkujeme za účast ve studii. Před úplným ukončením výzkumu bychom vás rádi
-    požádali o zodpovězení dvou krátkých doplňujících otázek.
+      Děkujeme za účast ve studii. Před úplným ukončením výzkumu bychom vás rádi
+      požádali o zodpovězení dvou krátkých doplňujících otázek.
     </p>
+    
     <p>
-    Zajímá nás zejména, zda jste se již někdy účastnil/a podobného experimentu
-    nebo zda jste tento typ úlohy znal/a z odborné literatury, výuky či jiného
-    zdroje.
+      Zajímá nás zejména, zda jste se již někdy účastnil/a podobného experimentu
+      nebo zda jste tento typ úlohy znal/a z odborné literatury, výuky či jiného
+      zdroje.
     </p>
+    
     <p>
-    Máte-li jakékoli komentáře, připomínky nebo domněnky týkající se cíle studie,
-    můžete je rovněž uvést. Vyplnění těchto položek je zcela dobrovolné.
+      Máte-li jakékoli komentáře, připomínky nebo domněnky týkající se cíle studie,
+      můžete je rovněž uvést. Vyplnění těchto položek je zcela dobrovolné.
     </p>
   `,
 
