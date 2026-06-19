@@ -15,18 +15,6 @@ const debrief = {
       Thank you for taking part in this study. Before we fully conclude the
       research, we would like to ask you to answer two brief follow-up questions.
     </p>
-    
-    <p>
-      We are particularly interested in whether you have previously participated
-      in a similar experiment or were familiar with this type of task from the
-      scientific literature, coursework, or another source.
-    </p>
-    
-    <p>
-      If you have any comments, feedback, questions or thoughts about the
-      purpose of the study, you may also share them. Answering these questions
-      is entirely voluntary.
-    </p>
   `,
 
   priorKnowledge: `

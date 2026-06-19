@@ -258,7 +258,7 @@ const instructions = {
   `,
 
   test: `
-    <h2>Instrukce</h2>
+    <h2>Instructions</h2>
     <hr>
     
     <p>

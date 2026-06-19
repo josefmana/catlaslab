@@ -16,17 +16,6 @@ const debrief = {
       Děkujeme za účast ve studii. Před úplným ukončením výzkumu bychom vás rádi
       požádali o zodpovězení dvou krátkých doplňujících otázek.
     </p>
-    
-    <p>
-      Zajímá nás zejména, zda jste se již někdy účastnil/a podobného experimentu
-      nebo zda jste tento typ úlohy znal/a z odborné literatury, výuky či jiného
-      zdroje.
-    </p>
-    
-    <p>
-      Máte-li jakékoli komentáře, připomínky nebo domněnky týkající se cíle studie,
-      můžete je rovněž uvést. Vyplnění těchto položek je zcela dobrovolné.
-    </p>
   `,
 
   priorKnowledge: `

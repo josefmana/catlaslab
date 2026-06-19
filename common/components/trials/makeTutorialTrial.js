@@ -107,7 +107,7 @@ function makeTutorialTrial({
         /* ── Two-column grid ─────────────────────────────────────────────── */
         .tut-columns {
           width: 100%;
-          max-width: 2000px;
+          max-width: 1188px;
           display: grid;
           grid-template-columns: ${gridCols};
           gap: 4vw;
