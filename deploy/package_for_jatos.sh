@@ -106,6 +106,18 @@ fi
 # Sanitise study name for filesystem use
 STUDY_NAME_SAFE="${STUDY_NAME// /_}"
 
+# ── Experiment language ───────────────────────────────────────────────────────
+# index.html and the config JS build some paths at runtime with ${LANG}
+# (config/texts/${LANG}/..., stimuli/img/.../${LANG}/...). Bundle only the
+# language set in config/lang.js; override with STUDY_LANG=cs or STUDY_LANG=en.
+LANG_FILE="${EXPERIMENT_DIR}/config/lang.js"
+if [[ -z "${STUDY_LANG:-}" ]]; then
+  STUDY_LANG="$(grep -oE 'const LANG *= *"[A-Za-z_-]+"' "$LANG_FILE" 2>/dev/null \
+    | sed -E 's/.*"([^"]+)"/\1/' || true)"
+fi
+[[ -n "${STUDY_LANG:-}" ]] || die "Cannot read LANG from ${LANG_FILE}; set STUDY_LANG"
+info "Language: ${STUDY_LANG}"
+
 # ── Resolve repo root (3 levels above experiment dir) ─────────────────────────
 # index.html sits at: <repo>/<L1>/<L2>/<L3>/index.html
 # common/ sits at:    <repo>/common/
@@ -184,6 +196,8 @@ for raw in "${RAW_PATHS[@]}"; do
     warn "Unexpected relative escape (manual review needed): $raw"
   elif is_jatos_runtime "$raw"; then
     info "JATOS runtime (skipped): $raw"
+  elif [[ "$raw" == *'${'* ]]; then
+    info "Runtime template (copied below for ${STUDY_LANG}): $raw"
   else
     LOCAL_PATHS+=("$raw")
     info "Local:       $raw"
@@ -213,6 +227,17 @@ for rel in "${LOCAL_PATHS[@]}"; do
     warn "NOT FOUND (local): ${rel}"
   fi
 done
+
+# Language-dependent texts are loaded at runtime from config/texts/${LANG}/
+TEXTS_DIR="config/texts/${STUDY_LANG}"
+if [[ -d "${EXPERIMENT_DIR}/${TEXTS_DIR}" ]]; then
+  mkdir -p "${BUNDLE_DIR}/${TEXTS_DIR}"
+  cp "${EXPERIMENT_DIR}/${TEXTS_DIR}"/*.js "${BUNDLE_DIR}/${TEXTS_DIR}/"
+  success "Copied dir: ${TEXTS_DIR}"
+else
+  MISSING_LOCAL+=("${TEXTS_DIR}/")
+  warn "NOT FOUND (local): ${TEXTS_DIR}/"
+fi
 
 # ── Copy OUT-OF-TREE (common/) assets ─────────────────────────────────────────
 header "Copying out-of-tree common/ assets"
@@ -263,7 +288,13 @@ JS_CONFIG_FILES=()
 if [[ -d "${EXPERIMENT_DIR}/config" ]]; then
   while IFS= read -r abs_path; do
     # Store paths relative to EXPERIMENT_DIR for consistent use below
-    JS_CONFIG_FILES+=("${abs_path#${EXPERIMENT_DIR}/}")
+    rel_cfg="${abs_path#${EXPERIMENT_DIR}/}"
+    # texts of other languages are not bundled
+    if [[ "$rel_cfg" == config/texts/* ]] && \
+       [[ "$rel_cfg" != config/texts/${STUDY_LANG}/* ]]; then
+      continue
+    fi
+    JS_CONFIG_FILES+=("$rel_cfg")
   done < <(find "${EXPERIMENT_DIR}/config" -name "*.js" | sort)
 fi
 
@@ -316,7 +347,8 @@ for js_rel in "${JS_CONFIG_FILES[@]}"; do
   while IFS= read -r img_line; do
     [[ -n "$img_line" ]] && JS_IMG_PATHS+=("$img_line")
   done < <(
-    grep -oE '\.\./\.\./\.\./common/[^"]+' "$js_src"
+    grep -oE "\.\./\.\./\.\./common/[^\"'\`]+" "$js_src" \
+      | sed 's|\${LANG}|'"${STUDY_LANG}"'|g'
   )
 
   if [[ ${#JS_IMG_PATHS[@]} -eq 0 ]]; then
@@ -358,6 +390,12 @@ for rp in "${REWRITTEN_PATHS[@]}"; do
   # Skip external URLs
   [[ "$rp" == http://* ]] || [[ "$rp" == https://* ]] && continue
   
+  # Skip runtime templates (resolved in the browser; files copied above)
+  if [[ "$rp" == *'${'* ]]; then
+    info "Runtime template (validation skipped): ${rp}"
+    continue
+  fi
+
   # Skip files served by JATOS at runtime
   if is_jatos_runtime "$rp"; then
     info "JATOS runtime (validation skipped, expected): ${rp}"
@@ -388,8 +426,9 @@ for js_rel in "${JS_CONFIG_FILES[@]}"; do
       error  "MISSING in bundle: ${img_path}  →  ${target}"
     fi
   done < <(
-    grep -oE '"[^"]*\.(png|gif|jpg|jpeg|svg|webp)"' "$js_bundle" \
-      | tr -d '"' \
+    grep -oE "[\"\`][^\"\`]*\.(png|gif|jpg|jpeg|svg|webp)[\"\`]" "$js_bundle" \
+      | tr -d "\"\`" \
+      | sed 's|\${LANG}|'"${STUDY_LANG}"'|g' \
       | grep -v '^http'
   )
 done
