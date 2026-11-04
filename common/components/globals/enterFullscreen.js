@@ -69,7 +69,7 @@ function enterFullscreen({
       padding: 3vh 8vw 1vh 8vw;
     }
     .fs-trial-body {
-      max-width: 600px; width: 100%;
+      max-width: clamp(600px, 42vw, 820px); width: 100%;
       font-size: clamp(14px, 2.2vh, 22px);
       line-height: 1.65;
       text-align: ${textAlign}

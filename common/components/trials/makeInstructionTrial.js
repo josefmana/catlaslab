@@ -54,7 +54,7 @@ function makeInstructionTrial({
         }
       </style>
       <div style="
-        max-width: 600px;
+        max-width: clamp(600px, 42vw, 820px);
         width: 90%;
         font-size: clamp(14px, 2.2vh, 22px);
         line-height: 1.65;
@@ -141,7 +141,7 @@ function makeInstructionTrial({
           padding: 3vh 8vw 1vh 8vw;
         }
         .inst-body {
-          max-width: 600px;
+          max-width: clamp(600px, 42vw, 820px);
           width: 100%;
           font-size: clamp(14px, 2.2vh, 22px);
           line-height: 1.5;
