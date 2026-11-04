@@ -116,8 +116,9 @@ function makeLearningTrial({
           gap: 0.8vh;
         }
         .lt-cue-img {
-          width:  clamp(100px, 20vw, 225px);
-          height: clamp(100px, 20vw, 225px);
+          /* min(vw, vh): also shrink on short (wide) screens, e.g. 1366x768 */
+          width:  clamp(100px, min(20vw, 26vh), 225px);
+          height: clamp(100px, min(20vw, 26vh), 225px);
           object-fit: contain;
         }
         .lt-and {
@@ -182,8 +183,8 @@ function makeLearningTrial({
         }
         .lt-option img {
           display: block;
-          width: clamp(80px, 24vw, 312px);
-          height: clamp(88px, 26.4vw, 340.8px);
+          width: clamp(80px, min(24vw, 34vh), 312px);
+          height: clamp(88px, min(26.4vw, 37.4vh), 340.8px);
           object-fit: contain;
           background: #fff;
         }
