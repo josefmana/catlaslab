@@ -85,7 +85,7 @@ function buildTimeline({
   
   // ── Information about the study ────────────────────────────────────────────
   timeline.push(
-    ...[1, 2].map(i => makeInstructionTrial({
+    ...[1, 2, 3, 4].map(i => makeInstructionTrial({
       html:        texts.instructions[`info${i}`],
       buttonText:  texts.continueText,
       maxDuration: times.maxInstructionDuration,
@@ -96,13 +96,19 @@ function buildTimeline({
   );
   
   // ── Informed consent ───────────────────────────────────────────────────────
+  // Declining ends the experiment; with deleteDataOnTermination (index.html)
+  // the JATOS run is aborted, which deletes the data recorded so far.
+  // No time limit: a timed-out consent screen must not count as agreement.
   timeline.push(makeInstructionTrial({
     html:        texts.instructions.consent,
     buttonText:  texts.agreeText,
-    maxDuration: times.maxInstructionDuration,
+    maxDuration: null,
     trialType:   "consent",
     textAlign:   "justify",
-    terminateButton: null,
+    terminateButton: {
+      label:   texts.disagreeText,
+      message: texts.instructions.declineConsent,
+    },
   }));
   
   // ── E-mail ─────────────────────────────────────────────────────────────────
@@ -228,6 +234,8 @@ function buildTimeline({
     introHtml:              "<hr>",
     priorKnowledgeQuestion: texts.debrief.priorKnowledge,
     priorKnowledgeOptions:  texts.priorKnowledge,
+    guessQuestion:          texts.debrief.priorGuess,
+    guessPlaceholder:       texts.debrief.priorGuessPlaceholder,
     detailQuestion:         texts.debrief.question,
     detailPlaceholder:      texts.debrief.placeholder,
     buttonText:             texts.continueText,

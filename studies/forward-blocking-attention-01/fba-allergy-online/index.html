@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diagnostic Decision Making Study [catlas-01]</title>
+    <title>Diagnostic Decision Making Study [catlas-02]</title>
 
     <!-- jsPsych & JATOS core -->
     <script src="jatos.js"></script>
-    <script src="jspsych/jspsych.js"></script>
-    <script src="jspsych/plugin-browser-check.js"></script>
-    <script src="jspsych/plugin-preload.js"></script>
-    <script src="jspsych/plugin-fullscreen.js"></script>
-    <script src="jspsych/plugin-html-button-response.js"></script>
-    <script src="jspsych/plugin-html-keyboard-response.js"></script>
-    <script src="jspsych/plugin-call-function.js"></script>
+    <script src="../../../common/jspsych/jspsych.js"></script>
+    <script src="../../../common/jspsych/plugin-browser-check.js"></script>
+    <script src="../../../common/jspsych/plugin-preload.js"></script>
+    <script src="../../../common/jspsych/plugin-fullscreen.js"></script>
+    <script src="../../../common/jspsych/plugin-html-button-response.js"></script>
+    <script src="../../../common/jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="../../../common/jspsych/plugin-call-function.js"></script>
     
     <!-- Experiment configuration: independent settings -->
     <script src="config/timing.js"></script>
@@ -63,7 +63,7 @@
     <!-- Experiment-specific orchestrator -->
     <script src="buildTimeline.js"></script>
 
-    <link href="jspsych/jspsych.css" rel="stylesheet" />
+    <link href="../../../common/jspsych/jspsych.css" rel="stylesheet" />
   </head>
   <body></body>
   <script>
@@ -82,9 +82,11 @@
     const { jsPsych, setFullscreenExpected, incrementProgress } = initExperiment({
       texts,
       runOnServer,
-      enforceFullscreen: true,
-      showProgressBar:   true,
+      enforceFullscreen:       true,
+      showProgressBar:         true,
       totalTrials,
+      resultFileName:          "jspsych-data.json",
+      deleteDataOnTermination: true,
     });
 
     // ── Randomise stimulus mappings ──────────────────────────────────────────
@@ -104,6 +106,11 @@
       }),
     ];
 
-    jsPsych.run(timeline);
+    // jatos.js functions only work once jatos.js is initialised
+    if (runOnServer) {
+      jatos.onLoad(() => jsPsych.run(timeline));
+    } else {
+      jsPsych.run(timeline);
+    }
   </script>
 </html>

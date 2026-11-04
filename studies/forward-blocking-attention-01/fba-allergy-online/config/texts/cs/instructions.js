@@ -5,7 +5,7 @@
 const instructions = {
 
   welcome: `
-    <h2>Vítejte ve studii diagnostického rozhodování [catlas\u200D-01]</h2>
+    <h2>Vítejte ve studii diagnostického rozhodování [catlas\u200D-02]</h2>
     <hr>
     
     <p>
@@ -14,6 +14,15 @@ const instructions = {
       Vaším úkolem bude postupně se naučit, která chemikálie způsobuje který
       konkrétní nežádoucí účinek.
     </p>
+    
+    <p style="margin-bottom: 0.25em;">Než začnete:</p>
+    
+    <ul>
+      <li>vyhraďte si prosím zhruba <b>25 až 30 minut</b>;</li>
+      <li>zajistěte si <b>stabilní připojení k internetu</b>;</li>
+      <li>zvolte <b>klidné prostředí</b>, kde vás po celou dobu nebude nic
+          rušit.</li>
+    </ul>
   `,
 
   prelude: `
@@ -35,7 +44,7 @@ const instructions = {
   info1: `
     <h2>Informace o výzkumu</h2>
     <hr>
-  
+
     <h3>Účel výzkumu</h3>
   
     <p>
@@ -43,68 +52,101 @@ const instructions = {
       rozhodují mezi alternativami na základě poskytnutých informací a jak
       se učí tyto informace při svém rozhodování využívat.
     </p>
-  
+
     <h3>Jaká data budou sbírána</h3>
   
     <p>
       Během experimentu budete rozhodovat, kterým nežádoucím účinkem bude
       trpět fiktivní pacient po pozření multivitamínu obsahujícího určité
-      chemikálie. Budeme zaznamenávat vaše rozhodnutí, reakční časy a
-      základní demografické údaje (věk a gender).
+      chemikálie. Budeme zaznamenávat vaše rozhodnutí, reakční časy, míru
+      jistoty ve vaše odpovědi, odpovědi na závěrečné otázky, základní
+      demografické údaje (věk a pohlaví) a technické údaje o vašem
+      prohlížeči (typ a verze prohlížeče, operační systém, velikost okna).
+      Pokud uvedete svůj e-mail, použijeme jej výhradně k potvrzení vaší
+      účasti v rámci LABELS.
     </p>
+  `,
   
+  info2: `
+    <h2>Informace o výzkumu</h2>
+    <hr>
+
     <h3>Jak budou data využita</h3>
   
     <p>
       Data budou použita výhradně pro účely akademického výzkumu a
-      publikování vědeckých výsledků. Anonymizovaná experimentální data (tj.
-      jednotlivá rozhodnutí a reakční časy bez údajů umožňujících identifikaci
-      účastníků) mohou být po ukončení projektu zveřejněna v online datových
-      repozitářích a zpřístupněna dalším výzkumníkům pro ověření výsledků a
-      dalšímu vědeckému využití.
+      publikování vědeckých výsledků. Anonymizovaná data (jednotlivá
+      rozhodnutí, reakční časy, míra jistoty, ano/ne odpovědi na závěrečné
+      otázky a technické údaje o prohlížeči) budou zveřejněna, a to
+      jako součást volně dostupného výzkumného softwarového balíčku
+      <i>catlasr</i> pro jazyk R a v online datových repozitářích. Věk a
+      pohlaví budou zveřejněny pouze souhrnně v podobě průměrů celé skupinu
+      účastníků. E-mailové adresy, identifikátory platformy ani vaše volně psané
+      odpovědi zveřejněny nebudou.
     </p>
-  
-  `,
-  
-  info2: `
-  <h2>Informace o výzkumu</h2>
-    <hr>
-    
+
     <h3>Ochrana soukromí a anonymita</h3>
   
     <p>
-      Výsledky budou zpracovávány a zveřejňovány pouze v souhrnné nebo
-      anonymizované podobě. Veřejně sdílené datové soubory nebudou obsahovat
-      jméno, kontaktní údaje ani jiné informace umožňující identifikaci
-      konkrétní osoby.
+      Při zpracování dat oddělíme e-mailové adresy od vašich odpovědí.
+      Odpovědi poté ponesou pouze identifikátor, který s vaší osobou nelze
+      spojit. Výsledky budou zpracovávány a zveřejňovány pouze v souhrnné
+      nebo anonymizované podobě.
     </p>
-    
+  `,
+  
+  info3: `
+    <h2>Informace o výzkumu</h2>
+    <hr>
+
     <h3>Uchovávání dat</h3>
 
     <p>
-      Výzkumná data budou bezpečně uchovávána na zabezpečených serverech
-      Psychologického ústavu Akademie věd ČR po dobu nezbytnou pro splnění
-      účelu výzkumu a archivaci vědeckých výsledků, nejméně však po dobu
-      10 let od ukončení projektu.
+      Během sběru se data ukládají na serveru MindProbe (mindprobe.eu), který
+      slouží k provozu online experimentů. Poté budou bezpečně uchovávána na
+      zabezpečených serverech Psychologického ústavu Akademie věd ČR po dobu
+      nezbytnou pro splnění účelu výzkumu a archivaci vědeckých výsledků,
+      nejméně však po dobu 10 let od ukončení projektu. E-mailové adresy
+      budou smazány neprodleně po potvrzení o vaší účasti vyučujícím v rámci
+      LABELS.
     </p>
-  
-    <h3>Odvolání souhlasu</h3>
-  
-    <p>
-      Účast ve výzkumu je dobrovolná. Svůj souhlas můžete kdykoli odvolat
-      a ukončit účast bez jakýchkoli následků. Pokud budou vaše data stále
-      identifikovatelná prostřednictvím interního identifikátoru, můžete
-      požádat o jejich odstranění.
-    </p>
-  
+    
     <h3>Právní základ zpracování údajů</h3>
   
     <p>
-      Osobní údaje jsou zpracovávány na základě vašeho souhlasu podle
-      Nařízení Evropského parlamentu a Rady (EU) 2016/679 (GDPR) a zákona
-      č. 110/2019 Sb., o zpracování osobních údajů.
+      Osobní údaje zpracovává jako správce Psychologický ústav AV ČR, v. v. i.,
+      na základě vašeho souhlasu podle Nařízení Evropského parlamentu a Rady
+      (EU) 2016/679 (GDPR) a zákona č. 110/2019 Sb., o zpracování osobních
+      údajů. Máte právo na přístup ke svým údajům, na jejich opravu, výmaz
+      a omezení zpracování a právo podat stížnost u Úřadu pro ochranu
+      osobních údajů (www.uoou.cz).
     </p>
-    `,
+  `,
+  
+  info4: `
+    <h2>Informace o výzkumu</h2>
+    <hr>
+    
+    <h3>Dobrovolnost a odvolání souhlasu</h3>
+  
+    <p>
+      Účast ve výzkumu je dobrovolná. Pokud na další stránce souhlas
+      neudělíte, experiment skončí a data zaznamenaná do té doby budou
+      smazána. Účast můžete kdykoli bez udání důvodu ukončit zavřením okna
+      prohlížeče. Data zaznamenaná do té chvíle mohou být použita ve
+      výzkumu. Dokud lze vaše data spojit s vaší e-mailovou adresou, můžete
+      požádat o jejich odstranění. Po anonymizaci, a při účasti bez uvedení
+      e-mailu už od začátku, data nelze dohledat, a proto je ani nelze
+      odstranit.
+    </p>
+
+    <h3>Kontakt</h3>
+    
+    <p>
+      Odpovědný řešitel: Josef Mana, Psychologický ústav AV ČR, v. v. i.,
+      josef.mana@psu.cas.cz.
+    </p>
+  `,
   
   consent: `
     <h2>Souhlas s účastí na výzkumu</h2>
@@ -113,6 +155,7 @@ const instructions = {
     <p style="margin-bottom: 0.25em;">Potvrzuji, že:</p>
   
     <ul>
+      <li>je mi alespoň 18 let;</li>
       <li>jsem si přečetl/a informace o výzkumu a porozuměl/a jim;</li>
       <li>měl/a jsem možnost se rozhodnout, zda se výzkumu zúčastním;</li>
       <li>souhlasím s dobrovolnou účastí ve výzkumu;</li>
@@ -122,9 +165,10 @@ const instructions = {
     </ul>
   
     <p>
-      Dále souhlasím s tím, že anonymizovaná data získaná v této studii
-      mohou být zveřejněna v online vědeckých repozitářích a použita dalšími
-      výzkumníky pro výzkumné účely.
+      Dále souhlasím s tím, že anonymizovaná data získaná v této studii budou
+      veřejně zpřístupněna v balíčku <i>catlasr</i> a v online vědeckých
+      repozitářích, kde je může kdokoli použít k jakémukoli účelu, a beru na
+      vědomí, že po anonymizaci je již nelze odstranit.
     </p>
   
     <p>
@@ -136,11 +180,13 @@ const instructions = {
 
   declineConsent: `
     <p>
-      Experiment byl ukočen pro odmítnutí podmínek účasti na studii.
+      Experiment byl ukončen, protože jste neudělil/a souhlas s účastí ve
+      studii. Data zaznamenaná do této chvíle byla smazána a okno prohlížeče
+      nyní můžete zavřít.
     </p>
     
     <p>
-      Pro další informace kontaktujte autora studie: mana@psu.cas.cz.
+      Pro další informace kontaktujte autora studie: josef.mana@psu.cas.cz.
     </p>
   `,
 
@@ -149,7 +195,8 @@ const instructions = {
     <hr>
     
     <p>
-      Zadejte prosím svůj e-mail nebo napište „x" pro zcela anonymní účast:
+      Zadejte prosím svůj e-mail nebo napište „x" pro zcela anonymní účast.
+      E-mail použijeme výhradně k potvrzení vaší účasti v rámci LABELS:
     </p>
   `,
 
@@ -161,7 +208,8 @@ const instructions = {
       K jakému pohlaví se hlásíte?
     </p>
     <p>
-      <select style="height:24px; font-size: 18px"; text-align-last: center; name="sex">
+      <select name="sex" required style="height:24px; font-size:18px; text-align-last:center;">
+        <option value="" disabled selected>vyberte</option>
         <option value="female">žena</option>
         <option value="male">muž</option>
         <option value="other">jiné</option>
@@ -172,7 +220,8 @@ const instructions = {
       Kolik je vám let?
     </p>
     <p>
-      <select style="height:24px; font-size: 16px"; text-align-last: center; name="age">
+      <select name="age" required style="height:24px; font-size:16px; text-align-last:center;">
+        <option value="" disabled selected>vyberte</option>
         ${Array.from({ length: 82 }, (_, i) =>
           `<option value="${i + 18}">${i + 18}</option>`).join('')}
       </select>
@@ -275,11 +324,11 @@ const instructions = {
   `,
 
   farewell: `
-    <h2>Děkujeme za účast ve studii diagnostického rozhodování [catlas-01]</h2>
+    <h2>Děkujeme za účast ve studii diagnostického rozhodování [catlas\u200D-02]</h2>
     <hr>
     
     <p>
-      Aby vám účast ve studii mohla být uznána v rámci LABELS, pořidte
+      Aby vám účast ve studii mohla být uznána v rámci LABELS, pořiďte
       screenshot této stránky, který bude sloužit jako potvrzení účasti.
     </p>
     

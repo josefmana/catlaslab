@@ -14,13 +14,22 @@ const debrief = {
     
     <p>
       Děkujeme za účast ve studii. Před úplným ukončením výzkumu bychom vás rádi
-      požádali o zodpovězení dvou krátkých doplňujících otázek.
+      požádali o zodpovězení dvou krátkých doplňujících otázek. Na závěr můžete
+      připojit i vlastní komentář.
     </p>
   `,
 
   priorKnowledge: `
-    Účastnil/a jste se již dříve podobného experimentu nebo jste tento typ
-    úlohy znal/a z jiného zdroje?
+    Účastnil/a jste se již před dneškem experimentu, ve kterém jste
+    předpovídal/a reakce na potraviny nebo léky?
+  `,
+
+  priorGuess: `
+    Věděl/a jste nebo tušil/a, co tato studie zkoumala? Pokud ano, popište to.
+  `,
+
+  priorGuessPlaceholder: `
+    Pokud ne, napište „ne“.
   `,
 
   question: `
