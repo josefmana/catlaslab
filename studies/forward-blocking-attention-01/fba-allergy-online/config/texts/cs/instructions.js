@@ -80,9 +80,9 @@ const instructions = {
       otázky a technické údaje o prohlížeči) budou zveřejněna, a to
       jako součást volně dostupného výzkumného softwarového balíčku
       <i>catlasr</i> pro jazyk R a v online datových repozitářích. Věk a
-      pohlaví budou zveřejněny pouze souhrnně v podobě průměrů celé skupinu
-      účastníků. E-mailové adresy, identifikátory platformy ani vaše volně psané
-      odpovědi zveřejněny nebudou.
+      pohlaví budou zveřejněny pouze souhrnně za celou skupinu účastníků
+      (průměry a četnosti). E-mailové adresy, identifikátory platformy ani vaše
+      volně psané odpovědi zveřejněny nebudou.
     </p>
 
     <h3>Ochrana soukromí a anonymita</h3>

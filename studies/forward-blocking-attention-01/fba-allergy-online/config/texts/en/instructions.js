@@ -80,7 +80,7 @@ const instructions = {
       made public, possibly before the project ends, as part of the openly
       available research software package <i>catlasr</i> for the R language
       and in online data repositories. Age and sex will be published only in
-      aggregate as averages for the whole group of participants. Email
+      aggregate for the whole group of participants (means and counts). Email
       addresses, platform identifiers and your free-text answers will not be
       published.
     </p>
