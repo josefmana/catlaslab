@@ -9,13 +9,22 @@
  *   1. Introductory / debrief paragraph(s)      [caller-supplied HTML]
  *   2. Horizontal rule
  *   3. Prior-knowledge yes/no question          [non-optional; blocks continue]
- *      └─ Optional free-text elaboration field  [visible immediately; optional]
+ *   4. Guess free-text question                 [only if guessQuestion is given;
+ *                                                non-optional; blocks continue]
+ *   5. Optional free-text comment field         [visible immediately; optional]
  *
- * The continue button is disabled until the participant selects Yes or No.
+ * The continue button is disabled until the participant selects Yes or No and,
+ * when guessQuestion is given, writes a non-blank answer to it.
  *
  * Data written to jsPsych on finish:
  *   data.trial_type      {string}       – "debrief"
- *   data.prior_knowledge {boolean|null} – true = yes, false = no, null = timed out
+ *   data.timed_out       {boolean}      – true if the trial ended by timeout
+ *   data.prior_knowledge {boolean|null} – true = yes, false = no, null = never
+ *                                         answered (a choice made before a
+ *                                         timeout is kept: check timed_out)
+ *   data.prior_guess     {string|null}  – trimmed answer to guessQuestion, null if
+ *                                         blank (timed out); only written when
+ *                                         guessQuestion is given
  *   data.comment         {string}       – free-text content (may be empty string)
  *   data.stimulus        {null}         – nulled (HTML blob not stored)
  *
@@ -40,18 +49,24 @@
  * @param {object}  [params.priorKnowledgeOptions]     - Radio labels.
  * @param {string}  [params.priorKnowledgeOptions.yes="Yes"] - Affirmative option label.
  * @param {string}  [params.priorKnowledgeOptions.no="No"]   - Negative option label.
+ * @param {string}  [params.guessQuestion]             - Label of a compulsory free-text
+ *                                                       question (stored as prior_guess).
+ *                                                       If omitted, it is not shown.
+ * @param {string}  [params.guessPlaceholder]          - Placeholder inside its textarea.
  * @param {string}  [params.detailQuestion]            - Label above the free-text field.
  *                                                       If omitted the field is still shown
  *                                                       but without a label above it.
  * @param {string}  [params.detailPlaceholder]         - Placeholder inside the textarea.
  * @param {string}  [params.buttonText="Continue"]     - Continue button label.
  * @param {number}  [params.maxDuration=120000]        - Hard timeout (ms); null = no limit.
- *                                                       On timeout prior_knowledge is null.
+ *                                                       On timeout data.timed_out is true.
  */
 function makeDebriefTrial({
   introHtml = `<hr>`,
   priorKnowledgeQuestion,
   priorKnowledgeOptions = { yes: "Yes", no: "No" },
+  guessQuestion = "",
+  guessPlaceholder = "",
   detailQuestion = "",
   detailPlaceholder = "",
   buttonText = "Continue",
@@ -59,6 +74,22 @@ function makeDebriefTrial({
 }) {
   let _priorKnowledge       = null; // true | false | null
   let _Comment = "";
+  let _Guess   = ""; // the DOM is gone by on_finish, so track input here
+
+  const guessHTML = guessQuestion
+    ? `
+            <!-- Compulsory guess question -->
+            <p class="db-pk-question">${guessQuestion}</p>
+            <textarea
+              id          = "db-guess-textarea"
+              class       = "db-detail-textarea db-guess-textarea"
+              placeholder = "${guessPlaceholder}"
+              autocomplete= "off"
+              spellcheck  = "true"
+            ></textarea>
+            <div class="db-spacer"></div>
+      `
+    : "";
 
   const detailLabelHTML = detailQuestion
     ? `<p class="db-detail-label">${detailQuestion}</p>`
@@ -225,6 +256,8 @@ function makeDebriefTrial({
           background: #e4e4e4;
         }
         .db-detail-textarea::placeholder { color: #777; }
+        .db-guess-textarea { min-height: clamp(56px, 12vh, 144px); }
+        .db-spacer { height: 1.8vh; }
       </style>
 
       <div class="db-wrap">
@@ -247,9 +280,9 @@ function makeDebriefTrial({
                 ${priorKnowledgeOptions.no}
               </label>
             </div>
-
+            ${guessHTML}
             <!-- Optional elaboration -->
-            <p class="db-detail-label">${detailLabelHTML}</p>
+            ${detailLabelHTML}
             <textarea
               id          = "db-detail-textarea"
               class       = "db-detail-textarea"
@@ -269,19 +302,30 @@ function makeDebriefTrial({
     on_load: function () {
       _priorKnowledge       = null;
       _Comment = "";
+      _Guess   = "";
 
       const btn      = document.querySelector(".jspsych-btn");
       const radios   = document.querySelectorAll('input[name="db-prior-knowledge"]');
       const textarea = document.getElementById("db-detail-textarea");
+      const guess    = document.getElementById("db-guess-textarea");
 
-      btn.disabled = true;
+      const updateButton = () => {
+        if (guess) _Guess = guess.value;
+        const guessOk = !guess || _Guess.trim() !== "";
+        btn.disabled  = !(_priorKnowledge !== null && guessOk);
+      };
+      updateButton();
 
       radios.forEach(radio => {
         radio.addEventListener("change", () => {
           _priorKnowledge = (radio.value === "yes");
-          btn.disabled    = false;
+          updateButton();
         });
       });
+
+      if (guess) {
+        guess.addEventListener("input", updateButton);
+      }
 
       if (textarea) {
         textarea.addEventListener("input", () => {
@@ -296,7 +340,12 @@ function makeDebriefTrial({
 
       data.trial_type      = "debrief";
       data.stimulus        = null;
+      data.timed_out       = data.response === null;
       data.prior_knowledge = _priorKnowledge; // true | false | null
+      if (guessQuestion) {
+        const guessText  = _Guess.trim();
+        data.prior_guess = guessText === "" ? null : guessText; // string | null
+      }
       data.comment         = _Comment;        // string (may be "")
     },
   };

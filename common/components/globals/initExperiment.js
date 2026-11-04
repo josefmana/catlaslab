@@ -25,6 +25,20 @@
  *                                                         denominator for incrementProgress.
  *                                                         Pass 0 (or omit) to suppress
  *                                                         progress updates.
+ * @param {string}  [opts.resultFileName=null]           – JATOS path only. If given, the
+ *                                                         complete jsPsych data set is
+ *                                                         uploaded as a JATOS result file
+ *                                                         of this name before the study
+ *                                                         ends (a back-up of the streamed
+ *                                                         result data, which stay as they
+ *                                                         are). null = no upload.
+ * @param {boolean} [opts.deleteDataOnTermination=false] – JATOS path only. If a trial
+ *                                                         recorded `terminated: true`
+ *                                                         (e.g. declined consent), abort
+ *                                                         the JATOS study run, which
+ *                                                         deletes its result data, and
+ *                                                         keep the termination message
+ *                                                         on screen.
  * 
  * @returns {object} Configured jsPsych instance plus control setters:
  *   - jsPsych                     — the jsPsych instance
@@ -61,6 +75,8 @@ function initExperiment({
   enforceFullscreen = false,
   showProgressBar   = true,
   totalTrials       = 0,
+  resultFileName          = null,
+  deleteDataOnTermination = false,
 } = {}) {
 
   // ── Validate options ───────────────────────────────────────────────────────
@@ -181,10 +197,31 @@ function initExperiment({
 
     // Finalise the study or save locally
     on_finish: function() {
-      if (runOnServer) {
-        jatos.endStudy();
-      } else {
+      if (!runOnServer) {
         jsPsych.data.get().localSave("json", "mydata.json");
+        return;
+      }
+
+      // Participant ended the session via a terminate button (e.g. declined
+      // consent): optionally discard the run's data on JATOS and stay on the
+      // page, so that the termination message remains visible.
+      const terminated =
+        jsPsych.data.get().filter({ terminated: true }).count() > 0;
+      if (terminated && deleteDataOnTermination) {
+        const abort = jatos.abortStudyWithoutRedirect || jatos.abortStudyAjax;
+        abort("terminated_by_participant");
+        return;
+      }
+
+      // Back up the complete data set as a JATOS result file, then end the
+      // study whether or not the upload succeeded; jatos.endStudy() itself
+      // waits for any still pending appends or uploads before redirecting.
+      if (resultFileName && typeof jatos.uploadResultFile === "function") {
+        const finish = () => jatos.endStudy();
+        jatos.uploadResultFile(jsPsych.data.get().json(), resultFileName)
+          .then(finish, finish);
+      } else {
+        jatos.endStudy();
       }
     },
   };

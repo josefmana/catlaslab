@@ -20,9 +20,15 @@
  * @param {object} [params.terminateButton=null]     - When provided, renders a second "decline" button
  * @param {string} params.terminateButton.label      - Button label (e.g. "I do not consent")
  * @param {string} params.terminateButton.message    - Full HTML shown after termination;
- *                                                     displayed by jsPsych.abortExperiment().
+ *                                                     displayed by jsPsych.endExperiment().
  *                                                     Styled automatically to match the
- *                                                     experiment's grey theme.
+ *                                                     experiment's grey theme. The trial
+ *                                                     then records `data.terminated = true`.
+ *
+ * Form fields in `html` (select, input, textarea) are harvested by their `name`
+ * into the trial data. Fields marked `required` keep the continue button disabled
+ * until each holds a non-empty value; a required field left empty (e.g. on
+ * timeout) is recorded as null.
  */
 function makeInstructionTrial({
   html,
@@ -119,6 +125,10 @@ function makeInstructionTrial({
         .jspsych-btn:hover {
           background-color: #d0d0d0;
         }
+        .jspsych-btn:disabled {
+          opacity: 0.45;
+          cursor: not-allowed;
+        }
         .inst-wrap {
           width: 100vw;
           display: flex;
@@ -180,6 +190,23 @@ function makeInstructionTrial({
       container.querySelectorAll("select, input, textarea").forEach(el => {
         if (el.name) _formData[el.name] = el;
       });
+
+      // Keep the continue button (always the last one) disabled until every
+      // required field holds a value.
+      const required = container.querySelectorAll("[required]");
+      if (required.length > 0) {
+        const btns        = document.querySelectorAll(".jspsych-btn");
+        const continueBtn = btns[btns.length - 1];
+        const check = () => {
+          continueBtn.disabled =
+            ![...required].every(el => String(el.value).trim() !== "");
+        };
+        required.forEach(el => {
+          el.addEventListener("change", check);
+          el.addEventListener("input",  check);
+        });
+        check();
+      }
  
       // Apply the distinctive style to the terminate button (index 1).
       if (terminateButton) {
@@ -197,12 +224,15 @@ function makeInstructionTrial({
           data[name] = el.checked;
         } else if (el.type === "radio") {
           if (el.checked) data[name] = el.value;
+        } else if (el.required && el.value === "") {
+          data[name] = null;
         } else {
           data[name] = el.value;
         }
       });
  
       if (terminateButton && data.response === 0) {
+        data.terminated = true;
         jsPsych.endExperiment(buildTerminationScreen(terminateButton.message));
       }
     },
