@@ -80,9 +80,9 @@ const instructions = {
       otázky a technické údaje o prohlížeči) budou zveřejněna, a to
       jako součást volně dostupného výzkumného softwarového balíčku
       <i>catlasr</i> pro jazyk R a v online datových repozitářích. Věk a
-      pohlaví budou zveřejněny pouze souhrnně za celou skupinu účastníků
-      (průměry a četnosti). E-mailové adresy, identifikátory platformy ani vaše
-      volně psané odpovědi zveřejněny nebudou.
+      pohlaví budou zveřejněny výhradně souhrnně za celou skupinu účastníků
+      (tj. v podobě průměrů a četností za celý datový soubor). E-mailové adresy,
+      identifikátory platformy ani vaše volně psané odpovědi zveřejněny nebudou.
     </p>
 
     <h3>Ochrana soukromí a anonymita</h3>
@@ -130,7 +130,7 @@ const instructions = {
     <h3>Dobrovolnost a odvolání souhlasu</h3>
   
     <p>
-      Účast ve výzkumu je dobrovolná. Pokud na další stránce souhlas
+      Účast ve výzkumu je dobrovolná. Pokud na následující stránce souhlas
       neudělíte, experiment skončí a data zaznamenaná do té doby budou
       smazána. Účast můžete kdykoli bez udání důvodu ukončit zavřením okna
       prohlížeče. Data zaznamenaná do té chvíle mohou být použita ve
@@ -143,8 +143,7 @@ const instructions = {
     <h3>Kontakt</h3>
     
     <p>
-      Odpovědný řešitel: Josef Mana, Psychologický ústav AV ČR, v. v. i.,
-      josef.mana@psu.cas.cz.
+      Josef Mana, Psychologický ústav AV ČR, v. v. i., josef.mana@psu.cas.cz.
     </p>
   `,
   
@@ -167,8 +166,7 @@ const instructions = {
     <p>
       Dále souhlasím s tím, že anonymizovaná data získaná v této studii budou
       veřejně zpřístupněna v balíčku <i>catlasr</i> a v online vědeckých
-      repozitářích, kde je může kdokoli použít k jakémukoli účelu, a beru na
-      vědomí, že po anonymizaci je již nelze odstranit.
+      repozitářích, a beru na vědomí, že po anonymizaci je již nelze odstranit.
     </p>
   
     <p>

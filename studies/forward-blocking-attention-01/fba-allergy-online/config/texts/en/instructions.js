@@ -77,10 +77,10 @@ const instructions = {
       publication of scientific findings. Anonymised data (individual
       decisions, response times, confidence ratings, yes/no answers to the
       final questions and technical information about the browser) will be
-      made public, possibly before the project ends, as part of the openly
-      available research software package <i>catlasr</i> for the R language
-      and in online data repositories. Age and sex will be published only in
-      aggregate for the whole group of participants (means and counts). Email
+      made public as part of the openly available research software package
+      <i>catlasr</i> for the R language and in online data repositories. Age
+      and sex will be published exclusively in aggregate for the whole group of
+      participants (i.e. as means and counts for the whole data set). Email
       addresses, platform identifiers and your free-text answers will not be
       published.
     </p>
@@ -133,12 +133,12 @@ const instructions = {
     <h3>Voluntary Participation and Withdrawal of Consent</h3>
   
     <p>
-      Participation is voluntary. If you do not give consent on the next page,
-      the experiment ends and the data recorded up to then will be deleted.
-      You may stop at any time without giving a reason by closing the browser
-      window; the data recorded up to that point may be used in the research.
-      As long as your data can be linked to your email address, you may
-      request that they be deleted. Once anonymised, and if you take part
+      Participation is voluntary. If you do not give consent on the following
+      page, the experiment ends and the data recorded up to then will be
+      deleted. You may stop at any time without giving a reason by closing the
+      browser window; the data recorded up to that point may be used in the
+      research. As long as your data can be linked to your email address, you
+      may request that they be deleted. Once anonymised, and if you take part
       without giving an email address from the start, the data cannot be
       traced and therefore cannot be deleted.
     </p>
@@ -146,8 +146,8 @@ const instructions = {
     <h3>Contact</h3>
     
     <p>
-      Principal investigator: Josef Mana, Institute of Psychology of the Czech
-      Academy of Sciences, josef.mana@psu.cas.cz.
+      Josef Mana, Institute of Psychology of the Czech Academy of Sciences,
+      josef.mana@psu.cas.cz.
     </p>
   `,
   
@@ -170,8 +170,8 @@ const instructions = {
     <p>
       I further agree that anonymised data collected in this study will be
       made public in the <i>catlasr</i> package and in online scientific
-      repositories, where anyone may use them for any purpose, and I
-      understand that once anonymised, they can no longer be deleted.
+      repositories, and I understand that once anonymised, they can no longer be
+      deleted.
     </p>
   
     <p>
